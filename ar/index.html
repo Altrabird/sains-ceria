@@ -17,7 +17,11 @@
   .list { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
   .am { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:10px; }
   .am b { display:block; } .am span { color:var(--muted); font-size:13px; }
-  .am a { display:inline-block; margin:8px 8px 0 0; color:var(--accent); font-weight:600; text-decoration:none; }
+  .am a { display:inline-block; margin:8px 8px 0 0; color:var(--accent); font-weight:600; text-decoration:none; font-size:13px; }
+  .am a.play { display:block; margin:0 0 6px; padding:10px; border-radius:10px; background:var(--accent); color:#fff; text-align:center; font-size:15px; }
+  .big.alt { background:var(--card); color:var(--fg); border:2px solid var(--accent); }
+  #amPick { border:0; border-radius:999px; padding:8px 12px; background:var(--card); color:var(--fg); font-weight:600; box-shadow:0 2px 10px #0003; max-width:46vw; }
+  #camBg { position:fixed; inset:0; width:100%; height:100%; object-fit:cover; transform:scaleX(-1); z-index:-1; }
   #info { position:fixed; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); z-index:10; background:var(--card); color:var(--fg);
           border:2px solid var(--accent); border-radius:16px; padding:10px 14px; display:none; box-shadow:0 6px 24px #0003; }
   #info b { color:var(--accent); }
@@ -42,10 +46,11 @@
 <div id="info"></div>
 <div id="menu" hidden>
   <h1>AR Amali Sains Tahun 2</h1>
-  <p>Cetak kad penanda (markers/kad-penanda-AR.pdf), kemudian halakan kamera pada kad. Guna <b>tangan</b> di depan kamera:
+  <p><b>Klik amali untuk mula</b> — kamera dibuka dan alatan 3D muncul di depan anda. Guna <b>tangan</b> di depan kamera:
   ☝️ tuding &amp; tahan = ketik · 🤏 cubit = pegang &amp; alih · 👋 lambai = angin · ✋ tapak tangan diam 2 s = ulang semula.</p>
-  <button class="big" id="scanAll">📷 Imbas mana-mana kad (12 amali)</button>
   <div class="list" id="amList"></div>
+  <p style="margin-top:18px">Pilihan: guna kad penanda bercetak (markers/kad-penanda-AR.pdf).</p>
+  <button class="big alt" id="scanAll">📷 Imbas mana-mana kad (12 amali)</button>
 </div>
 <script type="module">
 import * as THREE from 'three';
@@ -61,15 +66,22 @@ const A = manifest.assets;
 const $ = id => document.getElementById(id);
 
 // ------------------------------------------------------------ menu
-if (!Q.has('am') && !Q.has('preview') && !Q.has('all')) {
+if (Q.has('hands')) location.replace('?play=' + Q.get('preview'));  // old link style
+const MODE = ['play', 'am', 'preview', 'all'].find(k => Q.has(k));
+if (!MODE) {
   $('menu').hidden = false;
   $('scanAll').onclick = () => location.search = '?all';
   for (const am of AMS) $('amList').insertAdjacentHTML('beforeend',
-    `<div class="am"><b>${am}</b><span>${KITS[am].title}</span><br><a href="?am=${am}">📷 AR</a><a href="?preview=${am}">🧊 3D</a><a href="?preview=${am}&hands">✋ 3D+tangan</a></div>`);
+    `<div class="am"><a class="play" href="?play=${am}">▶ ${am}</a><b>${KITS[am].title}</b>` +
+    `<a href="?am=${am}">📷 guna kad</a><a href="?preview=${am}">🧊 3D (tetikus)</a></div>`);
   throw 'menu';  // stop module here
 }
 $('top').hidden = false;
 $('home').onclick = () => location.href = location.pathname;
+// switch amali in one click, staying in the same mode ("all" card mode switches to play)
+$('top').insertAdjacentHTML('beforeend', `<select id="amPick" aria-label="Tukar amali">${AMS.map(a => `<option value="${a}">${a} · ${KITS[a].title}</option>`).join('')}</select>`);
+$('amPick').value = Q.get(MODE) || '';
+$('amPick').onchange = e => location.search = `?${MODE === 'all' ? 'play' : MODE}=${e.target.value}`;
 
 // ------------------------------------------------------------ asset loading
 const loader = new GLTFLoader();
@@ -522,13 +534,21 @@ function tapper(el, camera, rootsFn) {
 let last = performance.now();
 function tick() { const now = performance.now(); stepTweens(now); stepParticles(Math.min(0.05, (now - last) / 1000)); last = now; }
 
-if (Q.has('preview')) {
-  // desktop / no-camera preview: kit on a virtual printed card
-  const am = Q.get('preview');
-  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+if (MODE === 'play' || MODE === 'preview') {
+  // no card needed. play = live camera behind the kit + hand gestures; preview = plain 3D, mouse only
+  const am = Q.get(MODE), PLAY = MODE === 'play';
+  let video = null;
+  if (PLAY) {
+    video = Object.assign(document.createElement('video'), { id: 'camBg', autoplay: true, muted: true, playsInline: true });
+    document.body.prepend(video);
+    document.body.style.background = 'transparent';  // else body paints over the z-index:-1 camera
+    try { video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 1280, height: 720 } }); }
+    catch (e) { video.remove(); video = null; info('Kamera tidak dapat dibuka — guna tetikus/sentuhan. (' + e.message + ')', 20); }
+  }
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: !!video });
   renderer.setPixelRatio(devicePixelRatio); renderer.setSize(innerWidth, innerHeight); renderer.toneMapping = THREE.ACESFilmicToneMapping;
   $('stage').append(renderer.domElement);
-  const scene = new THREE.Scene(); scene.background = new THREE.Color(0xe9e3ee); lights(scene, renderer);
+  const scene = new THREE.Scene(); if (!video) scene.background = new THREE.Color(0xe9e3ee); lights(scene, renderer);
   const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 50);
   camera.position.set(0, 0.9, 1.1);
   const ctl = new OrbitControls(camera, renderer.domElement); ctl.target.set(0, 0.1, 0); ctl.update();
@@ -538,20 +558,23 @@ if (Q.has('preview')) {
   let root = await buildKit(am); holder.add(root);
   window.kitRoot = root; window.tapItem = id => onTap(root, root.userData.byId(id));  // for automated tests
   tapper(renderer.domElement, camera, () => [root]);
-  $('hint').textContent = `${am} · ${KITS[am].title} — pratonton 3D`;
+  $('hint').textContent = `${am} · ${KITS[am].title}` + (PLAY ? '' : ' — pratonton 3D');
   addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
-  // hands in preview: ?hands = own webcam (mirrored like a selfie), ?handsim = no camera, driven by window.feedHand (tests)
+  // hands: play = the full-screen selfie camera (skeleton sits on your real hand); ?handsim = no camera, window.feedHand (tests)
   let hands = null;
-  if (Q.has('hands') || Q.has('handsim')) {
-    let video = null;
-    if (Q.has('hands')) {
-      video = Object.assign(document.createElement('video'), { id: 'pip', autoplay: true, muted: true, playsInline: true });
-      document.body.append(video);
-      try { video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 480 } }); }
-      catch (e) { info('Kamera tidak dapat dibuka: ' + e.message, 30); }
+  if (video || Q.has('handsim')) {
+    // normalized camera coords -> screen px, matching object-fit:cover + mirror of #camBg
+    const toScreen = (x, y) => {
+      if (!video?.videoWidth) return { x: (1 - x) * innerWidth, y: y * innerHeight };
+      const k = Math.max(innerWidth / video.videoWidth, innerHeight / video.videoHeight);
+      const w = video.videoWidth * k, h = video.videoHeight * k;
+      return { x: (innerWidth - w) / 2 + (1 - x) * w, y: (innerHeight - h) / 2 + y * h };
+    };
+    if (video) {  // no card in play mode: a soft translucent mat on the "table" instead of the marker art
+      Object.assign(card.material, { map: null, transparent: true, opacity: 0.55, needsUpdate: true }); card.material.color.set(0xfff0f5);
     }
     hands = setupHands({
-      video, camera, rootsFn: () => [root], toScreen: (x, y) => ({ x: (1 - x) * innerWidth, y: y * innerHeight }),
+      video, camera, rootsFn: () => [root], toScreen,
       rebuild: async () => { holder.remove(root); root = await buildKit(am); holder.add(root); window.kitRoot = root; },
     });
     ctl.enabled = false;  // hands drive the scene

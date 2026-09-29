@@ -49,7 +49,9 @@ python -m http.server 8000
 | 👋 wave open palm | moving air: pinwheel spins, balloon rocket launches |
 | ✋ open palm still 2 s | reset the experiment |
 
-Mouse/touch still work. `ar/?preview=AM07&hands` = 3D kit + selfie webcam hands (no card needed).
+**Modes** (menu at `ar/`): **▶ click an amali** = `ar/?play=AM07` — no card, live selfie camera behind the kit, hand gestures (main mode);
+📷 card = `?am=AM07` (single card) or `?all` (any card); 🧊 `?preview=AM07` = plain 3D, mouse only. The top-bar dropdown switches amali in one click.
+Mouse/touch always work too.
 Tuning for real classrooms (pinch sensitivity, dwell time…) lives in `TUNE` at the top of `ar/hands.js`.
 
 ## What the AR prototype already does

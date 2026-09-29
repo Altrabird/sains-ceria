@@ -111,14 +111,15 @@ with sync_playwright() as p:
         pg = b.new_page()
         errs = []
         pg.on("pageerror", lambda e: errs.append(str(e)))
-        pg.goto(f"{URL}/ar/?preview=AM07&hands")
+        pg.goto(f"{URL}/ar/?play=AM07")
         try:
             pg.wait_for_function("/AKTIF|gagal/.test(document.getElementById('handChip').textContent)", timeout=180000)
             pg.wait_for_timeout(3000)
             chip = pg.inner_text("#handChip")
         except Exception as e:
             chip = "timeout " + str(e)[:60]
-        check("MediaPipe HandLandmarker loads + runs on camera frames", "AKTIF" in chip and not errs, f"({chip}; {errs[:2]})")
+        pg.screenshot(path=f"{OUT}/play_mode.png")
+        check("play mode (no card): camera + MediaPipe HandLandmarker running", "AKTIF" in chip and not errs, f"({chip}; {errs[:2]})")
         # the AR (MindAR) page too: both CV models together
         pg.goto(f"{URL}/ar/?am=AM07")
         try:
