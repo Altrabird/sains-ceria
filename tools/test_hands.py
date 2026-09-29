@@ -22,6 +22,20 @@ os.makedirs(OUT, exist_ok=True)
 fails = []
 
 
+BULB_PX = """() => { const c = document.querySelector('#stage canvas'), r = c.getBoundingClientRect();
+  const p = window.kitRoot.userData.byId('circuit_tester').getObjectByName('anchor_bulb').getWorldPosition(new window.kitRoot.position.constructor()).project(window.__cam);
+  return [r.left + (p.x + 1) / 2 * r.width, r.top + (1 - p.y) / 2 * r.height] }"""
+
+
+def brightness(pg):
+    """Mean brightness of the rendered pixels around the bulb (what a pupil actually sees)."""
+    import io
+    from PIL import Image, ImageStat
+    x, y = pg.evaluate(BULB_PX)
+    im = Image.open(io.BytesIO(pg.screenshot())).convert("L")
+    return ImageStat.Stat(im.crop((int(x) - 14, int(y) - 14, int(x) + 14, int(y) + 14))).mean[0]
+
+
 def check(name, ok, extra=""):
     print(("PASS " if ok else "FAIL ") + name, extra)
     if not ok:
@@ -56,6 +70,7 @@ with sync_playwright() as p:
     # AM07: pinch coin, drag onto tester, release -> bulb glows
     pg = open_sim("AM07")
     coin, tester = pg.evaluate("window.itemScreen('coin')"), pg.evaluate("window.itemScreen('circuit_tester')")
+    dark = brightness(pg)
     pg.evaluate(FEED, ["pinch", 0.3, coin, coin])
     pg.screenshot(path=f"{OUT}/AM07_grab.png")
     pg.evaluate(FEED, ["pinch", 0.8, coin, tester])
@@ -63,7 +78,9 @@ with sync_playwright() as p:
     pg.wait_for_timeout(1500)
     glow = pg.evaluate("""() => { let v = 0; window.kitRoot.userData.byId('circuit_tester').traverse(o => {
         if (o.material && /bulb_glass/.test(o.material.name)) v = o.material.emissiveIntensity }); return v }""")
-    check("AM07 pinch-drag coin into circuit lights bulb", glow > 0, f"(emissive={glow}, info='{pg.inner_text('#info')[:60]}')")
+    lit = brightness(pg)
+    check("AM07 pinch-drag coin into circuit lights bulb", glow > 0 and lit > dark + 25,
+          f"(bulb pixels {dark:.0f} -> {lit:.0f}, info='{pg.inner_text('#info')[:50]}')")
     pg.screenshot(path=f"{OUT}/AM07_drop.png")
     # drag an insulator in -> bulb off
     er = pg.evaluate("window.itemScreen('eraser')")
@@ -72,7 +89,8 @@ with sync_playwright() as p:
     pg.wait_for_timeout(1500)
     glow = pg.evaluate("""() => { let v = 0; window.kitRoot.userData.byId('circuit_tester').traverse(o => {
         if (o.material && /bulb_glass/.test(o.material.name)) v = o.material.emissiveIntensity }); return v }""")
-    check("AM07 eraser (insulator) turns bulb off", glow == 0)
+    off = brightness(pg)
+    check("AM07 eraser (insulator) turns bulb off", glow == 0 and off < lit - 25, f"(bulb pixels {lit:.0f} -> {off:.0f})")
     pg.close()
 
     # AM05: point & hold on a box -> lid opens

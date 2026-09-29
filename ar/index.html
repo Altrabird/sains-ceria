@@ -205,8 +205,30 @@ async function moveTo(root, o, target, lift = 0.05) {
   const from = o.position.clone();
   await tween(0.6, t => { o.position.lerpVectors(from, target, t); o.position.y += Math.sin(t * Math.PI) * lift; });
 }
+let haloTex;
 function glowBulb(tester, on) {
-  mats(tester, /bulb_glass|filament/).forEach(m => { m.emissiveIntensity = on ? 4 : 0; m.needsUpdate = true; });
+  // the GLB has no emissive colour (Blender drops it at strength 0), so set it here — intensity alone lights nothing
+  mats(tester, /bulb_glass|filament/).forEach(m => {
+    m.userData.o0 ??= m.opacity;
+    m.emissive.set(/filament/.test(m.name) ? 0xffb040 : 0xffe08a);
+    m.emissiveIntensity = on ? 3 : 0;
+    m.opacity = on ? 0.95 : m.userData.o0;
+  });
+  // real light + soft halo so the glow reads on a phone screen
+  const at = node(tester, 'anchor_bulb') || tester, s = st(at);
+  if (!s.halo) {
+    haloTex ||= (() => {
+      const c = document.createElement('canvas'); c.width = c.height = 128;
+      const g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+      gr.addColorStop(0, 'rgba(255,240,180,1)'); gr.addColorStop(0.35, 'rgba(255,200,90,0.55)'); gr.addColorStop(1, 'rgba(255,180,60,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c);
+    })();
+    s.halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+    s.halo.scale.setScalar(0.09); s.halo.userData.fx = true;
+    s.light = new THREE.PointLight(0xffc860, 0, 0.5, 1.5);
+    at.add(s.halo, s.light);
+  }
+  s.halo.visible = on; s.light.intensity = on ? 0.6 : 0;
 }
 function tintWater(glassObj, rgba, dur = 2) {
   const m = mats(glassObj, /^MAT_water/)[0]; if (!m) return tween(dur, () => {});
@@ -579,6 +601,7 @@ if (MODE === 'play' || MODE === 'preview') {
     });
     ctl.enabled = false;  // hands drive the scene
     window.feedHand = lm => hands.feed(lm, performance.now());
+    window.__cam = camera;
     window.itemScreen = id => {  // test helper: item's on-screen spot as normalized (mirrored) hand coords
       const p = root.userData.byId(id).getWorldPosition(new THREE.Vector3()).project(camera);
       return { x: 1 - (p.x + 1) / 2, y: (1 - p.y) / 2 };

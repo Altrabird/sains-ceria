@@ -167,7 +167,7 @@ function openDetail(id) {
     if (glow.length) {
       const row = document.createElement('label'); row.className = 'node';
       row.innerHTML = `<input type="checkbox"> nyalakan mentol (emissive)`;
-      row.firstChild.onchange = e => glow.forEach(m => m.emissiveIntensity = e.target.checked ? 3 : 0); box.append(row);
+      row.firstChild.onchange = e => glow.forEach(m => { m.emissive.set(0xffd070); m.emissiveIntensity = e.target.checked ? 3 : 0; }); box.append(row);  // GLB has no emissive colour
     }
   });
 }
