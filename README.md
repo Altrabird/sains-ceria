@@ -12,8 +12,9 @@ Everything is generated from scripts, so any asset can be tweaked and rebuilt in
 | `markers/AMxx.png` | 12 image-tracking markers; `kad-penanda-AR.pdf` = print sheet (12 cm cards) |
 | `markers/targets.mind` | MindAR targets, all 12 (index = AM number − 1); `AMxx.mind` = single-card (~450 KB) |
 | `viewer/` | Asset gallery + inspector (thumbnails, orbit, pivot sliders, state toggles, anchors) |
-| `ar/` | Playable AR prototype: camera → detect card → kit appears → tap to experiment |
-| `vendor/` | three.js r160 + MindAR 1.2.5, bundled locally so it runs offline (MIT) |
+| `ar/` | Playable AR prototype: camera → detect card (MindAR) → kit appears → **hand gestures** (MediaPipe) to experiment |
+| `ar/hands.js` | Gesture layer: 21 hand landmarks → pinch / point-hold / wave / palm-hold; knobs in `TUNE` |
+| `vendor/` | three.js r160 + MindAR 1.2.5 (MIT), MediaPipe tasks-vision 1.0.1 + hand model (Apache-2.0), bundled for offline use |
 | `tools/` | Marker generator/compiler + headless tests |
 
 ## Run
@@ -35,6 +36,21 @@ python -m http.server 8000
 - `MAT_*` materials are named for runtime changes: `MAT_bulb_glass` + `MAT_filament` emissive = bulb on; `MAT_water*` tint = dissolving.
 - Root node `userData` holds the science: `conductor`, `soluble` + `water_tint`, `opacity` + `light_through`, `germinates`,
   `healthy`, `sequence` (water-cycle cards), `magnetic`, `method`, `tp`.
+
+## Two computer-vision models on one camera
+
+1. **MindAR image tracking** finds the printed card (feature points → pose) and anchors the kit on it.
+2. **MediaPipe Hand Landmarker** finds 21 hand joints every frame; `ar/hands.js` turns them into gestures:
+
+| Gesture | Action |
+|---|---|
+| ☝️ point + hold 0.8 s | tap the object under the fingertip |
+| 🤏 pinch, move, release | grab & drop (coin → circuit, sugar → glass, magnet → sand, card → diorama) |
+| 👋 wave open palm | moving air: pinwheel spins, balloon rocket launches |
+| ✋ open palm still 2 s | reset the experiment |
+
+Mouse/touch still work. `ar/?preview=AM07&hands` = 3D kit + selfie webcam hands (no card needed).
+Tuning for real classrooms (pinch sensitivity, dwell time…) lives in `TUNE` at the top of `ar/hands.js`.
 
 ## What the AR prototype already does
 
@@ -62,4 +78,6 @@ python tools/make_markers.py && python tools/compile_markers.py    # markers + .
 python tools/snap_gallery.py out.png     # every GLB loads in three.js
 python tools/test_ar.py                  # every kit loads + every tap runs without JS errors
 python tools/test_tracking.py            # fake webcam of a tilted card → MindAR must detect all 12
+python tools/test_hands.py               # simulated hands drive pinch/point/wave/reset; real MediaPipe model loads
+node ar/hands.test.mjs                   # gesture classifier + state machine
 ```
