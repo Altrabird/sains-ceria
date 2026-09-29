@@ -13,7 +13,7 @@ Everything is generated from scripts, so any asset can be tweaked and rebuilt in
 | `markers/targets.mind` | MindAR targets, all 12 (index = AM number − 1); `AMxx.mind` = single-card (~450 KB) |
 | `viewer/` | Asset gallery + inspector (thumbnails, orbit, pivot sliders, state toggles, anchors) |
 | `ar/` | Playable AR prototype: camera → detect card (MindAR) → kit appears → **hand gestures** (MediaPipe) to experiment |
-| `ar/hands.js` | Gesture layer: 21 hand landmarks → pinch / point-hold / wave / palm-hold; knobs in `TUNE` |
+| `ar/hands.js` | Gesture layer: 21 hand landmarks → two-finger grab / point-hold / wave / palm-hold; knobs in `TUNE` |
 | `vendor/` | three.js r160 + MindAR 1.2.5 (MIT), MediaPipe tasks-vision 1.0.1 + hand model (Apache-2.0), bundled for offline use |
 | `tools/` | Marker generator/compiler + headless tests |
 
@@ -45,14 +45,14 @@ python -m http.server 8000
 | Gesture | Action |
 |---|---|
 | ☝️ point + hold 0.8 s | tap the object under the fingertip |
-| 🤏 pinch, move, release | grab & drop (coin → circuit, sugar → glass, magnet → sand, card → diorama) |
+| ✌️ two fingers up, move, lower | grab & drop (coin → circuit, sugar → glass, magnet → sand, card → diorama) |
 | 👋 wave open palm | moving air: pinwheel spins, balloon rocket launches |
 | ✋ open palm still 2 s | reset the experiment |
 
 **Modes** (menu at `ar/`): **▶ click an amali** = `ar/?play=AM07` — no card, live selfie camera behind the kit, hand gestures (main mode);
 📷 card = `?am=AM07` (single card) or `?all` (any card); 🧊 `?preview=AM07` = plain 3D, mouse only. The top-bar dropdown switches amali in one click.
 Mouse/touch always work too.
-Tuning for real classrooms (pinch sensitivity, dwell time…) lives in `TUNE` at the top of `ar/hands.js`.
+Tuning for real classrooms (grab delay, dwell time…) lives in `TUNE` at the top of `ar/hands.js`.
 
 ## Guided steps (Arahan)
 
@@ -89,7 +89,7 @@ python tools/make_markers.py && python tools/compile_markers.py    # markers + .
 python tools/snap_gallery.py out.png     # every GLB loads in three.js
 python tools/test_ar.py                  # every kit loads + every tap runs without JS errors
 python tools/test_tracking.py            # fake webcam of a tilted card → MindAR must detect all 12
-python tools/test_hands.py               # simulated hands drive pinch/point/wave/reset; real MediaPipe model loads
+python tools/test_hands.py               # simulated hands drive two-finger/point/wave/reset; real MediaPipe model loads
 node ar/hands.test.mjs                   # gesture classifier + state machine
 node ar/guide.test.mjs                   # step tracker + steps.json references
 python tools/test_guide.py               # doing each amali completes all its steps

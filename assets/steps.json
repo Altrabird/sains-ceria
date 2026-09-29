@@ -43,46 +43,46 @@
  "AM06": { "q": "Adakah semua bahan menghasilkan bayang-bayang yang sama jelas?",
   "k": "Bahan legap menghasilkan bayang-bayang yang paling jelas kerana ia menghalang cahaya sepenuhnya.",
   "steps": [
-   { "g": "🤏", "t": "Cubit plastik LUTSINAR dan letakkan dekat skrin. Lihat bayang-bayangnya.", "on": "rig", "ids": ["sheet_transparent"] },
-   { "g": "🤏", "t": "Cuba kertas surih (LUT CAHAYA).", "on": "rig", "ids": ["sheet_translucent"] },
-   { "g": "🤏", "t": "Cuba kadbod (LEGAP). Bayang-bayang mana paling jelas?", "on": "rig", "ids": ["sheet_opaque"] }
+   { "g": "✌️", "t": "Pegang plastik LUTSINAR dengan dua jari dan letakkan dekat skrin. Lihat bayang-bayangnya.", "on": "rig", "ids": ["sheet_transparent"] },
+   { "g": "✌️", "t": "Cuba kertas surih (LUT CAHAYA).", "on": "rig", "ids": ["sheet_translucent"] },
+   { "g": "✌️", "t": "Cuba kadbod (LEGAP). Bayang-bayang mana paling jelas?", "on": "rig", "ids": ["sheet_opaque"] }
   ]},
  "AM07": { "q": "Bahan manakah boleh mengalirkan elektrik untuk menyalakan mentol?",
   "k": "Objek yang boleh menyalakan mentol dalam litar adalah konduktor, manakala yang tidak menyalakan mentol adalah penebat.",
   "steps": [
-   { "g": "🤏", "t": "Cubit duit syiling dan letakkan di atas papan litar. Adakah mentol menyala?", "on": "rig", "ids": ["coin"] },
-   { "g": "🤏", "t": "Uji paku besi dan klip kertas.", "on": "rig", "ids": ["iron_nail", "paper_clip"], "count": 2 },
-   { "g": "🤏", "t": "Uji sekurang-kurangnya 2 bahan bukan logam (getah, kayu, span, plastik).", "on": "rig", "ids": ["eraser", "wood_block", "sponge", "plastic_ruler_small"], "count": 2 }
+   { "g": "✌️", "t": "Pegang duit syiling dengan dua jari dan letakkan di atas papan litar. Adakah mentol menyala?", "on": "rig", "ids": ["coin"] },
+   { "g": "✌️", "t": "Uji paku besi dan klip kertas.", "on": "rig", "ids": ["iron_nail", "paper_clip"], "count": 2 },
+   { "g": "✌️", "t": "Uji sekurang-kurangnya 2 bahan bukan logam (getah, kayu, span, plastik).", "on": "rig", "ids": ["eraser", "wood_block", "sponge", "plastic_ruler_small"], "count": 2 }
   ]},
  "AM08": { "q": "Bagaimanakah kita boleh mengasingkan bahan yang bercampur?",
   "k": "Campuran boleh diasingkan dengan kaedah yang sesuai — mengayak (mengikut saiz), magnet (bahan yang ditarik magnet), dan menuras (pepejal daripada cecair).",
   "steps": [
-   { "g": "🤏", "t": "Bawa magnet ke campuran pasir + klip kertas.", "on": "tool", "ids": ["horseshoe_magnet"] },
-   { "g": "🤏", "t": "Guna ayak pada campuran pasir + batu kecil.", "on": "tool", "ids": ["sieve"] },
-   { "g": "🤏", "t": "Tuang air berpasir ke dalam corong turas.", "on": "tool", "ids": ["muddy_water", "funnel_filter"] }
+   { "g": "✌️", "t": "Bawa magnet ke campuran pasir + klip kertas.", "on": "tool", "ids": ["horseshoe_magnet"] },
+   { "g": "✌️", "t": "Guna ayak pada campuran pasir + batu kecil.", "on": "tool", "ids": ["sieve"] },
+   { "g": "✌️", "t": "Tuang air berpasir ke dalam corong turas.", "on": "tool", "ids": ["muddy_water", "funnel_filter"] }
   ]},
  "AM09": { "q": "Bahan manakah boleh larut di dalam air?",
   "k": "Sesetengah bahan boleh larut dalam air (contoh: gula, garam) manakala sesetengahnya tidak larut (contoh: pasir, batu).",
   "steps": [
-   { "g": "🤏", "t": "Masukkan gula ke dalam gelas air. Adakah ia larut?", "on": "rig", "ids": ["sample_sugar"] },
-   { "g": "🤏", "t": "Masukkan pasir. Adakah ia larut?", "on": "rig", "ids": ["sample_sand"] },
-   { "g": "🤏", "t": "Uji 2 bahan lagi (garam, kopi, tepung atau koko).", "on": "rig", "ids": ["sample_salt", "sample_coffee", "sample_flour", "sample_cocoa"], "count": 2 }
+   { "g": "✌️", "t": "Masukkan gula ke dalam gelas air. Adakah ia larut?", "on": "rig", "ids": ["sample_sugar"] },
+   { "g": "✌️", "t": "Masukkan pasir. Adakah ia larut?", "on": "rig", "ids": ["sample_sand"] },
+   { "g": "✌️", "t": "Uji 2 bahan lagi (garam, kopi, tepung atau koko).", "on": "rig", "ids": ["sample_salt", "sample_coffee", "sample_flour", "sample_cocoa"], "count": 2 }
   ]},
  "AM10": { "q": "Apakah cara untuk melarutkan gula dengan lebih cepat?",
   "k": "Bahan larut lebih cepat apabila air panas digunakan, larutan dikacau, dan saiz bahan lebih kecil (halus).",
   "steps": [
-   { "g": "🤏", "t": "Masukkan gula halus ke dalam gelas AIR PANAS. Perhati masanya.", "on": "rig", "ids": ["sample_sugar"], "match": { "glass": "glass_hot" } },
-   { "g": "🤏", "t": "Masukkan gula ketulan ke dalam gelas AIR SEJUK. Perhati masanya.", "on": "rig", "ids": ["sugar_cube"], "match": { "glass": "glass_cold" } },
+   { "g": "✌️", "t": "Masukkan gula halus ke dalam gelas AIR PANAS. Perhati masanya.", "on": "rig", "ids": ["sample_sugar"], "match": { "glass": "glass_hot" } },
+   { "g": "✌️", "t": "Masukkan gula ketulan ke dalam gelas AIR SEJUK. Perhati masanya.", "on": "rig", "ids": ["sugar_cube"], "match": { "glass": "glass_cold" } },
    { "g": "☝️", "t": "Bandingkan: yang mana lebih cepat? Tuding jam randik.", "on": "tap", "ids": ["stopwatch"] }
   ]},
  "AM11": { "q": "Bagaimanakah air bergerak dalam kitar air semula jadi?",
   "k": "Dalam kitar air, air tersejat menjadi wap (sejatan), wap menyejuk menjadi titisan air (kondensasi), dan titisan jatuh sebagai hujan (kerpasan).",
   "steps": [
    { "g": "☝️", "t": "Tuding balang untuk memulakan simulasi (air panas + ais).", "on": "sim", "ids": ["water_cycle_setup"] },
-   { "g": "🤏", "t": "Letakkan kad SEJATAN pada diorama.", "on": "rig", "ids": ["card_sejatan"] },
-   { "g": "🤏", "t": "Seterusnya: kad KONDENSASI.", "on": "rig", "ids": ["card_kondensasi"] },
-   { "g": "🤏", "t": "Kemudian: kad KERPASAN.", "on": "rig", "ids": ["card_kerpasan"] },
-   { "g": "🤏", "t": "Akhir sekali: kad PENGUMPULAN.", "on": "rig", "ids": ["card_pengumpulan"] }
+   { "g": "✌️", "t": "Letakkan kad SEJATAN pada diorama.", "on": "rig", "ids": ["card_sejatan"] },
+   { "g": "✌️", "t": "Seterusnya: kad KONDENSASI.", "on": "rig", "ids": ["card_kondensasi"] },
+   { "g": "✌️", "t": "Kemudian: kad KERPASAN.", "on": "rig", "ids": ["card_kerpasan"] },
+   { "g": "✌️", "t": "Akhir sekali: kad PENGUMPULAN.", "on": "rig", "ids": ["card_pengumpulan"] }
   ]},
  "AM12": { "q": "Bagaimanakah udara bergerak boleh digunakan untuk menggerakkan objek?",
   "k": "Udara yang bergerak mempunyai tenaga yang boleh digunakan untuk menggerakkan objek, seperti roket angin dan bebaling.",

@@ -69,7 +69,7 @@
 <div id="menu" hidden>
   <h1>AR Amali Sains Tahun 2</h1>
   <p><b>Klik amali untuk mula</b> — kamera dibuka dan alatan 3D muncul di depan anda. Guna <b>tangan</b> di depan kamera:
-  ☝️ tuding &amp; tahan = ketik · 🤏 cubit = pegang &amp; alih · 👋 lambai = angin · ✋ tapak tangan diam 2 s = ulang semula.</p>
+  ☝️ tuding &amp; tahan = ketik · ✌️ dua jari = pegang &amp; alih · 👋 lambai = angin · ✋ tapak tangan diam 2 s = ulang semula.</p>
   <div class="list" id="amList"></div>
   <p style="margin-top:18px">Pilihan: guna kad penanda bercetak (markers/kad-penanda-AR.pdf).</p>
   <button class="big alt" id="scanAll">📷 Imbas mana-mana kad (12 amali)</button>
@@ -505,7 +505,7 @@ function setupHands({ video, camera, rootsFn, toScreen, rebuild }) {
     }
     return null;
   }
-  function nearest(x, y, px = 60) {  // pinch tolerance for small hands: closest object centre within px on screen
+  function nearest(x, y, px = 60) {  // grab tolerance for small hands: closest object centre within px on screen
     const s = toScreen(x, y), r = $('stage').getBoundingClientRect();
     let best = null, bd = px;
     for (const root of rootsFn()) if (shown(root)) for (const o of root.userData.items) {
@@ -529,7 +529,7 @@ function setupHands({ video, camera, rootsFn, toScreen, rebuild }) {
   const G = new Gestures({
     hit: (x, y) => cast(x, y)?.o.uuid ?? null,
     tap: (x, y) => { const h = cast(x, y); if (h) onTap(h.root, h.hitObj); },
-    grab: (x, y) => { const h = cast(x, y) || nearest(x, y); if (!h) return; held = h; info(`🤏 Memegang <b>${A[h.o.userData.kit.id].name_bm}</b> — alih &amp; lepaskan`, 3); },
+    grab: (x, y) => { const h = cast(x, y) || nearest(x, y); if (!h) return; held = h; info(`✌️ Memegang <b>${A[h.o.userData.kit.id].name_bm}</b> — alih &amp; lepaskan`, 3); },
     drag: (x, y) => { if (!held) return; const p = onCard(held.root, x, y); if (p) held.o.position.set(p.x, 0.03, p.z); },
     drop: async () => {
       if (!held) return; const h = held; held = null;
@@ -551,19 +551,19 @@ function setupHands({ video, camera, rootsFn, toScreen, rebuild }) {
   if (video) createHandTracker().then(t => { tracker = t; chip.textContent = '✋ Tangan: AKTIF'; })
     .catch(e => { chip.textContent = '✋ Tangan: gagal'; console.warn('hand tracker', e); });
   else chip.textContent = '✋ Tangan: simulasi';
-  const ICON = { pinch: '🤏', point: '☝️', open: '✋', none: '✊' };
+  const ICON = { two: '✌️', point: '☝️', open: '✋', none: '✊' };
   function draw() {
     if (layer.width !== innerWidth || layer.height !== innerHeight) { layer.width = innerWidth; layer.height = innerHeight; }
     ctx.clearRect(0, 0, layer.width, layer.height);
     const on = !!lastLm && G.x !== null;
     cur.hidden = icon.hidden = !on;
     if (!on) return;
-    drawHand(ctx, lastLm, toScreen, G.pinching ? '#ffcc33' : '#ff7aa8');
+    drawHand(ctx, lastLm, toScreen, G.grabbing ? '#ffcc33' : '#ff7aa8');
     const s = toScreen(G.x, G.y);
     cur.style.left = icon.style.left = s.x + 'px'; cur.style.top = icon.style.top = s.y + 'px';
     cur.style.setProperty('--p', G.progress); icon.textContent = ICON[G.g];
   }
-  function feed(lm, now) { lastLm = enabled ? lm : null; G.update(lastLm ? classify(lastLm, G.pinching) : null, now / 1000); }
+  function feed(lm, now) { lastLm = enabled ? lm : null; G.update(lastLm ? classify(lastLm, G.grabbing) : null, now / 1000); }
   return {
     frame(now) {
       if (enabled && tracker && video.readyState >= 2 && video.currentTime !== lastVT) {
@@ -657,7 +657,7 @@ if (MODE === 'play' || MODE === 'preview') {
       const p = root.userData.byId(id).getWorldPosition(new THREE.Vector3()).project(camera);
       return { x: 1 - (p.x + 1) / 2, y: (1 - p.y) / 2 };
     };
-    $('hint').textContent += ' · ☝️ tuding  🤏 cubit  👋 lambai  ✋ tahan = ulang';
+    $('hint').textContent += ' · ☝️ tuding  ✌️ 2 jari = pegang  👋 lambai  ✋ tahan = ulang';
   } else $('handChip').hidden = true;
   renderer.setAnimationLoop(now => { tick(); hands?.frame(now); renderer.render(scene, camera); });
   window.kitReady = true;
@@ -679,7 +679,7 @@ if (MODE === 'play' || MODE === 'preview') {
     anchor.group.add(holder);
     let loading = null;
     anchor.onTargetFound = () => {
-      $('hint').textContent = `${am} · ${KITS[am].title} — ☝️ tuding  🤏 cubit  👋 lambai  ✋ tahan = ulang`;
+      $('hint').textContent = `${am} · ${KITS[am].title} — ☝️ tuding  ✌️ 2 jari = pegang  👋 lambai  ✋ tahan = ulang`;
       GUIDE.load(am, KITS[am].title);
       loading ||= buildKit(am).then(r => { holder.add(r); roots.push(r); return r; });
       loading.then(() => ACTIVE_ROOT = holder.children[0]);  // holder only ever holds this amali's kit

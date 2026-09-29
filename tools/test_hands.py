@@ -1,5 +1,5 @@
 """Headless check of the hand-gesture layer.
-1) ?handsim: synthetic hand landmarks drive real gestures end-to-end (pinch-drag coin into circuit -> bulb lights,
+1) ?handsim: synthetic hand landmarks drive real gestures end-to-end (two-finger drag coin into circuit -> bulb lights,
    point-and-hold opens a box lid, wave spins the pinwheel, still open palm resets the kit).
 2) ?hands with a fake webcam: the real MediaPipe HandLandmarker loads and runs without errors.
 Usage: python tools/test_hands.py"""
@@ -71,21 +71,21 @@ with sync_playwright() as p:
     pg = open_sim("AM07")
     coin, tester = pg.evaluate("window.itemScreen('coin')"), pg.evaluate("window.itemScreen('circuit_tester')")
     dark = brightness(pg)
-    pg.evaluate(FEED, ["pinch", 0.3, coin, coin])
+    pg.evaluate(FEED, ["two", 0.3, coin, coin])
     pg.screenshot(path=f"{OUT}/AM07_grab.png")
-    pg.evaluate(FEED, ["pinch", 0.8, coin, tester])
+    pg.evaluate(FEED, ["two", 0.8, coin, tester])
     pg.evaluate(FEED, ["none", 0.2, tester, tester])
     pg.wait_for_timeout(1500)
     glow = pg.evaluate("""() => { let v = 0; window.kitRoot.userData.byId('circuit_tester').traverse(o => {
         if (o.material && /bulb_glass/.test(o.material.name)) v = o.material.emissiveIntensity }); return v }""")
     lit = brightness(pg)
-    check("AM07 pinch-drag coin into circuit lights bulb", glow > 0 and lit > dark + 25,
+    check("AM07 two-finger drag coin into circuit lights bulb", glow > 0 and lit > dark + 25,
           f"(bulb pixels {dark:.0f} -> {lit:.0f}, info='{pg.inner_text('#info')[:50]}')")
     pg.screenshot(path=f"{OUT}/AM07_drop.png")
     # drag an insulator in -> bulb off
     er = pg.evaluate("window.itemScreen('eraser')")
-    pg.evaluate(FEED, ["none", 0.5, tester, er])  # hand travels to the eraser, then pinches
-    pg.evaluate(FEED, ["pinch", 0.3, er, er]); pg.evaluate(FEED, ["pinch", 0.8, er, tester]); pg.evaluate(FEED, ["none", 0.2, tester, tester])
+    pg.evaluate(FEED, ["none", 0.5, tester, er])  # hand travels to the eraser, then raises two fingers
+    pg.evaluate(FEED, ["two", 0.3, er, er]); pg.evaluate(FEED, ["two", 0.8, er, tester]); pg.evaluate(FEED, ["none", 0.2, tester, tester])
     pg.wait_for_timeout(1500)
     glow = pg.evaluate("""() => { let v = 0; window.kitRoot.userData.byId('circuit_tester').traverse(o => {
         if (o.material && /bulb_glass/.test(o.material.name)) v = o.material.emissiveIntensity }); return v }""")
