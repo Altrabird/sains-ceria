@@ -93,4 +93,5 @@ python tools/test_hands.py               # simulated hands drive two-finger/poin
 node ar/hands.test.mjs                   # gesture classifier + state machine
 node ar/guide.test.mjs                   # step tracker + steps.json references
 python tools/test_guide.py               # doing each amali completes all its steps
+python tools/test_am06.py                # AM06: one panel in the centre slot, beam never steals a touch
 ```

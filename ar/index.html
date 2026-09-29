@@ -216,7 +216,8 @@ async function buildKit(am) {
   root.userData.byId = id => items.find(o => o.userData.kit.id === id);
   // hide all but the first state node group
   for (const o of items) byName(o, STATE_RE).forEach((n, i) => n.visible = i === 0);
-  for (const o of items) byName(o, /^beam$/).forEach(n => n.visible = false);
+  // torch beam: hidden until switched on, and never touchable (it covers the panels in front of it)
+  for (const o of items) byName(o, /^beam$/).forEach(n => { n.visible = false; n.traverse(m => m.userData.fx = true); });
   // magnet demo: real paper clips on the tray anchors
   for (const o of items) for (const a of byName(o, /^anchor_clip/)) {
     const c = await instance('paper_clip'); c.name = 'loose_clip'; a.add(c);
@@ -327,9 +328,18 @@ const RIG = {
   async AM06(root, o) {  // shadow clarity
     const screen = root.userData.byId('white_screen'), torch = root.userData.byId('flashlight'), s = st(screen);
     byName(torch, /^beam$/).forEach(b => b.visible = true);
-    if (s.current && s.current !== o) moveTo(root, s.current, s.current.userData.kit.home);
-    s.current = o;
     const mid = worldIn(root, screen).lerp(worldIn(root, torch), 0.45);
+    if (s.current === o) {  // selected again -> back to the side, shadow fades
+      s.current = null; moveTo(root, o, o.userData.kit.home);
+      if (s.shadow) { const f = s.shadow.material.opacity; tween(0.4, t => s.shadow.material.opacity = f * (1 - t)); }
+      return true;
+    }
+    // exchange: whatever panel sits in the centre slot (placed before, or dropped there by hand) goes back to the side
+    for (const other of root.userData.items) {
+      if (other !== o && other.userData.kit.role === 'test' && Math.hypot(other.position.x - mid.x, other.position.z - mid.z) < 0.08)
+        moveTo(root, other, other.userData.kit.home);
+    }
+    s.current = o;
     await moveTo(root, o, mid);
     if (!s.shadow) {
       s.shadow = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.2), new THREE.MeshBasicMaterial({ color: 0x111111, transparent: true, opacity: 0 }));
@@ -591,7 +601,7 @@ function tapper(el, camera, rootsFn) {
     ray.setFromCamera(v, camera);
     for (const root of rootsFn()) {
       if (!root.parent?.visible) continue;
-      const hit = ray.intersectObject(root, true).find(h => h.object.isMesh && h.object.visible);
+      const hit = ray.intersectObject(root, true).find(h => h.object.isMesh && h.object.visible && !h.object.userData.fx);
       if (hit) return onTap(root, hit.object);
     }
   });
@@ -632,7 +642,15 @@ if (MODE === 'play' || MODE === 'preview') {
   window.kitRoot = root; window.tapItem = id => onTap(root, root.userData.byId(id));  // for automated tests
   tapper(renderer.domElement, camera, () => [root]);
   $('hint').textContent = `${am} · ${KITS[am].title}` + (PLAY ? '' : ' — pratonton 3D');
-  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+  // keep the kit clear of the guide panel on wide screens: shift the view right by half the panel's width
+  const fitView = () => {
+    camera.aspect = innerWidth / innerHeight;
+    const g = $('guide'), d = !g.hidden && innerWidth > 700 ? g.getBoundingClientRect().right / 2 : 0;
+    if (d) camera.setViewOffset(innerWidth, innerHeight, -d, 0, innerWidth, innerHeight); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+  };
+  fitView();
+  addEventListener('resize', () => { fitView(); renderer.setSize(innerWidth, innerHeight); });
   // hands: play = the full-screen selfie camera (skeleton sits on your real hand); ?handsim = no camera, window.feedHand (tests)
   let hands = null;
   if (video || Q.has('handsim')) {

@@ -44,9 +44,9 @@
  ]},
  "AM06": { "title": "Bayang-bayang", "items": [
   {"id": "white_screen", "p": [0.0, -0.12], "s": 0.5},
-  {"id": "sheet_transparent", "p": [-0.1, 0.0], "role": "test"},
-  {"id": "sheet_translucent", "p": [0.0, 0.0], "role": "test"},
-  {"id": "sheet_opaque", "p": [0.1, 0.0], "role": "test"},
+  {"id": "sheet_transparent", "p": [-0.17, 0.06], "role": "test"},
+  {"id": "sheet_translucent", "p": [-0.17, -0.06], "role": "test"},
+  {"id": "sheet_opaque", "p": [0.17, 0.0], "role": "test"},
   {"id": "flashlight", "p": [0.0, 0.14], "r": 180, "s": 0.6}
  ]},
  "AM07": { "title": "Litar Elektrik", "items": [
