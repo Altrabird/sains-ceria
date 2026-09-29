@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AR Amali Sains</title>
+<style>
+  :root { --bg:#fff7fa; --fg:#2b2340; --card:#fff; --line:#f1d5e0; --accent:#e0457b; --muted:#7a6c85; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#17131f; --fg:#f3eef8; --card:#221c2e; --line:#3a2f4a; --accent:#ff7aa8; --muted:#a898b8; } }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:15px/1.4 system-ui, sans-serif; overflow:hidden; }
+  #stage { position:fixed; inset:0; }
+  #menu { position:fixed; inset:0; overflow:auto; padding:16px; z-index:20; background:var(--bg); }
+  #menu h1 { font-size:20px; margin:4px 0 4px; }
+  #menu p { color:var(--muted); margin:0 0 14px; }
+  .big { display:block; width:100%; padding:14px; font:600 16px system-ui; border:0; border-radius:14px; background:var(--accent); color:#fff; margin-bottom:14px; }
+  .list { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+  .am { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:10px; }
+  .am b { display:block; } .am span { color:var(--muted); font-size:13px; }
+  .am a { display:inline-block; margin:8px 8px 0 0; color:var(--accent); font-weight:600; text-decoration:none; }
+  #info { position:fixed; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); z-index:10; background:var(--card); color:var(--fg);
+          border:2px solid var(--accent); border-radius:16px; padding:10px 14px; display:none; box-shadow:0 6px 24px #0003; }
+  #info b { color:var(--accent); }
+  #top { position:fixed; top:max(10px, env(safe-area-inset-top)); left:10px; z-index:10; display:flex; gap:8px; }
+  #top button { border:0; border-radius:999px; padding:8px 14px; background:var(--card); color:var(--fg); font-weight:600; box-shadow:0 2px 10px #0003; }
+  #hint { position:fixed; top:max(56px, calc(env(safe-area-inset-top) + 46px)); left:10px; right:10px; z-index:10; text-align:center; font-size:13px;
+          color:#fff; text-shadow:0 1px 3px #000; pointer-events:none; }
+</style>
+<script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="top" hidden><button id="home">← Menu</button></div>
+<div id="hint"></div>
+<div id="info"></div>
+<div id="menu" hidden>
+  <h1>AR Amali Sains Tahun 2</h1>
+  <p>Cetak kad penanda (markers/kad-penanda-AR.pdf), kemudian halakan kamera pada kad. Ketik objek 3D untuk berinteraksi.</p>
+  <button class="big" id="scanAll">📷 Imbas mana-mana kad (12 amali)</button>
+  <div class="list" id="amList"></div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const Q = new URLSearchParams(location.search);
+const [manifest, KITS] = await Promise.all(['../assets/manifest.json', '../assets/kits.json'].map(u => fetch(u).then(r => r.json())));
+const AMS = Object.keys(KITS).filter(k => k.startsWith('AM'));
+const A = manifest.assets;
+const $ = id => document.getElementById(id);
+
+// ------------------------------------------------------------ menu
+if (!Q.has('am') && !Q.has('preview') && !Q.has('all')) {
+  $('menu').hidden = false;
+  $('scanAll').onclick = () => location.search = '?all';
+  for (const am of AMS) $('amList').insertAdjacentHTML('beforeend',
+    `<div class="am"><b>${am}</b><span>${KITS[am].title}</span><br><a href="?am=${am}">📷 AR</a><a href="?preview=${am}">🧊 3D</a></div>`);
+  throw 'menu';  // stop module here
+}
+$('top').hidden = false;
+$('home').onclick = () => location.href = location.pathname;
+
+// ------------------------------------------------------------ asset loading
+const loader = new GLTFLoader();
+const gltfCache = new Map();
+const loadAsset = id => gltfCache.get(id) || gltfCache.set(id, loader.loadAsync('../assets/' + A[id].file)).get(id);
+const LITE = !Q.has('preview');  // phones: swap costly transmission for plain transparency
+
+async function instance(id) {
+  const g = (await loadAsset(id)).scene.clone(true);
+  g.traverse(o => {
+    if (!o.material) return;
+    o.material = o.material.clone();  // per-instance so tints / glow don't leak
+    if (LITE && o.material.transmission > 0) {
+      o.material.transmission = 0; o.material.transparent = true; o.material.opacity = Math.min(o.material.opacity, 0.45);
+    }
+  });
+  return g;
+}
+const STATE_RE = /^(stage|week)_\d+$/;  // not their children (week_1_stem...)
+const byName = (root, re) => { const out = []; root.traverse(o => re.test(o.name) && out.push(o)); return out; };
+const node = (root, name) => root.getObjectByName(name);
+const mats = (root, re) => { const s = new Set(); root.traverse(o => o.material && re.test(o.material.name) && s.add(o.material)); return [...s]; };
+
+// ------------------------------------------------------------ tiny tween + particles
+const tweens = new Set();
+function tween(dur, fn, done) {
+  return new Promise(res => tweens.add({ t0: performance.now(), dur: dur * 1000, fn, done: () => { done?.(); res(); } }));
+}
+const ease = t => t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+function stepTweens(now) {
+  for (const tw of tweens) {
+    const t = Math.min(1, (now - tw.t0) / tw.dur);
+    tw.fn(ease(t), t);
+    if (t >= 1) { tweens.delete(tw); tw.done(); }
+  }
+}
+const spinners = new Set();  // {obj, axis, speed}
+const emitters = new Set();  // {parent, from, vel, color, rate, life, acc, left}
+const pGeo = new THREE.SphereGeometry(1, 8, 6);
+function stepParticles(dt) {
+  for (const s of spinners) s.obj.rotation[s.axis] += s.speed * dt;
+  for (const e of emitters) {
+    e.acc += dt * e.rate;
+    while (e.acc > 1) {
+      e.acc--;
+      const m = new THREE.Mesh(pGeo, new THREE.MeshStandardMaterial({ color: e.color, transparent: true, opacity: 0.7, roughness: 0.2 }));
+      m.scale.setScalar(e.size); m.position.copy(e.from).add(new THREE.Vector3((Math.random() - .5) * e.spread, 0, (Math.random() - .5) * e.spread));
+      m.userData.v = e.vel.clone(); m.userData.age = 0; e.parent.add(m); e.live.add(m);
+    }
+    for (const m of e.live) {
+      m.userData.age += dt; m.position.addScaledVector(m.userData.v, dt);
+      m.material.opacity = 0.7 * (1 - m.userData.age / e.life);
+      if (m.userData.age > e.life) { e.parent.remove(m); m.material.dispose(); e.live.delete(m); }
+    }
+    if (e.left !== undefined && (e.left -= dt) <= 0 && !e.live.size) emitters.delete(e);
+    if (e.left !== undefined && e.left <= 0) e.rate = 0;
+  }
+}
+function emit(parent, o) {
+  const e = { parent, acc: 0, live: new Set(), spread: 0.02, size: 0.003, life: 1.5, rate: 12, color: 0xffffff, ...o };
+  emitters.add(e); return e;
+}
+
+// ------------------------------------------------------------ info bubble
+let infoTimer;
+function info(html, secs = 6) {
+  $('info').innerHTML = html; $('info').style.display = 'block';
+  clearTimeout(infoTimer); infoTimer = setTimeout(() => $('info').style.display = 'none', secs * 1000);
+}
+function facts(id) {
+  const a = A[id], f = [];
+  if ('conductor' in a) f.push(a.conductor ? '⚡ Konduktor elektrik' : '🚫 Penebat (tidak mengalirkan elektrik)');
+  if ('soluble' in a) f.push(a.soluble ? '💧 Larut dalam air' : '🪨 Tidak larut dalam air');
+  if (a.opacity) f.push(`Bahan ${a.opacity.replace('_', ' ')} → bayang ${a.shadow}`);
+  if ('healthy' in a) f.push(a.healthy ? '🌱 Pokok sihat' : '🥀 Pokok tidak sihat');
+  if ('germinates' in a) f.push(a.germinates ? '✅ Biji bercambah' : '❌ Biji tidak bercambah');
+  if (a.method) f.push(`Kaedah: ${a.method}`);
+  if (a.separates) f.push(`Mengasingkan ${a.separates}`);
+  return f.join(' · ');
+}
+
+// ------------------------------------------------------------ kit building
+async function buildKit(am) {
+  const kit = KITS[am], root = new THREE.Group();
+  root.userData.am = am;
+  const items = await Promise.all(kit.items.map(async it => {
+    const o = await instance(it.id);
+    o.position.set(it.p[0], 0, it.p[1]);
+    o.rotation.y = THREE.MathUtils.degToRad(it.r || 0);
+    o.scale.setScalar(it.s || 1);
+    o.userData.kit = { ...it, home: o.position.clone() };
+    root.add(o);
+    return o;
+  }));
+  // auto-fit: footprint fills ~92% of the card, kit centred, height capped so tall props stay on screen
+  const box = new THREE.Box3().setFromObject(root), size = box.getSize(new THREE.Vector3());
+  const k = Math.min(0.92 / Math.max(size.x, size.z), 0.9 / size.y);
+  const c = box.getCenter(new THREE.Vector3());
+  for (const o of items) { o.position.x -= c.x; o.position.z -= c.z; o.userData.kit.home.copy(o.position); }
+  root.scale.setScalar(k);
+  root.userData.items = items;
+  root.userData.byId = id => items.find(o => o.userData.kit.id === id);
+  // hide all but the first state node group
+  for (const o of items) byName(o, STATE_RE).forEach((n, i) => n.visible = i === 0);
+  for (const o of items) byName(o, /^beam$/).forEach(n => n.visible = false);
+  // magnet demo: real paper clips on the tray anchors
+  for (const o of items) for (const a of byName(o, /^anchor_clip/)) {
+    const c = await instance('paper_clip'); c.name = 'loose_clip'; a.add(c);
+  }
+  return root;
+}
+
+// ------------------------------------------------------------ interactions
+const state = new WeakMap();
+const st = o => state.get(o) || state.set(o, {}).get(o);
+const worldIn = (root, obj) => root.worldToLocal(obj.getWorldPosition(new THREE.Vector3()));
+
+async function moveTo(root, o, target, lift = 0.05) {
+  const from = o.position.clone();
+  await tween(0.6, t => { o.position.lerpVectors(from, target, t); o.position.y += Math.sin(t * Math.PI) * lift; });
+}
+function glowBulb(tester, on) {
+  mats(tester, /bulb_glass|filament/).forEach(m => { m.emissiveIntensity = on ? 4 : 0; m.needsUpdate = true; });
+}
+function tintWater(glassObj, rgba, dur = 2) {
+  const m = mats(glassObj, /^MAT_water/)[0]; if (!m) return tween(dur, () => {});
+  const c0 = m.color.clone(), c1 = new THREE.Color(rgba[0], rgba[1], rgba[2]), o0 = m.opacity;
+  const o1 = rgba[3] > 0 ? Math.max(o0, 0.55 + rgba[3] * 0.4) : o0;
+  return tween(dur, t => { m.color.lerpColors(c0, c1, rgba[3] > 0 ? t : 0); m.opacity = o0 + (o1 - o0) * t; });
+}
+async function star(root, at, good = true) {
+  const s = await instance(good ? 'ui_star' : 'ui_cross');
+  s.position.copy(at); s.scale.setScalar(0.001); root.add(s);
+  await tween(0.5, t => { s.scale.setScalar(0.001 + t * 1.2); s.position.y = at.y + t * 0.08; s.rotation.y = t * 6; });
+  await tween(0.6, t => s.scale.setScalar(1.2 * (1 - t) + 0.001));
+  root.remove(s);
+}
+
+const RIG = {
+  async AM07(root, o) {  // conductor tester
+    const tester = root.userData.byId('circuit_tester');
+    const kit = root.userData.items; const s = st(tester);
+    if (s.current && s.current !== o) moveTo(root, s.current, s.current.userData.kit.home);
+    if (s.current === o) { s.current = null; glowBulb(tester, false); await moveTo(root, o, o.userData.kit.home); return true; }
+    s.current = o; glowBulb(tester, false);
+    const target = worldIn(root, node(tester, 'anchor_test'));
+    await moveTo(root, o, target);
+    const cond = !!A[o.userData.kit.id].conductor;
+    glowBulb(tester, cond);
+    info(`<b>${A[o.userData.kit.id].name_bm}</b>: mentol ${cond ? '<b>MENYALA</b> 💡 — konduktor' : 'tidak menyala — penebat'}`);
+    return true;
+  },
+  async AM09(root, o) {  // soluble?
+    const glass = root.userData.byId('glass_cup'); const s = st(glass);
+    if (s.busy) return true; s.busy = true;
+    const wm = mats(glass, /^MAT_water/)[0]; s.c0 ||= wm.color.clone(); s.o0 ??= wm.opacity;
+    const id = o.userData.kit.id, a = A[id];
+    await moveTo(root, o, worldIn(root, node(glass, 'anchor_drop_in')), 0.08);
+    const pile = o.children[0]?.children.filter(c => !/saucer/.test(c.name)) || [];
+    await tween(0.5, t => pile.forEach(p => p.scale.setScalar(1 - t)));
+    if (a.water_tint) await tintWater(glass, a.water_tint, 2.5);
+    if (!a.soluble) {  // leftover sediment at the bottom
+      const sed = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.026, 0.006, 20), new THREE.MeshStandardMaterial({ color: mats(o, new RegExp(id.replace('sample_', '')))[0]?.color || 0x999999 }));
+      sed.position.y = 0.006; glass.add(sed); s.sed = sed;
+    }
+    info(`<b>${a.name_bm}</b> ${a.soluble ? '<b>larut</b> — tiada zarah kelihatan (atau air berwarna jernih)' : '<b>tidak larut</b> — zarah terapung / termendap'}`);
+    await tween(3.5, () => {});
+    // reset for the next sample
+    pile.forEach(p => p.scale.setScalar(1)); await moveTo(root, o, o.userData.kit.home);
+    const m = mats(glass, /^MAT_water/)[0]; m.color.copy(s.c0); m.opacity = s.o0; if (s.sed) { glass.remove(s.sed); s.sed = null; }
+    s.busy = false; return true;
+  },
+  async AM10(root, o) {  // dissolve faster: fine vs cube, hot vs cold (last tapped glass)
+    const glassId = st(root).glass || 'glass_hot', glass = root.userData.byId(glassId), s = st(glass);
+    if (s.busy) return true; s.busy = true;
+    const cube = o.userData.kit.id === 'sugar_cube', hot = glassId === 'glass_hot';
+    const secs = (cube ? 8 : 3) * (hot ? 1 : 2.5);
+    await moveTo(root, o, worldIn(root, node(glass, 'anchor_drop_in')), 0.08);
+    const bits = o.children[0].children.filter(c => !/saucer/.test(c.name));
+    info(`Gula ${cube ? 'ketulan' : 'halus'} dalam air ${hot ? 'panas' : 'sejuk'}… ⏱️`, secs + 4);
+    const steam = hot ? emit(glass, { from: new THREE.Vector3(0, 0.1, 0), vel: new THREE.Vector3(0, 0.04, 0), size: 0.004, left: secs }) : null;
+    const t0 = performance.now();
+    await tween(secs * 0.6, t => { bits.forEach(b => b.scale.setScalar(Math.max(0.001, 1 - t))); $('info').innerHTML = `Gula ${cube ? 'ketulan' : 'halus'} dalam air ${hot ? 'panas' : 'sejuk'} — ⏱️ ${((performance.now() - t0) / 1000 * (1 / 0.6)).toFixed(1)} s`; });
+    info(`Larut dalam <b>${secs.toFixed(1)} s</b> (simulasi). ${hot ? 'Air panas' : 'Air sejuk'} + gula ${cube ? 'ketulan → lebih lambat' : 'halus → lebih cepat'}. Cuba gelas lain!`);
+    bits.forEach(b => b.scale.setScalar(1)); await moveTo(root, o, o.userData.kit.home);
+    s.busy = false; return true;
+  },
+  async AM06(root, o) {  // shadow clarity
+    const screen = root.userData.byId('white_screen'), torch = root.userData.byId('flashlight'), s = st(screen);
+    byName(torch, /^beam$/).forEach(b => b.visible = true);
+    if (s.current && s.current !== o) moveTo(root, s.current, s.current.userData.kit.home);
+    s.current = o;
+    const mid = worldIn(root, screen).lerp(worldIn(root, torch), 0.45);
+    await moveTo(root, o, mid);
+    if (!s.shadow) {
+      s.shadow = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.2), new THREE.MeshBasicMaterial({ color: 0x111111, transparent: true, opacity: 0 }));
+      s.shadow.position.set(0, 0.26, 0.007); screen.add(s.shadow);
+    }
+    const a = A[o.userData.kit.id], target = (1 - a.light_through) * 0.85, from = s.shadow.material.opacity;
+    await tween(0.6, t => s.shadow.material.opacity = from + (target - from) * t);
+    info(`<b>${a.name_bm}</b> — ${facts(o.userData.kit.id)}`);
+    return true;
+  },
+  async AM11(root, o) {  // put label cards in order
+    const s = st(root); s.next = s.next || 1;
+    const seq = A[o.userData.kit.id].sequence, dio = root.userData.byId('water_cycle_diorama');
+    if (seq !== s.next) { star(root, worldIn(root, o).add(new THREE.Vector3(0, 0.03, 0)), false); info('Belum lagi — apakah yang berlaku <b>dahulu</b>?'); return true; }
+    const anchorName = ['anchor_evaporation', 'anchor_condensation', 'anchor_precipitation', 'anchor_collection'][seq - 1];
+    const target = worldIn(root, node(dio, anchorName)); target.y += 0.02;
+    await moveTo(root, o, target, 0.1);
+    o.rotation.x = -0.6;
+    star(root, target.clone());
+    s.next++;
+    info(s.next > 4 ? '🎉 Kitar air lengkap: sejatan → kondensasi → kerpasan → pengumpulan!' : `Betul! Langkah ${seq} daripada 4.`);
+    return true;
+  },
+};
+
+async function generic(root, o) {
+  const id = o.userData.kit.id, s = st(o);
+  const stages = byName(o, STATE_RE);
+  if (stages.length) {
+    s.i = ((s.i || 0) + 1) % stages.length; stages.forEach((n, i) => n.visible = i === s.i);
+    return info(`<b>${A[id].name_bm}</b> — ${stages[s.i].name.replace('_', ' ')}`);
+  }
+  const open = { pivot_lid: ['x', -1.9], pivot_door: ['y', 1.7], pivot_blade_a: ['y', 0.5], pivot_lever: ['z', 0.45] };
+  for (const [n, [ax, ang]] of Object.entries(open)) {
+    const p = node(o, n); if (!p) continue;
+    const r0 = p.rotation[ax], r1 = s.open ? r0 - ang : r0 + ang; s.open = !s.open;
+    await tween(0.6, t => p.rotation[ax] = r0 + (r1 - r0) * t);
+    if (id === 'switch') info(s.open ? 'Suis <b>dibuka</b> — litar tidak lengkap' : 'Suis <b>ditutup</b> — litar lengkap');
+    return info(`<b>${A[id].name_bm}</b> ${s.open ? 'dibuka' : 'ditutup'}` + (facts(id) ? ' · ' + facts(id) : ''));
+  }
+  for (const [n, ax] of [['pivot_rotor', 'z'], ['pivot_spin', 'y'], ['pivot_hand', 'z']]) {
+    const p = node(o, n); if (!p) continue;
+    if (s.spin) { spinners.delete(s.spin); s.spin = null; return info(`<b>${A[id].name_bm}</b> berhenti.`); }
+    s.spin = { obj: p, axis: ax, speed: n === 'pivot_hand' ? -Math.PI / 30 * 6 : 12 }; spinners.add(s.spin);
+    return info(n === 'pivot_rotor' ? '🌬️ Udara bergerak menolak bilah — <b>bebaling berputar</b>!' : `<b>${A[id].name_bm}</b> bergerak.`);
+  }
+  if (node(o, 'pivot_rocket')) {
+    if (s.busy) return; s.busy = true;
+    const r = node(o, 'pivot_rocket'), inf = node(o, 'pivot_inflate'), x0 = r.position.x;
+    info('🎈 Udara keluar dari belon ke belakang → roket meluncur ke hadapan!');
+    const puff = emit(r, { from: new THREE.Vector3(-0.1, -0.04, 0), vel: new THREE.Vector3(-0.15, 0, 0), size: 0.006, left: 1.6, rate: 30 });
+    await tween(1.6, t => { r.position.x = x0 - 0.3 + t * 0.65; inf.scale.setScalar(1 - 0.6 * t); });
+    await tween(0.6, t => { r.position.x = x0 + 0.35 - t * 0.35; inf.scale.setScalar(0.4 + 0.6 * t); });
+    s.busy = false; return;
+  }
+  const inflate = node(o, 'pivot_inflate');
+  if (inflate) { const a = s.flat ? 0.35 : 1, b = s.flat ? 1 : 0.35; s.flat = !s.flat; await tween(0.8, t => inflate.scale.setScalar(a + (b - a) * t)); return info(s.flat ? 'Udara dilepaskan — belon mengecut.' : 'Belon ditiup — penuh udara.'); }
+  const needle = node(o, 'pivot_needle');
+  if (needle) { const kg = 20 + Math.round(Math.random() * 10), r0 = needle.rotation.y, r1 = -kg / 120 * Math.PI * 2; await tween(1, t => needle.rotation.y = r0 + (r1 - r0) * t); return info(`Berat badan: <b>${kg} kg</b>`); }
+  const slider = node(o, 'pivot_slider');
+  if (slider) { const cm = 110 + Math.round(Math.random() * 20), y0 = slider.position.y; await tween(1, t => slider.position.y = y0 + (cm / 100 - y0) * t); return info(`Tinggi: <b>${cm} cm</b>`); }
+  const tape = node(o, 'pivot_tape');
+  if (tape) { const a = tape.scale.x, b = a > 0.5 ? 0.1 : 1; await tween(0.7, t => tape.scale.x = a + (b - a) * t); return info(b > 0.5 ? 'Pita ukur ditarik: 30 cm' : 'Pita ukur disimpan.'); }
+  if (byName(o, /^beam$/).length) { const b = byName(o, /^beam$/)[0]; b.visible = !b.visible; return info(b.visible ? 'Lampu suluh <b>dihidupkan</b>.' : 'Lampu suluh dimatikan.'); }
+  if (id === 'horseshoe_magnet') {
+    const tray = root.userData.byId('mix_sand_clips'), clips = byName(tray, /^loose_clip$/);
+    const pole = worldIn(root, node(o, 'anchor_pole'));
+    for (const [i, c] of clips.entries()) {
+      root.attach(c); const from = c.position.clone(), to = pole.clone().add(new THREE.Vector3((i % 4 - 1.5) * 0.008, 0.004 * (i >> 2), 0.01));
+      tween(0.5 + i * 0.05, t => c.position.lerpVectors(from, to, t));
+    }
+    return info('🧲 Klip kertas (besi) <b>ditarik magnet</b>; pasir tertinggal.');
+  }
+  if (id === 'sieve') {
+    const tray = root.userData.byId('mix_sand_pebbles'), peb = byName(tray, /^mix_pebble/);
+    const catchAt = worldIn(root, node(o, 'anchor_catch'));
+    for (const [i, p] of peb.entries()) {
+      root.attach(p); const from = p.position.clone(), to = catchAt.clone().add(new THREE.Vector3((Math.random() - .5) * 0.06, 0.005, (Math.random() - .5) * 0.06));
+      tween(0.6 + i * 0.04, t => { p.position.lerpVectors(from, to, t); p.position.y += Math.sin(t * Math.PI) * 0.05; });
+    }
+    return info('Batu kecil <b>tertinggal dalam ayak</b>; pasir halus jatuh melalui lubang.');
+  }
+  if (id === 'funnel_filter' || id === 'muddy_water') {
+    const f = root.userData.byId('funnel_filter'), mud = root.userData.byId('muddy_water');
+    const fw = node(f, 'pivot_water'), mw = node(mud, 'pivot_water');
+    const drip = emit(f, { from: node(f, 'anchor_drip').position.clone(), vel: new THREE.Vector3(0, -0.05, 0), size: 0.002, color: 0x8cccff, left: 3, rate: 8, spread: 0 });
+    const a = fw.scale.y, b = mw.scale.y;
+    await tween(3, t => { fw.scale.y = a + (0.7 - a) * t; mw.scale.y = Math.max(0.05, b * (1 - t)); });
+    return info('Air jernih melalui kertas turas; <b>pasir tertinggal</b> sebagai baki.');
+  }
+  if (id === 'water_cycle_setup') {
+    if (s.on) { s.on.forEach(e => { e.left = 0; e.rate = 0; }); s.on = null; return info('Simulasi dihentikan.'); }
+    s.on = [
+      emit(o, { from: node(o, 'anchor_evap').position.clone(), vel: new THREE.Vector3(0, 0.05, 0), size: 0.004, life: 2, spread: 0.06 }),
+      emit(o, { from: node(o, 'anchor_rain').position.clone(), vel: new THREE.Vector3(0, -0.08, 0), size: 0.0025, color: 0x6fb6ff, life: 1.4, rate: 5, spread: 0.08 }),
+    ];
+    return info('Wap naik (<b>sejatan</b>) → menyejuk di bawah piring ais (<b>kondensasi</b>) → titisan jatuh (<b>kerpasan</b>).', 9);
+  }
+  if (/^glass_(hot|cold)$/.test(id)) { st(root).glass = id; return info(`Gelas air ${id === 'glass_hot' ? 'panas' : 'sejuk'} dipilih. Ketik gula untuk dimasukkan.`); }
+  info(`<b>${A[id].name_bm}</b>${facts(id) ? ' — ' + facts(id) : ''}`);
+}
+
+async function onTap(root, hitObj) {
+  let o = hitObj; while (o && !o.userData.kit) o = o.parent;
+  if (!o) return;
+  const am = root.userData.am;
+  if (o.userData.kit.role === 'test' && RIG[am]) { if (await RIG[am](root, o)) return; }
+  if (am === 'AM10' && /^(sample_sugar|sugar_cube)$/.test(o.userData.kit.id)) return RIG.AM10(root, o);
+  await generic(root, o);
+}
+
+// ------------------------------------------------------------ render modes
+function lights(scene, renderer) {
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x886677, 1.2));
+  const d = new THREE.DirectionalLight(0xffffff, 1.6); d.position.set(0.5, 2, 1); scene.add(d);
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+}
+function tapper(el, camera, rootsFn) {
+  const ray = new THREE.Raycaster(), v = new THREE.Vector2();
+  el.addEventListener('pointerup', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const r = el.getBoundingClientRect();
+    v.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+    ray.setFromCamera(v, camera);
+    for (const root of rootsFn()) {
+      if (!root.parent?.visible) continue;
+      const hit = ray.intersectObject(root, true).find(h => h.object.isMesh && h.object.visible);
+      if (hit) return onTap(root, hit.object);
+    }
+  });
+}
+let last = performance.now();
+function tick() { const now = performance.now(); stepTweens(now); stepParticles(Math.min(0.05, (now - last) / 1000)); last = now; }
+
+if (Q.has('preview')) {
+  // desktop / no-camera preview: kit on a virtual printed card
+  const am = Q.get('preview');
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(devicePixelRatio); renderer.setSize(innerWidth, innerHeight); renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  $('stage').append(renderer.domElement);
+  const scene = new THREE.Scene(); scene.background = new THREE.Color(0xe9e3ee); lights(scene, renderer);
+  const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 50);
+  camera.position.set(0, 0.9, 1.1);
+  const ctl = new OrbitControls(camera, renderer.domElement); ctl.target.set(0, 0.1, 0); ctl.update();
+  const card = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshStandardMaterial({ map: new THREE.TextureLoader().load(`../markers/${am}.png`) }));
+  card.material.map.colorSpace = THREE.SRGBColorSpace; card.rotation.x = -Math.PI / 2; scene.add(card);
+  const holder = new THREE.Group(); scene.add(holder);
+  const root = await buildKit(am); holder.add(root);
+  window.kitRoot = root; window.tapItem = id => onTap(root, root.userData.byId(id));  // for automated tests
+  tapper(renderer.domElement, camera, () => [root]);
+  $('hint').textContent = `${am} · ${KITS[am].title} — pratonton 3D (ketik objek)`;
+  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+  renderer.setAnimationLoop(() => { tick(); renderer.render(scene, camera); });
+  window.kitReady = true;
+} else {
+  // camera AR with MindAR image tracking
+  const { MindARThree } = await import('../vendor/mind-ar/mindar-image-three.prod.js');
+  const single = Q.get('am');
+  const mindar = new MindARThree({
+    container: $('stage'), imageTargetSrc: single ? `../markers/${single}.mind` : '../markers/targets.mind',
+    maxTrack: 1, filterMinCF: 0.0001, filterBeta: 0.001, uiScanning: 'yes', uiLoading: 'yes',
+  });
+  const { renderer, scene, camera } = mindar;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; lights(scene, renderer);
+  const roots = [];
+  const targets = single ? [single] : AMS;
+  targets.forEach((am, i) => {
+    const anchor = mindar.addAnchor(i);
+    const holder = new THREE.Group(); holder.rotation.x = Math.PI / 2;  // model Y-up -> card normal
+    anchor.group.add(holder);
+    let loading = null;
+    anchor.onTargetFound = () => {
+      $('hint').textContent = `${am} · ${KITS[am].title} — ketik objek`;
+      loading ||= buildKit(am).then(r => { holder.add(r); roots.push(r); });
+    };
+    anchor.onTargetLost = () => $('hint').textContent = 'Halakan kamera pada kad penanda…';
+  });
+  tapper($('stage'), camera, () => roots);
+  $('hint').textContent = 'Halakan kamera pada kad penanda…';
+  try { await mindar.start(); }
+  catch (e) { info('Kamera tidak dapat dibuka. Guna HTTPS / localhost dan benarkan akses kamera. (' + e.message + ')', 60); }
+  renderer.setAnimationLoop(() => { tick(); renderer.render(scene, camera); });
+  $('home').onclick = () => { mindar.stop(); location.href = location.pathname; };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2409 @@
+{
+ "assets": {
+  "lab_tray": {
+   "name_bm": "Dulang makmal (tapak AR)",
+   "am": [
+    "ALL"
+   ],
+   "file": "models/lab_tray.glb",
+   "size_m": [
+    0.32,
+    0.026,
+    0.22
+   ],
+   "tris": 540,
+   "nodes": [
+    "anchor_slot_0",
+    "anchor_slot_1",
+    "anchor_slot_2",
+    "anchor_slot_3",
+    "anchor_slot_4",
+    "anchor_slot_5"
+   ],
+   "materials": [
+    "MAT_pink",
+    "MAT_tray"
+   ],
+   "bytes": 39980
+  },
+  "beaker_250ml": {
+   "name_bm": "Bikar 250 ml",
+   "am": [
+    "AM08",
+    "AM09",
+    "AM11"
+   ],
+   "file": "models/beaker_250ml.glb",
+   "size_m": [
+    0.0842,
+    0.097,
+    0.0806
+   ],
+   "tris": 964,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_water",
+    "MAT_white"
+   ],
+   "bytes": 34124
+  },
+  "glass_cup": {
+   "name_bm": "Gelas berisi air",
+   "am": [
+    "AM09",
+    "AM10"
+   ],
+   "file": "models/glass_cup.glb",
+   "size_m": [
+    0.066,
+    0.1,
+    0.066
+   ],
+   "tris": 376,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_water"
+   ],
+   "bytes": 12144
+  },
+  "glass_hot": {
+   "name_bm": "Gelas air panas",
+   "am": [
+    "AM10"
+   ],
+   "temperature": "panas",
+   "file": "models/glass_hot.glb",
+   "size_m": [
+    0.066,
+    0.1,
+    0.066
+   ],
+   "tris": 598,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_red",
+    "MAT_water_hot"
+   ],
+   "bytes": 17456
+  },
+  "glass_cold": {
+   "name_bm": "Gelas air sejuk",
+   "am": [
+    "AM10"
+   ],
+   "temperature": "sejuk",
+   "file": "models/glass_cold.glb",
+   "size_m": [
+    0.066,
+    0.1,
+    0.066
+   ],
+   "tris": 598,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_blue",
+    "MAT_glass",
+    "MAT_water_cold"
+   ],
+   "bytes": 17448
+  },
+  "spoon": {
+   "name_bm": "Sudu",
+   "am": [
+    "AM09",
+    "AM10"
+   ],
+   "file": "models/spoon.glb",
+   "size_m": [
+    0.0192,
+    0.0124,
+    0.1262
+   ],
+   "tris": 540,
+   "nodes": [],
+   "materials": [
+    "MAT_steel"
+   ],
+   "bytes": 16408
+  },
+  "stopwatch": {
+   "name_bm": "Jam randik",
+   "am": [
+    "AM05",
+    "AM10"
+   ],
+   "file": "models/stopwatch.glb",
+   "size_m": [
+    0.06,
+    0.0835,
+    0.017
+   ],
+   "tris": 1356,
+   "nodes": [
+    "pivot_hand"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_pink",
+    "MAT_red",
+    "MAT_steel",
+    "MAT_white"
+   ],
+   "bytes": 60504
+  },
+  "ruler_30cm": {
+   "name_bm": "Pembaris 30 cm",
+   "am": [
+    "AM01",
+    "AM03"
+   ],
+   "file": "models/ruler_30cm.glb",
+   "size_m": [
+    0.32,
+    0.0026,
+    0.032
+   ],
+   "tris": 4516,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_ruler"
+   ],
+   "bytes": 243228
+  },
+  "flashlight": {
+   "name_bm": "Lampu suluh",
+   "am": [
+    "AM05",
+    "AM06"
+   ],
+   "note": "beam points three.js +Z; toggle node beam",
+   "file": "models/flashlight.glb",
+   "size_m": [
+    0.2,
+    0.2,
+    0.492
+   ],
+   "tris": 432,
+   "nodes": [
+    "anchor_light_origin",
+    "beam",
+    "beam_cone"
+   ],
+   "materials": [
+    "MAT_beam",
+    "MAT_black",
+    "MAT_blue",
+    "MAT_torch_lens"
+   ],
+   "bytes": 25060
+  },
+  "worksheet": {
+   "name_bm": "Lembaran kerja / jadual rekod",
+   "am": [
+    "ALL"
+   ],
+   "file": "models/worksheet.glb",
+   "size_m": [
+    0.21,
+    0.0012,
+    0.297
+   ],
+   "tris": 2008,
+   "nodes": [],
+   "materials": [
+    "MAT_grey",
+    "MAT_navy",
+    "MAT_paper"
+   ],
+   "bytes": 92668
+  },
+  "tape_measure": {
+   "name_bm": "Pita ukur",
+   "am": [
+    "AM01"
+   ],
+   "note": "scale pivot_tape X to extend",
+   "file": "models/tape_measure.glb",
+   "size_m": [
+    0.332,
+    0.06,
+    0.022
+   ],
+   "tris": 612,
+   "nodes": [
+    "pivot_tape"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_steel",
+    "MAT_tape",
+    "MAT_yellow"
+   ],
+   "bytes": 60844
+  },
+  "weighing_scale": {
+   "name_bm": "Penimbang berat badan",
+   "am": [
+    "AM01"
+   ],
+   "note": "rotate pivot_needle about three.js Y; 360deg = 120kg",
+   "file": "models/weighing_scale.glb",
+   "size_m": [
+    0.3,
+    0.056,
+    0.32
+   ],
+   "tris": 1376,
+   "nodes": [
+    "pivot_needle"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_grey",
+    "MAT_red",
+    "MAT_scale_mat",
+    "MAT_white"
+   ],
+   "bytes": 77752
+  },
+  "height_chart": {
+   "name_bm": "Carta tinggi (stadiometer)",
+   "am": [
+    "AM01"
+   ],
+   "note": "move pivot_slider along three.js Y (0..1.5 m)",
+   "file": "models/height_chart.glb",
+   "size_m": [
+    0.3,
+    1.606,
+    0.255
+   ],
+   "tris": 11652,
+   "nodes": [
+    "pivot_slider"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_blue",
+    "MAT_green",
+    "MAT_pink",
+    "MAT_red",
+    "MAT_white",
+    "MAT_wood",
+    "MAT_yellow"
+   ],
+   "bytes": 506388
+  },
+  "hand_tracing": {
+   "name_bm": "Jejak tapak tangan atas kertas surih",
+   "am": [
+    "AM01"
+   ],
+   "file": "models/hand_tracing.glb",
+   "size_m": [
+    0.15,
+    0.0011,
+    0.2
+   ],
+   "tris": 480,
+   "nodes": [
+    "anchor_fingertip",
+    "anchor_wrist"
+   ],
+   "materials": [
+    "MAT_pink",
+    "MAT_red",
+    "MAT_tracing"
+   ],
+   "bytes": 39080
+  },
+  "kid_boy": {
+   "name_bm": "Murid lelaki (tinggi 1.20 m)",
+   "am": [
+    "AM01",
+    "ALL"
+   ],
+   "height_m": 1.2,
+   "file": "models/kid_boy.glb",
+   "size_m": [
+    0.516,
+    1.1994,
+    0.4367
+   ],
+   "tris": 6248,
+   "nodes": [
+    "anchor_hand_r",
+    "anchor_head_top"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_pink",
+    "MAT_skin",
+    "MAT_uniform_navy",
+    "MAT_uniform_shirt"
+   ],
+   "bytes": 179132
+  },
+  "kid_girl": {
+   "name_bm": "Murid perempuan (tinggi 1.15 m)",
+   "am": [
+    "AM01",
+    "ALL"
+   ],
+   "height_m": 1.15,
+   "file": "models/kid_girl.glb",
+   "size_m": [
+    0.4945,
+    1.1495,
+    0.4185
+   ],
+   "tris": 6724,
+   "nodes": [
+    "anchor_hand_r",
+    "anchor_head_top"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_pink",
+    "MAT_skin",
+    "MAT_tudung",
+    "MAT_uniform_blue",
+    "MAT_uniform_shirt"
+   ],
+   "bytes": 193644
+  },
+  "mascot_scientist": {
+   "name_bm": "Maskot saintis Sakura Lab",
+   "am": [
+    "ALL"
+   ],
+   "file": "models/mascot_scientist.glb",
+   "size_m": [
+    0.2155,
+    0.502,
+    0.1846
+   ],
+   "tris": 10536,
+   "nodes": [
+    "anchor_speech"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_blue",
+    "MAT_glass",
+    "MAT_hair_sakura",
+    "MAT_navy",
+    "MAT_pink",
+    "MAT_potion",
+    "MAT_skin",
+    "MAT_white"
+   ],
+   "bytes": 289776
+  },
+  "mung_bean": {
+   "name_bm": "Biji kacang hijau",
+   "am": [
+    "AM02",
+    "AM03"
+   ],
+   "file": "models/mung_bean.glb",
+   "size_m": [
+    0.005,
+    0.0035,
+    0.004
+   ],
+   "tris": 1056,
+   "nodes": [],
+   "materials": [
+    "MAT_bean",
+    "MAT_white"
+   ],
+   "bytes": 29288
+  },
+  "sprout_stages": {
+   "name_bm": "Peringkat percambahan (stage_0..stage_4)",
+   "am": [
+    "AM02"
+   ],
+   "note": "show one stage_* at a time",
+   "file": "models/sprout_stages.glb",
+   "size_m": [
+    0.0326,
+    0.0788,
+    0.0136
+   ],
+   "tris": 4532,
+   "nodes": [
+    "stage_0",
+    "stage_1",
+    "stage_2",
+    "stage_3",
+    "stage_4"
+   ],
+   "materials": [
+    "MAT_bean",
+    "MAT_leaf",
+    "MAT_root",
+    "MAT_stem"
+   ],
+   "bytes": 129424
+  },
+  "cup_A": {
+   "name_bm": "Bekas A — kapas basah (air+udara+suhu sesuai)",
+   "am": [
+    "AM02"
+   ],
+   "condition": "lengkap",
+   "germinates": true,
+   "file": "models/cup_A.glb",
+   "size_m": [
+    0.09,
+    0.08,
+    0.09
+   ],
+   "tris": 834,
+   "nodes": [
+    "anchor_seed0",
+    "anchor_seed1",
+    "anchor_seed2",
+    "anchor_seed3",
+    "anchor_seed4",
+    "anchor_seed5",
+    "anchor_seed6",
+    "anchor_seed7",
+    "anchor_seed8",
+    "anchor_seed9",
+    "water_film"
+   ],
+   "materials": [
+    "MAT_cotton_wet",
+    "MAT_green",
+    "MAT_plastic_clear",
+    "MAT_water",
+    "MAT_white"
+   ],
+   "bytes": 27284
+  },
+  "cup_B": {
+   "name_bm": "Bekas B — kapas kering (tiada air)",
+   "am": [
+    "AM02"
+   ],
+   "condition": "tiada_air",
+   "germinates": false,
+   "file": "models/cup_B.glb",
+   "size_m": [
+    0.09,
+    0.08,
+    0.09
+   ],
+   "tris": 1126,
+   "nodes": [
+    "anchor_seed0",
+    "anchor_seed1",
+    "anchor_seed2",
+    "anchor_seed3",
+    "anchor_seed4",
+    "anchor_seed5",
+    "anchor_seed6",
+    "anchor_seed7",
+    "anchor_seed8",
+    "anchor_seed9"
+   ],
+   "materials": [
+    "MAT_cotton_dry",
+    "MAT_plastic_clear",
+    "MAT_white",
+    "MAT_yellow"
+   ],
+   "bytes": 36956
+  },
+  "cup_C": {
+   "name_bm": "Bekas C — biji ditutup minyak (tiada udara)",
+   "am": [
+    "AM02"
+   ],
+   "condition": "tiada_udara",
+   "germinates": false,
+   "file": "models/cup_C.glb",
+   "size_m": [
+    0.09,
+    0.08,
+    0.09
+   ],
+   "tris": 1270,
+   "nodes": [
+    "anchor_seed0",
+    "anchor_seed1",
+    "anchor_seed2",
+    "anchor_seed3",
+    "anchor_seed4",
+    "anchor_seed5",
+    "anchor_seed6",
+    "anchor_seed7",
+    "anchor_seed8",
+    "anchor_seed9",
+    "water_film"
+   ],
+   "materials": [
+    "MAT_cotton_wet",
+    "MAT_oil",
+    "MAT_plastic_clear",
+    "MAT_red",
+    "MAT_water",
+    "MAT_white"
+   ],
+   "bytes": 44632
+  },
+  "cup_D": {
+   "name_bm": "Bekas D — dalam peti sejuk (suhu tidak sesuai)",
+   "am": [
+    "AM02"
+   ],
+   "condition": "terlalu_sejuk",
+   "germinates": false,
+   "file": "models/cup_D.glb",
+   "size_m": [
+    0.091,
+    0.08,
+    0.091
+   ],
+   "tris": 1228,
+   "nodes": [
+    "anchor_seed0",
+    "anchor_seed1",
+    "anchor_seed2",
+    "anchor_seed3",
+    "anchor_seed4",
+    "anchor_seed5",
+    "anchor_seed6",
+    "anchor_seed7",
+    "anchor_seed8",
+    "anchor_seed9",
+    "water_film"
+   ],
+   "materials": [
+    "MAT_blue",
+    "MAT_cotton_wet",
+    "MAT_frost",
+    "MAT_plastic_clear",
+    "MAT_water",
+    "MAT_white"
+   ],
+   "bytes": 37684
+  },
+  "cotton_ball": {
+   "name_bm": "Kapas",
+   "am": [
+    "AM02"
+   ],
+   "file": "models/cotton_ball.glb",
+   "size_m": [
+    0.0341,
+    0.0253,
+    0.0353
+   ],
+   "tris": 1008,
+   "nodes": [],
+   "materials": [
+    "MAT_cotton_dry"
+   ],
+   "bytes": 33472
+  },
+  "oil_bottle": {
+   "name_bm": "Botol minyak masak",
+   "am": [
+    "AM02"
+   ],
+   "file": "models/oil_bottle.glb",
+   "size_m": [
+    0.057,
+    0.183,
+    0.057
+   ],
+   "tris": 750,
+   "nodes": [],
+   "materials": [
+    "MAT_oil",
+    "MAT_pet",
+    "MAT_red",
+    "MAT_yellow"
+   ],
+   "bytes": 23952
+  },
+  "water_jug": {
+   "name_bm": "Jag air",
+   "am": [
+    "AM02",
+    "AM04"
+   ],
+   "file": "models/water_jug.glb",
+   "size_m": [
+    0.1832,
+    0.1682,
+    0.11
+   ],
+   "tris": 1236,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body",
+    "water_jug"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_plastic_clear",
+    "MAT_water"
+   ],
+   "bytes": 36388
+  },
+  "mini_fridge": {
+   "name_bm": "Peti sejuk",
+   "am": [
+    "AM02"
+   ],
+   "note": "rotate pivot_door about three.js Y to open",
+   "file": "models/mini_fridge.glb",
+   "size_m": [
+    0.5,
+    0.85,
+    0.5625
+   ],
+   "tris": 1220,
+   "nodes": [
+    "anchor_shelf",
+    "pivot_door"
+   ],
+   "materials": [
+    "MAT_blue",
+    "MAT_fridge",
+    "MAT_fridge_inside",
+    "MAT_glass",
+    "MAT_grey"
+   ],
+   "bytes": 65380
+  },
+  "plant_growth": {
+   "name_bm": "Pokok dalam pasu — tumbesaran minggu 1-3",
+   "am": [
+    "AM03"
+   ],
+   "note": "show one week_* at a time",
+   "file": "models/plant_growth.glb",
+   "size_m": [
+    0.132,
+    0.3065,
+    0.132
+   ],
+   "tris": 2712,
+   "nodes": [
+    "anchor_soil",
+    "week_1",
+    "week_1_leaf0",
+    "week_1_leaf1",
+    "week_1_stem",
+    "week_2",
+    "week_2_leaf0",
+    "week_2_leaf1",
+    "week_2_leaf2",
+    "week_2_leaf3",
+    "week_2_stem",
+    "week_3",
+    "week_3_leaf0",
+    "week_3_leaf1",
+    "week_3_leaf2",
+    "week_3_leaf3",
+    "week_3_leaf4",
+    "week_3_leaf5",
+    "week_3_leaf6",
+    "week_3_stem"
+   ],
+   "materials": [
+    "MAT_leaf",
+    "MAT_soil",
+    "MAT_stem",
+    "MAT_terracotta"
+   ],
+   "bytes": 92632
+  },
+  "plant_healthy": {
+   "name_bm": "Pokok A — sihat (air, cahaya, udara)",
+   "am": [
+    "AM03",
+    "AM04"
+   ],
+   "condition": "lengkap",
+   "healthy": true,
+   "file": "models/plant_healthy.glb",
+   "size_m": [
+    0.132,
+    0.3165,
+    0.132
+   ],
+   "tris": 1848,
+   "nodes": [
+    "anchor_soil",
+    "anchor_top"
+   ],
+   "materials": [
+    "MAT_leaf",
+    "MAT_soil",
+    "MAT_stem",
+    "MAT_terracotta"
+   ],
+   "bytes": 61608
+  },
+  "plant_no_water": {
+   "name_bm": "Pokok B — tanpa air (layu)",
+   "am": [
+    "AM04"
+   ],
+   "condition": "tiada_air",
+   "healthy": false,
+   "file": "models/plant_no_water.glb",
+   "size_m": [
+    0.1766,
+    0.226,
+    0.132
+   ],
+   "tris": 1772,
+   "nodes": [
+    "anchor_soil",
+    "anchor_top"
+   ],
+   "materials": [
+    "MAT_leaf_wilted",
+    "MAT_soil",
+    "MAT_stem",
+    "MAT_terracotta"
+   ],
+   "bytes": 58256
+  },
+  "plant_no_light": {
+   "name_bm": "Pokok C — tanpa cahaya (pucat, tinggi kurus)",
+   "am": [
+    "AM04"
+   ],
+   "condition": "tiada_cahaya",
+   "healthy": false,
+   "file": "models/plant_no_light.glb",
+   "size_m": [
+    0.132,
+    0.3765,
+    0.132
+   ],
+   "tris": 1696,
+   "nodes": [
+    "anchor_soil",
+    "anchor_top"
+   ],
+   "materials": [
+    "MAT_leaf_pale",
+    "MAT_soil",
+    "MAT_stem",
+    "MAT_terracotta"
+   ],
+   "bytes": 54708
+  },
+  "plant_no_air": {
+   "name_bm": "Pokok D — daun bergris / tanpa udara",
+   "am": [
+    "AM04"
+   ],
+   "condition": "tiada_udara",
+   "healthy": false,
+   "file": "models/plant_no_air.glb",
+   "size_m": [
+    0.17,
+    0.327,
+    0.17
+   ],
+   "tris": 2980,
+   "nodes": [
+    "anchor_soil",
+    "anchor_top"
+   ],
+   "materials": [
+    "MAT_bag",
+    "MAT_leaf_greased",
+    "MAT_red",
+    "MAT_soil",
+    "MAT_stem",
+    "MAT_terracotta"
+   ],
+   "bytes": 85284
+  },
+  "dark_box": {
+   "name_bm": "Kotak gelap (halang cahaya)",
+   "am": [
+    "AM04"
+   ],
+   "note": "rotate pivot_lid about three.js X to open",
+   "file": "models/dark_box.glb",
+   "size_m": [
+    0.306,
+    0.426,
+    0.308
+   ],
+   "tris": 96,
+   "nodes": [
+    "anchor_inside",
+    "pivot_lid"
+   ],
+   "materials": [
+    "MAT_cardboard",
+    "MAT_dark_interior"
+   ],
+   "bytes": 12592
+  },
+  "watering_can": {
+   "name_bm": "Penyiram air",
+   "am": [
+    "AM03",
+    "AM04"
+   ],
+   "file": "models/watering_can.glb",
+   "size_m": [
+    0.2821,
+    0.187,
+    0.12
+   ],
+   "tris": 1168,
+   "nodes": [
+    "anchor_pour",
+    "watering_can"
+   ],
+   "materials": [
+    "MAT_green",
+    "MAT_yellow"
+   ],
+   "bytes": 38036
+  },
+  "string_coil": {
+   "name_bm": "Benang / tali",
+   "am": [
+    "AM03",
+    "AM12"
+   ],
+   "file": "models/string_coil.glb",
+   "size_m": [
+    0.0603,
+    0.0138,
+    0.0415
+   ],
+   "tris": 3468,
+   "nodes": [],
+   "materials": [
+    "MAT_string"
+   ],
+   "bytes": 85112
+  },
+  "shoe_box_dark": {
+   "name_bm": "Kotak misteri A — gelap",
+   "am": [
+    "AM05"
+   ],
+   "has_light": false,
+   "file": "models/shoe_box_dark.glb",
+   "size_m": [
+    0.306,
+    0.114,
+    0.188
+   ],
+   "tris": 232,
+   "nodes": [
+    "anchor_eye",
+    "anchor_object0",
+    "anchor_object1",
+    "anchor_object2",
+    "pivot_lid"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_cardboard",
+    "MAT_dark_interior",
+    "MAT_white"
+   ],
+   "bytes": 20524
+  },
+  "shoe_box_lit": {
+   "name_bm": "Kotak misteri B — bercahaya",
+   "am": [
+    "AM05"
+   ],
+   "has_light": true,
+   "file": "models/shoe_box_lit.glb",
+   "size_m": [
+    0.306,
+    0.114,
+    0.188
+   ],
+   "tris": 1144,
+   "nodes": [
+    "anchor_eye",
+    "anchor_object0",
+    "anchor_object1",
+    "anchor_object2",
+    "light",
+    "pivot_lid"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_box_blue",
+    "MAT_dark_interior",
+    "MAT_lamp_on",
+    "MAT_white"
+   ],
+   "bytes": 49796
+  },
+  "eraser": {
+   "name_bm": "Getah pemadam",
+   "am": [
+    "AM05",
+    "AM07"
+   ],
+   "conductor": false,
+   "material": "getah",
+   "file": "models/eraser.glb",
+   "size_m": [
+    0.04,
+    0.0105,
+    0.0205
+   ],
+   "tris": 120,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_white"
+   ],
+   "bytes": 10708
+  },
+  "pencil": {
+   "name_bm": "Pensel bergetah pemadam",
+   "am": [
+    "AM05",
+    "AM12"
+   ],
+   "material": "kayu",
+   "file": "models/pencil.glb",
+   "size_m": [
+    0.202,
+    0.0074,
+    0.0074
+   ],
+   "tris": 142,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_rubber",
+    "MAT_steel",
+    "MAT_wood",
+    "MAT_yellow"
+   ],
+   "bytes": 11136
+  },
+  "coin": {
+   "name_bm": "Duit syiling",
+   "am": [
+    "AM05",
+    "AM07"
+   ],
+   "conductor": true,
+   "material": "logam",
+   "file": "models/coin.glb",
+   "size_m": [
+    0.023,
+    0.0024,
+    0.023
+   ],
+   "tris": 1168,
+   "nodes": [],
+   "materials": [
+    "MAT_brass",
+    "MAT_brass_dark"
+   ],
+   "bytes": 44404
+  },
+  "white_screen": {
+   "name_bm": "Skrin putih",
+   "am": [
+    "AM06"
+   ],
+   "note": "shadows land on node screen_face (three.js -Z side)",
+   "file": "models/white_screen.glb",
+   "size_m": [
+    0.472,
+    0.372,
+    0.12
+   ],
+   "tris": 108,
+   "nodes": [
+    "anchor_shadow_centre"
+   ],
+   "materials": [
+    "MAT_navy",
+    "MAT_screen"
+   ],
+   "bytes": 13892
+  },
+  "sheet_transparent": {
+   "name_bm": "Plastik lutsinar",
+   "am": [
+    "AM06"
+   ],
+   "opacity": "lutsinar",
+   "shadow": "tiada / sangat samar",
+   "light_through": 0.9,
+   "file": "models/sheet_transparent.glb",
+   "size_m": [
+    0.15,
+    0.185,
+    0.0515
+   ],
+   "tris": 1440,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_sheet_transparent",
+    "MAT_white",
+    "MAT_wood"
+   ],
+   "bytes": 64856
+  },
+  "sheet_translucent": {
+   "name_bm": "Kertas surih (lut cahaya)",
+   "am": [
+    "AM06"
+   ],
+   "opacity": "lut_cahaya",
+   "shadow": "samar",
+   "light_through": 0.45,
+   "file": "models/sheet_translucent.glb",
+   "size_m": [
+    0.15,
+    0.185,
+    0.0515
+   ],
+   "tris": 1084,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_sheet_translucent",
+    "MAT_white",
+    "MAT_wood"
+   ],
+   "bytes": 51276
+  },
+  "sheet_opaque": {
+   "name_bm": "Kadbod (legap)",
+   "am": [
+    "AM06"
+   ],
+   "opacity": "legap",
+   "shadow": "jelas / gelap",
+   "light_through": 0.0,
+   "file": "models/sheet_opaque.glb",
+   "size_m": [
+    0.15,
+    0.185,
+    0.0515
+   ],
+   "tris": 868,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_cardboard",
+    "MAT_white",
+    "MAT_wood"
+   ],
+   "bytes": 42300
+  },
+  "dry_cell": {
+   "name_bm": "Sel kering (bateri)",
+   "am": [
+    "AM07"
+   ],
+   "note": "terminals anchor_pos / anchor_neg",
+   "file": "models/dry_cell.glb",
+   "size_m": [
+    0.0613,
+    0.0342,
+    0.0334
+   ],
+   "tris": 488,
+   "nodes": [
+    "anchor_neg",
+    "anchor_pos"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_steel",
+    "MAT_white",
+    "MAT_yellow"
+   ],
+   "bytes": 24752
+  },
+  "bulb_holder": {
+   "name_bm": "Mentol + pemegang mentol",
+   "am": [
+    "AM07"
+   ],
+   "note": "set MAT_bulb_glass & MAT_filament emissiveIntensity > 0 to light it",
+   "file": "models/bulb_holder.glb",
+   "size_m": [
+    0.05,
+    0.0466,
+    0.035
+   ],
+   "tris": 1272,
+   "nodes": [
+    "anchor_term_a",
+    "anchor_term_b"
+   ],
+   "materials": [
+    "MAT_brass",
+    "MAT_bulb_glass",
+    "MAT_filament",
+    "MAT_navy",
+    "MAT_steel"
+   ],
+   "bytes": 48532
+  },
+  "wire_red": {
+   "name_bm": "Wayar penyambung (merah) dengan klip",
+   "am": [
+    "AM07"
+   ],
+   "file": "models/wire_red.glb",
+   "size_m": [
+    0.181,
+    0.0114,
+    0.0371
+   ],
+   "tris": 564,
+   "nodes": [],
+   "materials": [
+    "MAT_red",
+    "MAT_steel"
+   ],
+   "bytes": 31268
+  },
+  "wire_black": {
+   "name_bm": "Wayar penyambung (hitam) dengan klip",
+   "am": [
+    "AM07"
+   ],
+   "file": "models/wire_black.glb",
+   "size_m": [
+    0.181,
+    0.0114,
+    0.0371
+   ],
+   "tris": 564,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_steel"
+   ],
+   "bytes": 31260
+  },
+  "switch": {
+   "name_bm": "Suis",
+   "am": [
+    "AM07"
+   ],
+   "note": "rotate pivot_lever about three.js Z: 0 = on, -25deg = off",
+   "file": "models/switch.glb",
+   "size_m": [
+    0.065,
+    0.017,
+    0.03
+   ],
+   "tris": 832,
+   "nodes": [
+    "anchor_term_a",
+    "anchor_term_b",
+    "pivot_lever"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_brass",
+    "MAT_steel",
+    "MAT_wood"
+   ],
+   "bytes": 34152
+  },
+  "circuit_tester": {
+   "name_bm": "Litar penguji konduktor (siap pasang)",
+   "am": [
+    "AM07"
+   ],
+   "note": "drop a test object on anchor_test; if its extras.conductor -> light MAT_bulb_glass",
+   "file": "models/circuit_tester.glb",
+   "size_m": [
+    0.26,
+    0.0587,
+    0.16
+   ],
+   "tris": 2464,
+   "nodes": [
+    "anchor_bulb",
+    "anchor_test"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_brass",
+    "MAT_bulb_glass",
+    "MAT_filament",
+    "MAT_navy",
+    "MAT_pad",
+    "MAT_red",
+    "MAT_steel",
+    "MAT_wood",
+    "MAT_yellow"
+   ],
+   "bytes": 106856
+  },
+  "iron_nail": {
+   "name_bm": "Paku besi",
+   "am": [
+    "AM07"
+   ],
+   "conductor": true,
+   "material": "logam (besi)",
+   "magnetic": true,
+   "file": "models/iron_nail.glb",
+   "size_m": [
+    0.0572,
+    0.007,
+    0.007
+   ],
+   "tris": 126,
+   "nodes": [],
+   "materials": [
+    "MAT_steel"
+   ],
+   "bytes": 8484
+  },
+  "paper_clip": {
+   "name_bm": "Klip kertas",
+   "am": [
+    "AM07",
+    "AM08"
+   ],
+   "conductor": true,
+   "material": "logam",
+   "magnetic": true,
+   "file": "models/paper_clip.glb",
+   "size_m": [
+    0.029,
+    0.001,
+    0.0152
+   ],
+   "tris": 588,
+   "nodes": [],
+   "materials": [
+    "MAT_steel"
+   ],
+   "bytes": 16012
+  },
+  "plastic_ruler_small": {
+   "name_bm": "Pembaris plastik",
+   "am": [
+    "AM07"
+   ],
+   "conductor": false,
+   "material": "plastik",
+   "file": "models/plastic_ruler_small.glb",
+   "size_m": [
+    0.15,
+    0.0022,
+    0.025
+   ],
+   "tris": 192,
+   "nodes": [],
+   "materials": [
+    "MAT_black",
+    "MAT_plastic_pink"
+   ],
+   "bytes": 24064
+  },
+  "wood_block": {
+   "name_bm": "Blok kayu",
+   "am": [
+    "AM07"
+   ],
+   "conductor": false,
+   "material": "kayu",
+   "file": "models/wood_block.glb",
+   "size_m": [
+    0.05,
+    0.02,
+    0.03
+   ],
+   "tris": 108,
+   "nodes": [],
+   "materials": [
+    "MAT_wood"
+   ],
+   "bytes": 8864
+  },
+  "sponge": {
+   "name_bm": "Span",
+   "am": [
+    "AM07"
+   ],
+   "conductor": false,
+   "material": "span",
+   "file": "models/sponge.glb",
+   "size_m": [
+    0.06,
+    0.025,
+    0.04
+   ],
+   "tris": 216,
+   "nodes": [],
+   "materials": [
+    "MAT_green",
+    "MAT_sponge"
+   ],
+   "bytes": 16620
+  },
+  "sieve": {
+   "name_bm": "Penapis / ayak",
+   "am": [
+    "AM08"
+   ],
+   "separates": "batu kecil daripada pasir",
+   "file": "models/sieve.glb",
+   "size_m": [
+    0.22,
+    0.03,
+    0.12
+   ],
+   "tris": 4906,
+   "nodes": [
+    "anchor_catch"
+   ],
+   "materials": [
+    "MAT_steel",
+    "MAT_wood"
+   ],
+   "bytes": 267012
+  },
+  "horseshoe_magnet": {
+   "name_bm": "Magnet ladam",
+   "am": [
+    "AM08"
+   ],
+   "separates": "klip kertas (besi) daripada pasir",
+   "file": "models/horseshoe_magnet.glb",
+   "size_m": [
+    0.06,
+    0.0129,
+    0.07
+   ],
+   "tris": 660,
+   "nodes": [
+    "anchor_pole"
+   ],
+   "materials": [
+    "MAT_blue",
+    "MAT_red",
+    "MAT_steel"
+   ],
+   "bytes": 31732
+  },
+  "funnel_filter": {
+   "name_bm": "Corong turas & kertas turas atas bikar",
+   "am": [
+    "AM08"
+   ],
+   "separates": "pasir daripada air",
+   "file": "models/funnel_filter.glb",
+   "size_m": [
+    0.09,
+    0.167,
+    0.09
+   ],
+   "tris": 960,
+   "nodes": [
+    "anchor_drip",
+    "anchor_drop_in",
+    "anchor_pour",
+    "anchor_surface",
+    "pivot_water",
+    "residue",
+    "residue_sand",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_filter",
+    "MAT_glass",
+    "MAT_plastic_clear",
+    "MAT_sand",
+    "MAT_water"
+   ],
+   "bytes": 29028
+  },
+  "sand_pile": {
+   "name_bm": "Pasir",
+   "am": [
+    "AM08",
+    "AM09"
+   ],
+   "soluble": false,
+   "file": "models/sand_pile.glb",
+   "size_m": [
+    0.1092,
+    0.0229,
+    0.0924
+   ],
+   "tris": 508,
+   "nodes": [],
+   "materials": [
+    "MAT_sand"
+   ],
+   "bytes": 28652
+  },
+  "pebbles": {
+   "name_bm": "Batu kecil",
+   "am": [
+    "AM08",
+    "AM09"
+   ],
+   "soluble": false,
+   "magnetic": false,
+   "file": "models/pebbles.glb",
+   "size_m": [
+    0.0588,
+    0.0087,
+    0.0551
+   ],
+   "tris": 1400,
+   "nodes": [],
+   "materials": [
+    "MAT_pebble0",
+    "MAT_pebble1",
+    "MAT_pebble2"
+   ],
+   "bytes": 51980
+  },
+  "mix_sand_pebbles": {
+   "name_bm": "Campuran pasir + batu kecil",
+   "am": [
+    "AM08"
+   ],
+   "method": "mengayak",
+   "file": "models/mix_sand_pebbles.glb",
+   "size_m": [
+    0.17,
+    0.02,
+    0.17
+   ],
+   "tris": 1304,
+   "nodes": [],
+   "materials": [
+    "MAT_grey",
+    "MAT_sand",
+    "MAT_white"
+   ],
+   "bytes": 48932
+  },
+  "mix_sand_clips": {
+   "name_bm": "Campuran pasir + klip kertas (klip = anchor_clip*)",
+   "am": [
+    "AM08"
+   ],
+   "method": "magnet",
+   "file": "models/mix_sand_clips.glb",
+   "size_m": [
+    0.17,
+    0.02,
+    0.17
+   ],
+   "tris": 344,
+   "nodes": [
+    "anchor_clip0",
+    "anchor_clip1",
+    "anchor_clip10",
+    "anchor_clip11",
+    "anchor_clip2",
+    "anchor_clip3",
+    "anchor_clip4",
+    "anchor_clip5",
+    "anchor_clip6",
+    "anchor_clip7",
+    "anchor_clip8",
+    "anchor_clip9"
+   ],
+   "materials": [
+    "MAT_sand",
+    "MAT_white"
+   ],
+   "bytes": 12320
+  },
+  "muddy_water": {
+   "name_bm": "Campuran air + pasir",
+   "am": [
+    "AM08"
+   ],
+   "method": "menuras",
+   "file": "models/muddy_water.glb",
+   "size_m": [
+    0.077,
+    0.095,
+    0.077
+   ],
+   "tris": 468,
+   "nodes": [
+    "anchor_drop_in",
+    "anchor_surface",
+    "pivot_water",
+    "water_body"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_muddy",
+    "MAT_sand"
+   ],
+   "bytes": 16832
+  },
+  "sample_sugar": {
+   "name_bm": "Gula (atas piring)",
+   "am": [
+    "AM09",
+    "AM10"
+   ],
+   "soluble": true,
+   "water_tint": [
+    0.98,
+    0.98,
+    1.0,
+    0.0
+   ],
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_sugar.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_sugar",
+    "MAT_white"
+   ],
+   "bytes": 27080
+  },
+  "sample_salt": {
+   "name_bm": "Garam (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": true,
+   "water_tint": [
+    0.95,
+    0.95,
+    1.0,
+    0.0
+   ],
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_salt.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_salt",
+    "MAT_white"
+   ],
+   "bytes": 27396
+  },
+  "sample_sand": {
+   "name_bm": "Pasir (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": false,
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_sand.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_sand",
+    "MAT_white"
+   ],
+   "bytes": 27348
+  },
+  "sample_coffee": {
+   "name_bm": "Serbuk kopi (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": true,
+   "water_tint": [
+    0.35,
+    0.2,
+    0.1,
+    0.8
+   ],
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_coffee.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_coffee",
+    "MAT_white"
+   ],
+   "bytes": 27440
+  },
+  "sample_flour": {
+   "name_bm": "Tepung (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": false,
+   "water_tint": [
+    0.95,
+    0.94,
+    0.9,
+    0.6
+   ],
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_flour.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_flour",
+    "MAT_white"
+   ],
+   "bytes": 27416
+  },
+  "sample_cocoa": {
+   "name_bm": "Serbuk koko (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": false,
+   "water_tint": [
+    0.45,
+    0.28,
+    0.18,
+    0.7
+   ],
+   "note": "water_tint = RGBA the glass water should fade to; alpha 0 = clear solution",
+   "file": "models/sample_cocoa.glb",
+   "size_m": [
+    0.115,
+    0.022,
+    0.115
+   ],
+   "tris": 488,
+   "nodes": [],
+   "materials": [
+    "MAT_cocoa",
+    "MAT_white"
+   ],
+   "bytes": 27420
+  },
+  "sample_pebble": {
+   "name_bm": "Batu kecil (atas piring)",
+   "am": [
+    "AM09"
+   ],
+   "soluble": false,
+   "file": "models/sample_pebble.glb",
+   "size_m": [
+    0.115,
+    0.0212,
+    0.115
+   ],
+   "tris": 652,
+   "nodes": [],
+   "materials": [
+    "MAT_grey",
+    "MAT_white"
+   ],
+   "bytes": 20692
+  },
+  "sugar_cube": {
+   "name_bm": "Gula kasar / ketulan",
+   "am": [
+    "AM10"
+   ],
+   "soluble": true,
+   "dissolve_rate": "perlahan",
+   "file": "models/sugar_cube.glb",
+   "size_m": [
+    0.015,
+    0.015,
+    0.015
+   ],
+   "tris": 108,
+   "nodes": [],
+   "materials": [
+    "MAT_sugar"
+   ],
+   "bytes": 8888
+  },
+  "kettle": {
+   "name_bm": "Cerek air panas",
+   "am": [
+    "AM10",
+    "AM11"
+   ],
+   "file": "models/kettle.glb",
+   "size_m": [
+    0.2206,
+    0.208,
+    0.16
+   ],
+   "tris": 2564,
+   "nodes": [
+    "anchor_steam"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_red",
+    "MAT_steel"
+   ],
+   "bytes": 73080
+  },
+  "water_cycle_setup": {
+   "name_bm": "Simulasi kitar air (balang + air panas + piring ais)",
+   "am": [
+    "AM11"
+   ],
+   "note": "anchor_evap = wisps rise; anchor_condense = droplets form under plate; anchor_rain = drops fall",
+   "file": "models/water_cycle_setup.glb",
+   "size_m": [
+    0.15,
+    0.204,
+    0.15
+   ],
+   "tris": 1072,
+   "nodes": [
+    "anchor_condense",
+    "anchor_drop_in",
+    "anchor_evap",
+    "anchor_rain",
+    "anchor_surface",
+    "pivot_water",
+    "water_body",
+    "water_cycle_setup"
+   ],
+   "materials": [
+    "MAT_glass",
+    "MAT_ice",
+    "MAT_water_hot"
+   ],
+   "bytes": 59464
+  },
+  "ice_cube": {
+   "name_bm": "Ketulan ais",
+   "am": [
+    "AM11"
+   ],
+   "file": "models/ice_cube.glb",
+   "size_m": [
+    0.022,
+    0.02,
+    0.022
+   ],
+   "tris": 108,
+   "nodes": [],
+   "materials": [
+    "MAT_ice"
+   ],
+   "bytes": 9036
+  },
+  "water_droplet": {
+   "name_bm": "Titisan air / hujan",
+   "am": [
+    "AM11"
+   ],
+   "file": "models/water_droplet.glb",
+   "size_m": [
+    0.008,
+    0.0115,
+    0.008
+   ],
+   "tris": 574,
+   "nodes": [
+    "water_droplet"
+   ],
+   "materials": [
+    "MAT_droplet"
+   ],
+   "bytes": 17668
+  },
+  "cloud": {
+   "name_bm": "Awan",
+   "am": [
+    "AM11"
+   ],
+   "note": "tint MAT_cloud darker grey before rain",
+   "file": "models/cloud.glb",
+   "size_m": [
+    0.233,
+    0.105,
+    0.105
+   ],
+   "tris": 1728,
+   "nodes": [],
+   "materials": [
+    "MAT_cloud"
+   ],
+   "bytes": 51184
+  },
+  "sun": {
+   "name_bm": "Matahari",
+   "am": [
+    "AM11",
+    "AM05"
+   ],
+   "file": "models/sun.glb",
+   "size_m": [
+    0.18,
+    0.12,
+    0.1
+   ],
+   "tris": 1080,
+   "nodes": [
+    "pivot_spin"
+   ],
+   "materials": [
+    "MAT_sun"
+   ],
+   "bytes": 43344
+  },
+  "water_cycle_diorama": {
+   "name_bm": "Diorama kitar air semula jadi",
+   "am": [
+    "AM11"
+   ],
+   "note": "anchors: evaporation (sea), condensation (cloud), precipitation (rain), collection (river mouth)",
+   "file": "models/water_cycle_diorama.glb",
+   "size_m": [
+    0.4,
+    0.275,
+    0.28
+   ],
+   "tris": 1996,
+   "nodes": [
+    "anchor_collection",
+    "anchor_condensation",
+    "anchor_evaporation",
+    "anchor_precipitation",
+    "cloud_group",
+    "water_cycle_diorama"
+   ],
+   "materials": [
+    "MAT_cloud",
+    "MAT_grass",
+    "MAT_leaf",
+    "MAT_rock",
+    "MAT_sea",
+    "MAT_soil",
+    "MAT_sun",
+    "MAT_white",
+    "MAT_wood"
+   ],
+   "bytes": 79916
+  },
+  "card_sejatan": {
+   "name_bm": "Kad label: Sejatan",
+   "am": [
+    "AM11"
+   ],
+   "sequence": 1,
+   "file": "models/card_sejatan.glb",
+   "size_m": [
+    0.08,
+    0.0028,
+    0.05
+   ],
+   "tris": 960,
+   "nodes": [],
+   "materials": [
+    "MAT_navy",
+    "MAT_red",
+    "MAT_white"
+   ],
+   "bytes": 44860
+  },
+  "card_kondensasi": {
+   "name_bm": "Kad label: Kondensasi",
+   "am": [
+    "AM11"
+   ],
+   "sequence": 2,
+   "file": "models/card_kondensasi.glb",
+   "size_m": [
+    0.08,
+    0.0028,
+    0.05
+   ],
+   "tris": 1900,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_navy",
+    "MAT_white"
+   ],
+   "bytes": 81100
+  },
+  "card_kerpasan": {
+   "name_bm": "Kad label: Kerpasan",
+   "am": [
+    "AM11"
+   ],
+   "sequence": 3,
+   "file": "models/card_kerpasan.glb",
+   "size_m": [
+    0.08,
+    0.0028,
+    0.05
+   ],
+   "tris": 1412,
+   "nodes": [],
+   "materials": [
+    "MAT_green",
+    "MAT_navy",
+    "MAT_white"
+   ],
+   "bytes": 62104
+  },
+  "card_pengumpulan": {
+   "name_bm": "Kad label: Pengumpulan",
+   "am": [
+    "AM11"
+   ],
+   "sequence": 4,
+   "file": "models/card_pengumpulan.glb",
+   "size_m": [
+    0.08,
+    0.0028,
+    0.05
+   ],
+   "tris": 1824,
+   "nodes": [],
+   "materials": [
+    "MAT_navy",
+    "MAT_white",
+    "MAT_yellow"
+   ],
+   "bytes": 78408
+  },
+  "balloon": {
+   "name_bm": "Belon",
+   "am": [
+    "AM12"
+   ],
+   "note": "scale pivot_inflate uniformly 0.3..1 to inflate; origin at nozzle",
+   "file": "models/balloon.glb",
+   "size_m": [
+    0.2,
+    0.257,
+    0.2
+   ],
+   "tris": 1820,
+   "nodes": [
+    "anchor_nozzle",
+    "pivot_inflate"
+   ],
+   "materials": [
+    "MAT_balloon"
+   ],
+   "bytes": 48720
+  },
+  "balloon_rocket": {
+   "name_bm": "Roket angin (belon pada straw & tali)",
+   "am": [
+    "AM12"
+   ],
+   "note": "translate pivot_rocket along three.js X (-0.35..0.35) and shrink pivot_inflate as air escapes; thrust = -X",
+   "file": "models/balloon_rocket.glb",
+   "size_m": [
+    0.85,
+    0.25,
+    0.1
+   ],
+   "tris": 1514,
+   "nodes": [
+    "anchor_exhaust",
+    "pivot_inflate",
+    "pivot_rocket"
+   ],
+   "materials": [
+    "MAT_balloon",
+    "MAT_pink",
+    "MAT_string",
+    "MAT_tape_clear",
+    "MAT_wood"
+   ],
+   "bytes": 45648
+  },
+  "pinwheel": {
+   "name_bm": "Bebaling kertas pada pensel",
+   "am": [
+    "AM12"
+   ],
+   "note": "spin pivot_rotor about three.js Z (axle faces -Z/+Z)",
+   "file": "models/pinwheel.glb",
+   "size_m": [
+    0.12,
+    0.256,
+    0.0244
+   ],
+   "tris": 1322,
+   "nodes": [
+    "pivot_rotor"
+   ],
+   "materials": [
+    "MAT_black",
+    "MAT_blue",
+    "MAT_green",
+    "MAT_red",
+    "MAT_rubber",
+    "MAT_steel",
+    "MAT_white",
+    "MAT_wood",
+    "MAT_yellow"
+   ],
+   "bytes": 49504
+  },
+  "straw": {
+   "name_bm": "Straw",
+   "am": [
+    "AM12"
+   ],
+   "file": "models/straw.glb",
+   "size_m": [
+    0.2,
+    0.0071,
+    0.0071
+   ],
+   "tris": 1998,
+   "nodes": [],
+   "materials": [
+    "MAT_pink",
+    "MAT_white"
+   ],
+   "bytes": 35476
+  },
+  "tape_roll": {
+   "name_bm": "Pita pelekat",
+   "am": [
+    "AM12"
+   ],
+   "file": "models/tape_roll.glb",
+   "size_m": [
+    0.06,
+    0.06,
+    0.015
+   ],
+   "tris": 444,
+   "nodes": [],
+   "materials": [
+    "MAT_cardboard",
+    "MAT_tape_clear"
+   ],
+   "bytes": 9584
+  },
+  "push_pin": {
+   "name_bm": "Pin",
+   "am": [
+    "AM12"
+   ],
+   "file": "models/push_pin.glb",
+   "size_m": [
+    0.01,
+    0.025,
+    0.01
+   ],
+   "tris": 276,
+   "nodes": [],
+   "materials": [
+    "MAT_red",
+    "MAT_steel"
+   ],
+   "bytes": 12780
+  },
+  "scissors": {
+   "name_bm": "Gunting",
+   "am": [
+    "AM12"
+   ],
+   "note": "rotate pivot_blade_a about three.js Y to open",
+   "file": "models/scissors.glb",
+   "size_m": [
+    0.125,
+    0.0076,
+    0.054
+   ],
+   "tris": 1676,
+   "nodes": [
+    "pivot_blade_a"
+   ],
+   "materials": [
+    "MAT_brass",
+    "MAT_pink",
+    "MAT_steel"
+   ],
+   "bytes": 44804
+  },
+  "ui_star": {
+   "name_bm": "Bintang ganjaran",
+   "am": [
+    "UI"
+   ],
+   "file": "models/ui_star.glb",
+   "size_m": [
+    0.0571,
+    0.0543,
+    0.008
+   ],
+   "tris": 36,
+   "nodes": [],
+   "materials": [
+    "MAT_gold"
+   ],
+   "bytes": 2956
+  },
+  "ui_check": {
+   "name_bm": "Tanda betul",
+   "am": [
+    "UI"
+   ],
+   "file": "models/ui_check.glb",
+   "size_m": [
+    0.0556,
+    0.0431,
+    0.008
+   ],
+   "tris": 216,
+   "nodes": [],
+   "materials": [
+    "MAT_green"
+   ],
+   "bytes": 17224
+  },
+  "ui_cross": {
+   "name_bm": "Tanda salah",
+   "am": [
+    "UI"
+   ],
+   "file": "models/ui_cross.glb",
+   "size_m": [
+    0.0422,
+    0.0422,
+    0.008
+   ],
+   "tris": 216,
+   "nodes": [],
+   "materials": [
+    "MAT_red"
+   ],
+   "bytes": 17204
+  },
+  "ui_arrow": {
+   "name_bm": "Anak panah (menunjuk three.js +Z)",
+   "am": [
+    "UI",
+    "AM11"
+   ],
+   "file": "models/ui_arrow.glb",
+   "size_m": [
+    0.02,
+    0.02,
+    0.07
+   ],
+   "tris": 138,
+   "nodes": [],
+   "materials": [
+    "MAT_yellow"
+   ],
+   "bytes": 7812
+  },
+  "ui_medal_tp1": {
+   "name_bm": "Pingat TP1",
+   "am": [
+    "UI"
+   ],
+   "tp": 1,
+   "file": "models/ui_medal_tp1.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 444,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp1",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 22920
+  },
+  "ui_medal_tp2": {
+   "name_bm": "Pingat TP2",
+   "am": [
+    "UI"
+   ],
+   "tp": 2,
+   "file": "models/ui_medal_tp2.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 784,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp2",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 35828
+  },
+  "ui_medal_tp3": {
+   "name_bm": "Pingat TP3",
+   "am": [
+    "UI"
+   ],
+   "tp": 3,
+   "file": "models/ui_medal_tp3.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 1016,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp3",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 44656
+  },
+  "ui_medal_tp4": {
+   "name_bm": "Pingat TP4",
+   "am": [
+    "UI"
+   ],
+   "tp": 4,
+   "file": "models/ui_medal_tp4.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 492,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp4",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 24680
+  },
+  "ui_medal_tp5": {
+   "name_bm": "Pingat TP5",
+   "am": [
+    "UI"
+   ],
+   "tp": 5,
+   "file": "models/ui_medal_tp5.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 740,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp5",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 34168
+  },
+  "ui_medal_tp6": {
+   "name_bm": "Pingat TP6",
+   "am": [
+    "UI"
+   ],
+   "tp": 6,
+   "file": "models/ui_medal_tp6.glb",
+   "size_m": [
+    0.05,
+    0.0782,
+    0.006
+   ],
+   "tris": 916,
+   "nodes": [],
+   "materials": [
+    "MAT_blue",
+    "MAT_medal_tp6",
+    "MAT_navy",
+    "MAT_red"
+   ],
+   "bytes": 40808
+  }
+ },
+ "conventions": "* metres, real-world size; origin = base centre; glTF +Y up.\n  * \"forward\" props (torch, arrows) point along three.js +Z so obj.lookAt(target) aims them.\n  * pivot_* nodes  = rotate/translate these (lids, doors, needles, rotors).\n  * anchor_* nodes = empty snap points (where a test object / label / particle goes).\n  * stage_* / week_* nodes = mutually exclusive visual states; show one, hide the rest.\n  * MAT_* materials = game tints/toggles by name (MAT_bulb_glass emissive on = bulb lit).\n  * root node extras (userData in three.js) carry science facts: conductor, soluble, opacity...",
+ "count": 99
+}

@@ -1,0 +1,105 @@
+{
+ "_doc": "Per-amali tabletop layout placed on its marker card. p = [x, z] metres on a virtual tray (x right, +z toward the pupil), r = Y rotation deg, s = per-item scale (shrink big/tall props). The AR page auto-fits and centres the whole kit on the card (card width = 1 MindAR unit). role 'test' = tappable test object handled by the amali's rig.",
+ "AM01": { "title": "Kecil ke Besar", "items": [
+  {"id": "weighing_scale", "p": [-0.1, 0.02], "s": 0.55},
+  {"id": "height_chart", "p": [0.13, -0.08], "s": 0.2},
+  {"id": "kid_boy", "p": [0.06, -0.05], "s": 0.17},
+  {"id": "kid_girl", "p": [-0.1, -0.1], "s": 0.17},
+  {"id": "tape_measure", "p": [-0.02, 0.12], "s": 0.5},
+  {"id": "hand_tracing", "p": [0.13, 0.1], "r": 10, "s": 0.6}
+ ]},
+ "AM02": { "title": "Percambahan Biji Benih", "items": [
+  {"id": "cup_A", "p": [-0.15, 0.08]},
+  {"id": "cup_B", "p": [-0.05, 0.08]},
+  {"id": "cup_C", "p": [0.05, 0.08]},
+  {"id": "cup_D", "p": [0.15, 0.08]},
+  {"id": "mini_fridge", "p": [0.13, -0.08], "s": 0.25, "r": -20},
+  {"id": "sprout_stages", "p": [-0.02, -0.04], "s": 2.0},
+  {"id": "oil_bottle", "p": [-0.14, -0.07], "s": 0.7},
+  {"id": "water_jug", "p": [-0.06, -0.09], "s": 0.6}
+ ]},
+ "AM03": { "title": "Tumbesaran Tumbuhan", "items": [
+  {"id": "plant_growth", "p": [-0.05, -0.02], "s": 0.8},
+  {"id": "ruler_30cm", "p": [0.1, 0.02], "r": 90, "s": 0.8},
+  {"id": "string_coil", "p": [0.1, 0.13]},
+  {"id": "watering_can", "p": [-0.14, 0.1], "r": 30, "s": 0.5},
+  {"id": "worksheet", "p": [0.04, 0.12], "r": -8, "s": 0.5}
+ ]},
+ "AM04": { "title": "Keperluan Tumbuhan", "items": [
+  {"id": "plant_healthy", "p": [-0.15, 0.06], "s": 0.65},
+  {"id": "plant_no_water", "p": [-0.05, 0.06], "s": 0.65},
+  {"id": "plant_no_light", "p": [0.05, 0.06], "s": 0.65},
+  {"id": "plant_no_air", "p": [0.15, 0.06], "s": 0.65},
+  {"id": "dark_box", "p": [0.1, -0.1], "s": 0.35},
+  {"id": "watering_can", "p": [-0.12, -0.08], "r": 30, "s": 0.5}
+ ]},
+ "AM05": { "title": "Kotak Misteri", "items": [
+  {"id": "shoe_box_dark", "p": [-0.09, -0.04], "r": 90, "s": 0.55},
+  {"id": "shoe_box_lit", "p": [0.09, -0.04], "r": 90, "s": 0.55},
+  {"id": "flashlight", "p": [0.0, 0.12], "r": 180, "s": 0.6},
+  {"id": "eraser", "p": [-0.14, 0.12]},
+  {"id": "coin", "p": [-0.1, 0.13]},
+  {"id": "pencil", "p": [0.12, 0.13], "r": 20},
+  {"id": "stopwatch", "p": [0.16, 0.08], "s": 0.8}
+ ]},
+ "AM06": { "title": "Bayang-bayang", "items": [
+  {"id": "white_screen", "p": [0.0, -0.12], "s": 0.5},
+  {"id": "sheet_transparent", "p": [-0.1, 0.0], "role": "test"},
+  {"id": "sheet_translucent", "p": [0.0, 0.0], "role": "test"},
+  {"id": "sheet_opaque", "p": [0.1, 0.0], "role": "test"},
+  {"id": "flashlight", "p": [0.0, 0.14], "r": 180, "s": 0.6}
+ ]},
+ "AM07": { "title": "Litar Elektrik", "items": [
+  {"id": "circuit_tester", "p": [0.0, -0.05]},
+  {"id": "iron_nail", "p": [-0.14, 0.1], "role": "test"},
+  {"id": "paper_clip", "p": [-0.08, 0.12], "role": "test"},
+  {"id": "coin", "p": [-0.03, 0.12], "role": "test"},
+  {"id": "eraser", "p": [0.03, 0.12], "role": "test"},
+  {"id": "plastic_ruler_small", "p": [0.1, 0.1], "r": 20, "s": 0.6, "role": "test"},
+  {"id": "wood_block", "p": [0.1, 0.15], "role": "test"},
+  {"id": "sponge", "p": [0.16, 0.05], "role": "test"}
+ ]},
+ "AM08": { "title": "Mengasingkan Campuran", "items": [
+  {"id": "mix_sand_pebbles", "p": [-0.12, 0.08]},
+  {"id": "mix_sand_clips", "p": [0.06, 0.08]},
+  {"id": "sieve", "p": [-0.12, -0.08], "s": 0.9},
+  {"id": "horseshoe_magnet", "p": [0.16, 0.12]},
+  {"id": "funnel_filter", "p": [0.1, -0.08]},
+  {"id": "muddy_water", "p": [0.0, -0.1]}
+ ]},
+ "AM09": { "title": "Larut atau Tidak?", "items": [
+  {"id": "glass_cup", "p": [0.0, -0.1]},
+  {"id": "sample_sugar", "p": [-0.13, 0.02], "role": "test", "s": 0.8},
+  {"id": "sample_salt", "p": [0.0, 0.03], "role": "test", "s": 0.8},
+  {"id": "sample_sand", "p": [0.13, 0.02], "role": "test", "s": 0.8},
+  {"id": "sample_coffee", "p": [-0.13, 0.13], "role": "test", "s": 0.8},
+  {"id": "sample_flour", "p": [0.0, 0.14], "role": "test", "s": 0.8},
+  {"id": "sample_cocoa", "p": [0.13, 0.13], "role": "test", "s": 0.8},
+  {"id": "spoon", "p": [0.1, -0.1], "r": 40}
+ ]},
+ "AM10": { "title": "Larut Lebih Cepat", "items": [
+  {"id": "glass_hot", "p": [-0.07, -0.06]},
+  {"id": "glass_cold", "p": [0.07, -0.06]},
+  {"id": "kettle", "p": [-0.16, -0.1], "s": 0.6, "r": 30},
+  {"id": "sample_sugar", "p": [-0.07, 0.08], "role": "test"},
+  {"id": "sugar_cube", "p": [0.07, 0.08], "role": "test"},
+  {"id": "spoon", "p": [0.15, 0.03], "r": 40},
+  {"id": "stopwatch", "p": [0.16, -0.09], "s": 0.9}
+ ]},
+ "AM11": { "title": "Kitar Air", "items": [
+  {"id": "water_cycle_setup", "p": [-0.1, -0.02]},
+  {"id": "water_cycle_diorama", "p": [0.1, -0.04], "s": 0.55},
+  {"id": "card_sejatan", "p": [-0.15, 0.14], "role": "test"},
+  {"id": "card_kondensasi", "p": [-0.05, 0.14], "role": "test"},
+  {"id": "card_kerpasan", "p": [0.05, 0.14], "role": "test"},
+  {"id": "card_pengumpulan", "p": [0.15, 0.14], "role": "test"}
+ ]},
+ "AM12": { "title": "Udara Bergerak", "items": [
+  {"id": "balloon_rocket", "p": [0.0, -0.08], "s": 0.4},
+  {"id": "pinwheel", "p": [-0.13, 0.08], "s": 0.9},
+  {"id": "balloon", "p": [0.12, 0.08], "s": 0.4},
+  {"id": "scissors", "p": [0.0, 0.14], "s": 0.8},
+  {"id": "straw", "p": [0.0, 0.07], "s": 0.6},
+  {"id": "tape_roll", "p": [0.06, 0.12]}
+ ]}
+}
