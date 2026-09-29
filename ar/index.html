@@ -21,6 +21,26 @@
   .am a.play { display:block; margin:0 0 6px; padding:10px; border-radius:10px; background:var(--accent); color:#fff; text-align:center; font-size:15px; }
   .big.alt { background:var(--card); color:var(--fg); border:2px solid var(--accent); }
   #amPick { border:0; border-radius:999px; padding:8px 12px; background:var(--card); color:var(--fg); font-weight:600; box-shadow:0 2px 10px #0003; max-width:46vw; }
+  #guide { position:fixed; left:10px; top:max(90px, calc(env(safe-area-inset-top) + 80px)); z-index:11; width:min(340px, calc(100vw - 20px));
+           max-height:calc(100vh - 190px); overflow:auto; background:color-mix(in srgb, var(--card) 92%, transparent); color:var(--fg);
+           border:2px solid var(--accent); border-radius:16px; padding:10px 12px; box-shadow:0 6px 24px #0003; font-size:15px; }
+  #guide header { display:flex; align-items:center; gap:6px; }
+  #guide header b { flex:1; font-size:14px; }
+  #guide header button, #guide > button { border:0; border-radius:999px; padding:4px 10px; background:var(--line); color:var(--fg); font:inherit; cursor:pointer; }
+  #guide .prog { font-weight:700; color:var(--accent); }
+  #guide .q { margin:8px 0 6px; font-style:italic; color:var(--muted); }
+  #guide .bar { height:6px; border-radius:6px; background:var(--line); overflow:hidden; margin:6px 0; }
+  #guide .bar i { display:block; height:100%; background:var(--accent); transition:width .4s; }
+  #guide ol { list-style:none; padding:0; margin:0; }
+  #guide li { display:flex; gap:8px; padding:6px 8px; border-radius:10px; margin:3px 0; line-height:1.35; }
+  #guide li .g { flex:none; width:24px; text-align:center; }
+  #guide li.cur { background:color-mix(in srgb, var(--accent) 16%, transparent); font-weight:600; }
+  #guide li.done { color:var(--muted); }
+  #guide li.todo { opacity:.6; }
+  #guide .k { margin:8px 0; padding:8px 10px; border-radius:10px; background:color-mix(in srgb, #3c9 18%, transparent); }
+  #guide.pop { animation:pop .45s ease; }
+  @keyframes pop { 40% { transform:scale(1.04); } }
+  @media (prefers-reduced-motion: reduce) { #guide.pop { animation:none; } #guide .bar i { transition:none; } }
   #camBg { position:fixed; inset:0; width:100%; height:100%; object-fit:cover; transform:scaleX(-1); z-index:-1; }
   #info { position:fixed; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); z-index:10; background:var(--card); color:var(--fg);
           border:2px solid var(--accent); border-radius:16px; padding:10px 14px; display:none; box-shadow:0 6px 24px #0003; }
@@ -43,6 +63,7 @@
 <div id="top" hidden><button id="home">← Menu</button><button id="handChip">✋ Tangan: memuatkan…</button></div>
 <canvas id="handLayer"></canvas><div id="cursor" hidden></div><div id="cursorIcon" hidden></div>
 <div id="hint"></div>
+<aside id="guide" hidden aria-live="polite"></aside>
 <div id="info"></div>
 <div id="menu" hidden>
   <h1>AR Amali Sains Tahun 2</h1>
@@ -58,9 +79,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { classify, Gestures, createHandTracker, drawHand } from './hands.js';
+import { GuidePanel } from './guide.js';
 
 const Q = new URLSearchParams(location.search);
-const [manifest, KITS] = await Promise.all(['../assets/manifest.json', '../assets/kits.json'].map(u => fetch(u).then(r => r.json())));
+const [manifest, KITS, STEPS] = await Promise.all(['../assets/manifest.json', '../assets/kits.json', '../assets/steps.json'].map(u => fetch(u).then(r => r.json())));
 const AMS = Object.keys(KITS).filter(k => k.startsWith('AM'));
 const A = manifest.assets;
 const $ = id => document.getElementById(id);
@@ -81,6 +103,7 @@ $('home').onclick = () => location.href = location.pathname;
 // switch amali in one click, staying in the same mode ("all" card mode switches to play)
 $('top').insertAdjacentHTML('beforeend', `<select id="amPick" aria-label="Tukar amali">${AMS.map(a => `<option value="${a}">${a} · ${KITS[a].title}</option>`).join('')}</select>`);
 $('amPick').value = Q.get(MODE) || '';
+let ACTIVE_ROOT = null;  // kit the pupil is working on (for the finish celebration)
 $('amPick').onchange = e => location.search = `?${MODE === 'all' ? 'play' : MODE}=${e.target.value}`;
 
 // ------------------------------------------------------------ asset loading
@@ -152,6 +175,10 @@ function info(html, secs = 6) {
   $('info').innerHTML = html; $('info').style.display = 'block';
   clearTimeout(infoTimer); infoTimer = setTimeout(() => $('info').style.display = 'none', secs * 1000);
 }
+// game events -> guided steps (ar/guide.js)
+let GUIDE = null;  // created once the page knows it is not the menu
+const evt = (type, id, extra = {}) => GUIDE?.event({ type, id, ...extra });
+
 function facts(id) {
   const a = A[id], f = [];
   if ('conductor' in a) f.push(a.conductor ? '⚡ Konduktor elektrik' : '🚫 Penebat (tidak mengalirkan elektrik)');
@@ -255,6 +282,7 @@ const RIG = {
     await moveTo(root, o, target);
     const cond = !!A[o.userData.kit.id].conductor;
     glowBulb(tester, cond);
+    evt('rig', o.userData.kit.id, { lit: cond });
     info(`<b>${A[o.userData.kit.id].name_bm}</b>: mentol ${cond ? '<b>MENYALA</b> 💡 — konduktor' : 'tidak menyala — penebat'}`);
     return true;
   },
@@ -271,6 +299,7 @@ const RIG = {
       const sed = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.026, 0.006, 20), new THREE.MeshStandardMaterial({ color: mats(o, new RegExp(id.replace('sample_', '')))[0]?.color || 0x999999 }));
       sed.position.y = 0.006; glass.add(sed); s.sed = sed;
     }
+    evt('rig', id, { soluble: !!a.soluble });
     info(`<b>${a.name_bm}</b> ${a.soluble ? '<b>larut</b> — tiada zarah kelihatan (atau air berwarna jernih)' : '<b>tidak larut</b> — zarah terapung / termendap'}`);
     await tween(3.5, () => {});
     // reset for the next sample
@@ -289,6 +318,7 @@ const RIG = {
     const steam = hot ? emit(glass, { from: new THREE.Vector3(0, 0.1, 0), vel: new THREE.Vector3(0, 0.04, 0), size: 0.004, left: secs }) : null;
     const t0 = performance.now();
     await tween(secs * 0.6, t => { bits.forEach(b => b.scale.setScalar(Math.max(0.001, 1 - t))); $('info').innerHTML = `Gula ${cube ? 'ketulan' : 'halus'} dalam air ${hot ? 'panas' : 'sejuk'} — ⏱️ ${((performance.now() - t0) / 1000 * (1 / 0.6)).toFixed(1)} s`; });
+    evt('rig', o.userData.kit.id, { glass: glassId });
     info(`Larut dalam <b>${secs.toFixed(1)} s</b> (simulasi). ${hot ? 'Air panas' : 'Air sejuk'} + gula ${cube ? 'ketulan → lebih lambat' : 'halus → lebih cepat'}. Cuba gelas lain!`);
     bits.forEach(b => b.scale.setScalar(1)); await moveTo(root, o, o.userData.kit.home);
     s.busy = false; return true;
@@ -306,6 +336,7 @@ const RIG = {
     }
     const a = A[o.userData.kit.id], target = (1 - a.light_through) * 0.85, from = s.shadow.material.opacity;
     await tween(0.6, t => s.shadow.material.opacity = from + (target - from) * t);
+    evt('rig', o.userData.kit.id);
     info(`<b>${a.name_bm}</b> — ${facts(o.userData.kit.id)}`);
     return true;
   },
@@ -318,6 +349,7 @@ const RIG = {
     await moveTo(root, o, target, 0.1);
     o.rotation.x = -0.6;
     star(root, target.clone());
+    evt('rig', o.userData.kit.id, { seq });
     s.next++;
     info(s.next > 4 ? '🎉 Kitar air lengkap: sejatan → kondensasi → kerpasan → pengumpulan!' : `Betul! Langkah ${seq} daripada 4.`);
     return true;
@@ -326,15 +358,18 @@ const RIG = {
 
 async function generic(root, o) {
   const id = o.userData.kit.id, s = st(o);
+  evt('tap', id);
   const stages = byName(o, STATE_RE);
   if (stages.length) {
     s.i = ((s.i || 0) + 1) % stages.length; stages.forEach((n, i) => n.visible = i === s.i);
+    evt('stage', id, { index: s.i });
     return info(`<b>${A[id].name_bm}</b> — ${stages[s.i].name.replace('_', ' ')}`);
   }
   const open = { pivot_lid: ['x', -1.9], pivot_door: ['y', 1.7], pivot_blade_a: ['y', 0.5], pivot_lever: ['z', 0.45] };
   for (const [n, [ax, ang]] of Object.entries(open)) {
     const p = node(o, n); if (!p) continue;
     const r0 = p.rotation[ax], r1 = s.open ? r0 - ang : r0 + ang; s.open = !s.open;
+    evt('open', id, { open: s.open });
     await tween(0.6, t => p.rotation[ax] = r0 + (r1 - r0) * t);
     if (id === 'switch') info(s.open ? 'Suis <b>dibuka</b> — litar tidak lengkap' : 'Suis <b>ditutup</b> — litar lengkap');
     return info(`<b>${A[id].name_bm}</b> ${s.open ? 'dibuka' : 'ditutup'}` + (facts(id) ? ' · ' + facts(id) : ''));
@@ -343,10 +378,12 @@ async function generic(root, o) {
     const p = node(o, n); if (!p) continue;
     if (s.spin) { spinners.delete(s.spin); s.spin = null; return info(`<b>${A[id].name_bm}</b> berhenti.`); }
     s.spin = { obj: p, axis: ax, speed: n === 'pivot_hand' ? -Math.PI / 30 * 6 : 12 }; spinners.add(s.spin);
+    evt('spin', id);
     return info(n === 'pivot_rotor' ? '🌬️ Udara bergerak menolak bilah — <b>bebaling berputar</b>!' : `<b>${A[id].name_bm}</b> bergerak.`);
   }
   if (node(o, 'pivot_rocket')) {
     if (s.busy) return; s.busy = true;
+    evt('rocket', id);
     const r = node(o, 'pivot_rocket'), inf = node(o, 'pivot_inflate'), x0 = r.position.x;
     info('🎈 Udara keluar dari belon ke belakang → roket meluncur ke hadapan!');
     const puff = emit(r, { from: new THREE.Vector3(-0.1, -0.04, 0), vel: new THREE.Vector3(-0.15, 0, 0), size: 0.006, left: 1.6, rate: 30 });
@@ -355,14 +392,14 @@ async function generic(root, o) {
     s.busy = false; return;
   }
   const inflate = node(o, 'pivot_inflate');
-  if (inflate) { const a = s.flat ? 0.35 : 1, b = s.flat ? 1 : 0.35; s.flat = !s.flat; await tween(0.8, t => inflate.scale.setScalar(a + (b - a) * t)); return info(s.flat ? 'Udara dilepaskan — belon mengecut.' : 'Belon ditiup — penuh udara.'); }
+  if (inflate) { evt('inflate', id); const a = s.flat ? 0.35 : 1, b = s.flat ? 1 : 0.35; s.flat = !s.flat; await tween(0.8, t => inflate.scale.setScalar(a + (b - a) * t)); return info(s.flat ? 'Udara dilepaskan — belon mengecut.' : 'Belon ditiup — penuh udara.'); }
   const needle = node(o, 'pivot_needle');
-  if (needle) { const kg = 20 + Math.round(Math.random() * 10), r0 = needle.rotation.y, r1 = -kg / 120 * Math.PI * 2; await tween(1, t => needle.rotation.y = r0 + (r1 - r0) * t); return info(`Berat badan: <b>${kg} kg</b>`); }
+  if (needle) { evt('measure', id); const kg = 20 + Math.round(Math.random() * 10), r0 = needle.rotation.y, r1 = -kg / 120 * Math.PI * 2; await tween(1, t => needle.rotation.y = r0 + (r1 - r0) * t); return info(`Berat badan: <b>${kg} kg</b>`); }
   const slider = node(o, 'pivot_slider');
-  if (slider) { const cm = 110 + Math.round(Math.random() * 20), y0 = slider.position.y; await tween(1, t => slider.position.y = y0 + (cm / 100 - y0) * t); return info(`Tinggi: <b>${cm} cm</b>`); }
+  if (slider) { evt('measure', id); const cm = 110 + Math.round(Math.random() * 20), y0 = slider.position.y; await tween(1, t => slider.position.y = y0 + (cm / 100 - y0) * t); return info(`Tinggi: <b>${cm} cm</b>`); }
   const tape = node(o, 'pivot_tape');
-  if (tape) { const a = tape.scale.x, b = a > 0.5 ? 0.1 : 1; await tween(0.7, t => tape.scale.x = a + (b - a) * t); return info(b > 0.5 ? 'Pita ukur ditarik: 30 cm' : 'Pita ukur disimpan.'); }
-  if (byName(o, /^beam$/).length) { const b = byName(o, /^beam$/)[0]; b.visible = !b.visible; return info(b.visible ? 'Lampu suluh <b>dihidupkan</b>.' : 'Lampu suluh dimatikan.'); }
+  if (tape) { evt('measure', id); const a = tape.scale.x, b = a > 0.5 ? 0.1 : 1; await tween(0.7, t => tape.scale.x = a + (b - a) * t); return info(b > 0.5 ? 'Pita ukur ditarik: 30 cm' : 'Pita ukur disimpan.'); }
+  if (byName(o, /^beam$/).length) { const b = byName(o, /^beam$/)[0]; b.visible = !b.visible; evt('torch', id, { on: b.visible }); return info(b.visible ? 'Lampu suluh <b>dihidupkan</b>.' : 'Lampu suluh dimatikan.'); }
   if (id === 'horseshoe_magnet') {
     const tray = root.userData.byId('mix_sand_clips'), clips = byName(tray, /^loose_clip$/);
     const pole = worldIn(root, node(o, 'anchor_pole'));
@@ -370,6 +407,7 @@ async function generic(root, o) {
       root.attach(c); const from = c.position.clone(), to = pole.clone().add(new THREE.Vector3((i % 4 - 1.5) * 0.008, 0.004 * (i >> 2), 0.01));
       tween(0.5 + i * 0.05, t => c.position.lerpVectors(from, to, t), () => o.attach(c));  // clips travel with the magnet
     }
+    evt('tool', id);
     return info('🧲 Klip kertas (besi) <b>ditarik magnet</b>; pasir tertinggal.');
   }
   if (id === 'sieve') {
@@ -379,6 +417,7 @@ async function generic(root, o) {
       root.attach(p); const from = p.position.clone(), to = catchAt.clone().add(new THREE.Vector3((Math.random() - .5) * 0.06, 0.005, (Math.random() - .5) * 0.06));
       tween(0.6 + i * 0.04, t => { p.position.lerpVectors(from, to, t); p.position.y += Math.sin(t * Math.PI) * 0.05; }, () => o.attach(p));
     }
+    evt('tool', id);
     return info('Batu kecil <b>tertinggal dalam ayak</b>; pasir halus jatuh melalui lubang.');
   }
   if (id === 'funnel_filter' || id === 'muddy_water') {
@@ -386,11 +425,13 @@ async function generic(root, o) {
     const fw = node(f, 'pivot_water'), mw = node(mud, 'pivot_water');
     const drip = emit(f, { from: node(f, 'anchor_drip').position.clone(), vel: new THREE.Vector3(0, -0.05, 0), size: 0.002, color: 0x8cccff, left: 3, rate: 8, spread: 0 });
     const a = fw.scale.y, b = mw.scale.y;
+    evt('tool', id);
     await tween(3, t => { fw.scale.y = a + (0.7 - a) * t; mw.scale.y = Math.max(0.05, b * (1 - t)); });
     return info('Air jernih melalui kertas turas; <b>pasir tertinggal</b> sebagai baki.');
   }
   if (id === 'water_cycle_setup') {
     if (s.on) { s.on.forEach(e => { e.left = 0; e.rate = 0; }); s.on = null; return info('Simulasi dihentikan.'); }
+    evt('sim', id);
     s.on = [
       emit(o, { from: node(o, 'anchor_evap').position.clone(), vel: new THREE.Vector3(0, 0.05, 0), size: 0.004, life: 2, spread: 0.06 }),
       emit(o, { from: node(o, 'anchor_rain').position.clone(), vel: new THREE.Vector3(0, -0.08, 0), size: 0.0025, color: 0x6fb6ff, life: 1.4, rate: 5, spread: 0.08 }),
@@ -441,6 +482,7 @@ function blowWind(root) {
     if (rotor) { moved = true; const sp = { obj: rotor, axis: 'z', speed: 16 }; spinners.add(sp); tween(4, t => sp.speed = 16 * (1 - t), () => spinners.delete(sp)); }
     if (node(o, 'pivot_rocket')) { moved = true; generic(root, o); }
   }
+  evt('wind');
   info(moved ? '👋🌬️ Lambaian tangan menghasilkan <b>udara bergerak</b> — udara bergerak boleh menggerakkan objek!' : '🌬️ Angin! Cuba lambai pada kad AM12.');
 }
 
@@ -556,6 +598,13 @@ function tapper(el, camera, rootsFn) {
 let last = performance.now();
 function tick() { const now = performance.now(); stepTweens(now); stepParticles(Math.min(0.05, (now - last) / 1000)); last = now; }
 
+GUIDE = new GuidePanel($('guide'), STEPS, {
+  onComplete: spec => {
+    setTimeout(() => info(`🎉 <b>Tahniah! Amali selesai.</b> ${spec.k}`, 12), 1800);  // after the last result message
+    if (ACTIVE_ROOT) for (let i = 0; i < 5; i++) setTimeout(() => star(ACTIVE_ROOT, new THREE.Vector3((i - 2) * 0.07, 0.12, 0)), i * 180);
+  },
+});
+
 if (MODE === 'play' || MODE === 'preview') {
   // no card needed. play = live camera behind the kit + hand gestures; preview = plain 3D, mouse only
   const am = Q.get(MODE), PLAY = MODE === 'play';
@@ -578,6 +627,7 @@ if (MODE === 'play' || MODE === 'preview') {
   card.material.map.colorSpace = THREE.SRGBColorSpace; card.rotation.x = -Math.PI / 2; scene.add(card);
   const holder = new THREE.Group(); scene.add(holder);
   let root = await buildKit(am); holder.add(root);
+  ACTIVE_ROOT = root; GUIDE.load(am, KITS[am].title);
   window.kitRoot = root; window.tapItem = id => onTap(root, root.userData.byId(id));  // for automated tests
   tapper(renderer.domElement, camera, () => [root]);
   $('hint').textContent = `${am} · ${KITS[am].title}` + (PLAY ? '' : ' — pratonton 3D');
@@ -597,7 +647,7 @@ if (MODE === 'play' || MODE === 'preview') {
     }
     hands = setupHands({
       video, camera, rootsFn: () => [root], toScreen,
-      rebuild: async () => { holder.remove(root); root = await buildKit(am); holder.add(root); window.kitRoot = root; },
+      rebuild: async () => { holder.remove(root); root = ACTIVE_ROOT = await buildKit(am); holder.add(root); window.kitRoot = root; },
     });
     ctl.enabled = false;  // hands drive the scene
     window.feedHand = lm => hands.feed(lm, performance.now());
@@ -629,7 +679,9 @@ if (MODE === 'play' || MODE === 'preview') {
     let loading = null;
     anchor.onTargetFound = () => {
       $('hint').textContent = `${am} · ${KITS[am].title} — ☝️ tuding  🤏 cubit  👋 lambai  ✋ tahan = ulang`;
-      loading ||= buildKit(am).then(r => { holder.add(r); roots.push(r); });
+      GUIDE.load(am, KITS[am].title);
+      loading ||= buildKit(am).then(r => { holder.add(r); roots.push(r); return r; });
+      loading.then(() => ACTIVE_ROOT = holder.children[0]);  // holder only ever holds this amali's kit
     };
     anchor.onTargetLost = () => $('hint').textContent = 'Halakan kamera pada kad penanda…';
   });
@@ -644,7 +696,7 @@ if (MODE === 'play' || MODE === 'preview') {
     rebuild: async () => {
       for (const [i, r] of roots.entries()) {
         const h = r.parent; if (!h?.parent?.visible) continue;
-        h.remove(r); roots[i] = await buildKit(r.userData.am); h.add(roots[i]);
+        h.remove(r); roots[i] = ACTIVE_ROOT = await buildKit(r.userData.am); h.add(roots[i]);
       }
     },
   });

@@ -3,3 +3,4 @@ tools/_ar_test/
 __pycache__/
 *.blend1
 tools/_hands/
+tools/_guide/

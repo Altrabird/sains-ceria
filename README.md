@@ -54,6 +54,13 @@ python -m http.server 8000
 Mouse/touch always work too.
 Tuning for real classrooms (pinch sensitivity, dwell time…) lives in `TUNE` at the top of `ar/hands.js`.
 
+## Guided steps (Arahan)
+
+Every amali shows a step card: the soalan inkuiri, then steps with their gesture (☝️ / 🤏 / 👋) that **tick themselves**
+when the pupil actually does them (bulb lit, card placed in order…), ending with the kesimpulan + stars. 🔊 reads the
+current step aloud (Malay voice if the device has one, else Indonesian). Edit steps in `assets/steps.json`
+(q/k come from Rekod Amali data.js); `node ar/guide.test.mjs` checks every step names a real kit item.
+
 ## What the AR prototype already does
 
 | Amali | Tap interaction |
@@ -82,4 +89,6 @@ python tools/test_ar.py                  # every kit loads + every tap runs with
 python tools/test_tracking.py            # fake webcam of a tilted card → MindAR must detect all 12
 python tools/test_hands.py               # simulated hands drive pinch/point/wave/reset; real MediaPipe model loads
 node ar/hands.test.mjs                   # gesture classifier + state machine
+node ar/guide.test.mjs                   # step tracker + steps.json references
+python tools/test_guide.py               # doing each amali completes all its steps
 ```

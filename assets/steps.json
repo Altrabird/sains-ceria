@@ -1,0 +1,94 @@
+{
+ "_doc": "Guided steps per amali. q = soalan inkuiri, k = kesimpulan (both from Rekod Amali Sains data.js). A step is done when the game emits a matching event: on = event type(s); ids = item ids that count (any if omitted); count = how many DIFFERENT ids needed (default 1); match = event fields that must equal. Events: tap, stage{index}, open{open}, spin, rocket, inflate, measure, torch{on}, tool, sim, wind, rig{lit|soluble|glass|seq}. g = gesture hint icon.",
+ "AM01": { "q": "Adakah semua murid berusia 8 tahun mempunyai saiz badan yang sama?",
+  "k": "Tumbesaran (tinggi, berat, saiz) setiap individu adalah berbeza walaupun pada usia yang sama.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding penimbang untuk menimbang berat badan.", "on": "measure", "ids": ["weighing_scale"] },
+   { "g": "☝️", "t": "Tuding carta tinggi untuk mengukur ketinggian.", "on": "measure", "ids": ["height_chart"] },
+   { "g": "☝️", "t": "Tuding pita ukur untuk menariknya keluar.", "on": "measure", "ids": ["tape_measure"] },
+   { "g": "☝️", "t": "Tuding kertas surih — jejak tapak tangan.", "on": "tap", "ids": ["hand_tracing"] },
+   { "g": "☝️", "t": "Bandingkan: tuding kedua-dua murid. Adakah saiz mereka sama?", "on": "tap", "ids": ["kid_boy", "kid_girl"], "count": 2 }
+  ]},
+ "AM02": { "q": "Apakah keadaan yang diperlukan oleh biji benih untuk bercambah?",
+  "k": "Biji benih memerlukan air, udara dan suhu yang sesuai untuk bercambah.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding setiap bekas A, B, C dan D untuk melihat keadaannya.", "on": "tap", "ids": ["cup_A", "cup_B", "cup_C", "cup_D"], "count": 4 },
+   { "g": "☝️", "t": "Buka peti sejuk — bekas D disimpan di sini (sejuk).", "on": "open", "ids": ["mini_fridge"] },
+   { "g": "☝️", "t": "Tuding anak benih berulang kali sehingga peringkat akhir percambahan.", "on": "stage", "ids": ["sprout_stages"], "match": { "index": 4 } },
+   { "g": "☝️", "t": "Soalan: bekas manakah bijinya bercambah? Tuding bekas itu.", "on": "tap", "ids": ["cup_A"] }
+  ]},
+ "AM03": { "q": "Bagaimanakah kita tahu tumbuhan sedang membesar?",
+  "k": "Tumbuhan membesar — direkod melalui pertambahan ketinggian, bilangan daun, saiz daun dan lilitan batang.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding penyiram air untuk menyiram pokok.", "on": "tap", "ids": ["watering_can"] },
+   { "g": "☝️", "t": "Tuding pokok untuk melihat tumbesaran minggu 1 → 2 → 3.", "on": "stage", "ids": ["plant_growth"], "match": { "index": 2 } },
+   { "g": "☝️", "t": "Tuding pembaris — ukur ketinggian pokok.", "on": "tap", "ids": ["ruler_30cm"] },
+   { "g": "☝️", "t": "Tuding lembaran kerja untuk merekod ukuran.", "on": "tap", "ids": ["worksheet"] }
+  ]},
+ "AM04": { "q": "Apakah yang diperlukan oleh tumbuhan untuk terus hidup dan membesar?",
+  "k": "Tumbuhan memerlukan air, nutrien, udara dan cahaya matahari untuk terus hidup dan membesar.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding keempat-empat pokok A, B, C dan D. Perhatikan daunnya.", "on": "tap", "ids": ["plant_healthy", "plant_no_water", "plant_no_light", "plant_no_air"], "count": 4 },
+   { "g": "☝️", "t": "Buka kotak gelap — pokok tanpa cahaya disimpan di dalamnya.", "on": "open", "ids": ["dark_box"] },
+   { "g": "☝️", "t": "Soalan: pokok manakah paling sihat? Tuding pokok itu.", "on": "tap", "ids": ["plant_healthy"] }
+  ]},
+ "AM05": { "q": "Bolehkah kita melihat objek dalam keadaan gelap?",
+  "k": "Kita memerlukan cahaya untuk melihat objek. Aktiviti lebih mudah dilakukan dalam keadaan terang berbanding gelap.",
+  "steps": [
+   { "g": "☝️", "t": "Mulakan jam randik.", "on": "spin", "ids": ["stopwatch"] },
+   { "g": "☝️", "t": "Buka kotak A (gelap). Bolehkah anda nampak objek di dalamnya?", "on": "open", "ids": ["shoe_box_dark"] },
+   { "g": "☝️", "t": "Buka kotak B (ada lampu). Bandingkan dengan kotak A.", "on": "open", "ids": ["shoe_box_lit"] },
+   { "g": "☝️", "t": "Hidupkan lampu suluh — cahaya membantu kita melihat.", "on": "torch", "ids": ["flashlight"], "match": { "on": true } }
+  ]},
+ "AM06": { "q": "Adakah semua bahan menghasilkan bayang-bayang yang sama jelas?",
+  "k": "Bahan legap menghasilkan bayang-bayang yang paling jelas kerana ia menghalang cahaya sepenuhnya.",
+  "steps": [
+   { "g": "🤏", "t": "Cubit plastik LUTSINAR dan letakkan dekat skrin. Lihat bayang-bayangnya.", "on": "rig", "ids": ["sheet_transparent"] },
+   { "g": "🤏", "t": "Cuba kertas surih (LUT CAHAYA).", "on": "rig", "ids": ["sheet_translucent"] },
+   { "g": "🤏", "t": "Cuba kadbod (LEGAP). Bayang-bayang mana paling jelas?", "on": "rig", "ids": ["sheet_opaque"] }
+  ]},
+ "AM07": { "q": "Bahan manakah boleh mengalirkan elektrik untuk menyalakan mentol?",
+  "k": "Objek yang boleh menyalakan mentol dalam litar adalah konduktor, manakala yang tidak menyalakan mentol adalah penebat.",
+  "steps": [
+   { "g": "🤏", "t": "Cubit duit syiling dan letakkan di atas papan litar. Adakah mentol menyala?", "on": "rig", "ids": ["coin"] },
+   { "g": "🤏", "t": "Uji paku besi dan klip kertas.", "on": "rig", "ids": ["iron_nail", "paper_clip"], "count": 2 },
+   { "g": "🤏", "t": "Uji sekurang-kurangnya 2 bahan bukan logam (getah, kayu, span, plastik).", "on": "rig", "ids": ["eraser", "wood_block", "sponge", "plastic_ruler_small"], "count": 2 }
+  ]},
+ "AM08": { "q": "Bagaimanakah kita boleh mengasingkan bahan yang bercampur?",
+  "k": "Campuran boleh diasingkan dengan kaedah yang sesuai — mengayak (mengikut saiz), magnet (bahan yang ditarik magnet), dan menuras (pepejal daripada cecair).",
+  "steps": [
+   { "g": "🤏", "t": "Bawa magnet ke campuran pasir + klip kertas.", "on": "tool", "ids": ["horseshoe_magnet"] },
+   { "g": "🤏", "t": "Guna ayak pada campuran pasir + batu kecil.", "on": "tool", "ids": ["sieve"] },
+   { "g": "🤏", "t": "Tuang air berpasir ke dalam corong turas.", "on": "tool", "ids": ["muddy_water", "funnel_filter"] }
+  ]},
+ "AM09": { "q": "Bahan manakah boleh larut di dalam air?",
+  "k": "Sesetengah bahan boleh larut dalam air (contoh: gula, garam) manakala sesetengahnya tidak larut (contoh: pasir, batu).",
+  "steps": [
+   { "g": "🤏", "t": "Masukkan gula ke dalam gelas air. Adakah ia larut?", "on": "rig", "ids": ["sample_sugar"] },
+   { "g": "🤏", "t": "Masukkan pasir. Adakah ia larut?", "on": "rig", "ids": ["sample_sand"] },
+   { "g": "🤏", "t": "Uji 2 bahan lagi (garam, kopi, tepung atau koko).", "on": "rig", "ids": ["sample_salt", "sample_coffee", "sample_flour", "sample_cocoa"], "count": 2 }
+  ]},
+ "AM10": { "q": "Apakah cara untuk melarutkan gula dengan lebih cepat?",
+  "k": "Bahan larut lebih cepat apabila air panas digunakan, larutan dikacau, dan saiz bahan lebih kecil (halus).",
+  "steps": [
+   { "g": "🤏", "t": "Masukkan gula halus ke dalam gelas AIR PANAS. Perhati masanya.", "on": "rig", "ids": ["sample_sugar"], "match": { "glass": "glass_hot" } },
+   { "g": "🤏", "t": "Masukkan gula ketulan ke dalam gelas AIR SEJUK. Perhati masanya.", "on": "rig", "ids": ["sugar_cube"], "match": { "glass": "glass_cold" } },
+   { "g": "☝️", "t": "Bandingkan: yang mana lebih cepat? Tuding jam randik.", "on": "tap", "ids": ["stopwatch"] }
+  ]},
+ "AM11": { "q": "Bagaimanakah air bergerak dalam kitar air semula jadi?",
+  "k": "Dalam kitar air, air tersejat menjadi wap (sejatan), wap menyejuk menjadi titisan air (kondensasi), dan titisan jatuh sebagai hujan (kerpasan).",
+  "steps": [
+   { "g": "☝️", "t": "Tuding balang untuk memulakan simulasi (air panas + ais).", "on": "sim", "ids": ["water_cycle_setup"] },
+   { "g": "🤏", "t": "Letakkan kad SEJATAN pada diorama.", "on": "rig", "ids": ["card_sejatan"] },
+   { "g": "🤏", "t": "Seterusnya: kad KONDENSASI.", "on": "rig", "ids": ["card_kondensasi"] },
+   { "g": "🤏", "t": "Kemudian: kad KERPASAN.", "on": "rig", "ids": ["card_kerpasan"] },
+   { "g": "🤏", "t": "Akhir sekali: kad PENGUMPULAN.", "on": "rig", "ids": ["card_pengumpulan"] }
+  ]},
+ "AM12": { "q": "Bagaimanakah udara bergerak boleh digunakan untuk menggerakkan objek?",
+  "k": "Udara yang bergerak mempunyai tenaga yang boleh digunakan untuk menggerakkan objek, seperti roket angin dan bebaling.",
+  "steps": [
+   { "g": "👋", "t": "Lambai tangan di depan kamera untuk menghasilkan angin. Lihat bebaling!", "on": ["wind", "spin"] },
+   { "g": "☝️", "t": "Tuding belon untuk meniup dan melepaskan udara.", "on": "inflate", "ids": ["balloon"] },
+   { "g": "☝️", "t": "Lancarkan roket angin (tuding atau lambai).", "on": "rocket", "ids": ["balloon_rocket"] }
+  ]}
+}
