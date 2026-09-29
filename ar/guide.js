@@ -23,15 +23,32 @@ export class StepTracker {
 }
 
 // ---- browser only
-function speak(text) {
-  const ss = globalThis.speechSynthesis; if (!ss) return;
-  ss.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[☝️🤏👋✋❓🎉]/gu, ''));
-  const v = ss.getVoices();
-  u.voice = v.find(x => /^ms/i.test(x.lang)) || v.find(x => /^id/i.test(x.lang)) || null;  // Malay, else Indonesian
-  u.lang = u.voice?.lang || 'ms-MY'; u.rate = 0.9;
+// Narration = pre-recorded Malaysian Malay mp3s (tools/make_audio.py, voice ms-MY-Yasmin). Fallback: a device voice
+// ONLY if it is Malay (ms-*); never an Indonesian voice.
+const AUDIO_BASE = new URL('../assets/audio/', import.meta.url).href;
+let audioKeys = null, player = null, queue = [];
+fetch(AUDIO_BASE + 'manifest.json').then(r => r.json()).then(m => audioKeys = m).catch(() => audioKeys = {});
+
+function stopSpeech() {
+  queue = []; if (player) { player.onended = null; player.pause(); player = null; }
+  globalThis.speechSynthesis?.cancel();
+}
+function playNext() {
+  const next = queue.shift(); if (!next) return;
+  const [key, text] = next;
+  if (audioKeys?.[key]) {
+    player = new Audio(AUDIO_BASE + key + '.mp3');
+    player.onended = () => playNext();
+    player.play().catch(() => playNext());
+    return;
+  }
+  const ss = globalThis.speechSynthesis, v = ss?.getVoices().find(x => /^ms/i.test(x.lang));
+  if (!v) return playNext();
+  const u = new SpeechSynthesisUtterance(text.replace(/\p{Extended_Pictographic}/gu, ''));
+  u.voice = v; u.lang = v.lang; u.rate = 0.9; u.onend = () => playNext();
   ss.speak(u);
 }
+function say(items) { stopSpeech(); queue = items; playNext(); }
 
 export class GuidePanel {
   constructor(el, allSpecs, { onComplete } = {}) {
@@ -40,22 +57,30 @@ export class GuidePanel {
     el.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
       if (b.dataset.act === 'toggle') { this.collapsed = !this.collapsed; this.render(); }
-      if (b.dataset.act === 'speak') speak(this.currentText());
-      if (b.dataset.act === 'restart') { this.t.reset(); this.render(); }
+      if (b.dataset.act === 'speak') {  // toggles "read aloud": question + current step now, then each new step
+        this.voice = !this.voice; this.render();
+        if (this.voice) say([this.line('q'), this.current()]); else stopSpeech();
+      }
+      if (b.dataset.act === 'restart') { this.t.reset(); this.render(); if (this.voice) say([this.current()]); }
     });
   }
+  line(which) {  // [audio key, text]
+    const s = this.all[this.am];
+    if (which === 'q') return [`${this.am}_q`, 'Soalan. ' + s.q];
+    if (which === 'k') return [`${this.am}_k`, 'Tahniah! Kesimpulan. ' + s.k];
+    return [`${this.am}_s${which + 1}`, `Langkah ${which + 1}. ` + s.steps[which].t];
+  }
+  current() { return this.t.done ? this.line('k') : this.line(this.t.idx); }
   load(am, title) {
     if (am === this.am || !this.all[am]) return;
     this.am = am; this.title = title; this.t = new StepTracker(this.all[am]);
     this.el.hidden = false; this.render();
-  }
-  currentText() {
-    const s = this.all[this.am];
-    return this.t.done ? 'Kesimpulan: ' + s.k : `Langkah ${this.t.idx + 1}. ${s.steps[this.t.idx].t}`;
+    if (this.voice) say([this.line('q'), this.current()]);
   }
   event(e) {
     if (!this.t || !this.t.event(e)) { if (this.t && !this.t.done && this.t.seen.size) this.render(); return; }
     this.render();
+    if (this.voice) say([this.current()]);
     this.el.classList.remove('pop'); void this.el.offsetWidth; this.el.classList.add('pop');
     if (this.t.done) this.onComplete?.(this.all[this.am]);
   }
@@ -69,7 +94,7 @@ export class GuidePanel {
     }).join('');
     this.el.innerHTML = `
       <header><b>📋 ${this.am} · ${this.title}</b><span class="prog">${Math.min(t.idx, n)}/${n}</span>
-        <button data-act="speak" title="Baca kuat">🔊</button><button data-act="toggle" title="Kecil/besar">${this.collapsed ? '▸' : '▾'}</button></header>
+        <button data-act="speak" title="Baca kuat (suara Bahasa Melayu)" aria-pressed="${!!this.voice}" class="${this.voice ? 'on' : ''}">${this.voice ? '🔊' : '🔈'}</button><button data-act="toggle" title="Kecil/besar">${this.collapsed ? '▸' : '▾'}</button></header>
       ${this.collapsed ? '' : `<p class="q">❓ ${s.q}</p>`}
       <div class="bar"><i style="width:${Math.min(t.idx, n) / n * 100}%"></i></div>
       <ol>${li}</ol>
