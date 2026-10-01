@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U02-peraturan-bilik-sains after editing.",
+ "L1": { "q": "Apakah yang perlu dilakukan sebelum menjalankan aktiviti?",
+  "k": "Beratur sebelum masuk, letakkan beg di luar, buka semua pintu dan tingkap supaya mendapat cahaya dan aliran udara yang baik, dan pakai kasut yang bertutup bagi mengelakkan kecederaan.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding dua tingkap dan pintu untuk membukanya.", "on": "open", "count": 3 },
+   { "g": "✌️", "t": "Pakaikan kasut yang sesuai pada murid.", "on": "shoes" }
+  ] },
+ "L2": { "q": "Apakah kesalahan yang dilakukan semasa aktiviti?",
+  "k": "Tidak makan dan minum, tidak berlari atau bermain, ambil peralatan dengan cermat dan tertib, tidak melakukan aktiviti tanpa arahan guru, segera maklumkan kepada guru jika berlaku kerosakan, dan tidak menconteng meja.",
+  "steps": [ { "g": "☝️", "t": "Cari dan tuding lima murid yang melakukan kesalahan.", "on": "mistake", "count": 5 } ] },
+ "L3": { "q": "Apakah yang perlu dilakukan selepas aktiviti?",
+  "k": "Bersihkan peralatan sains yang telah digunakan, dan tutup suis kipas dan lampu apabila meninggalkan bilik sains bagi mengelakkan pembaziran elektrik.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa ketiga-tiga bikar ke singki untuk dibersihkan.", "on": "wash", "count": 3 },
+   { "g": "☝️", "t": "Tuding suis kipas dan suis lampu untuk menutupnya.", "on": "off", "ids": ["kipas", "lampu"], "count": 2 }
+  ] }
+}

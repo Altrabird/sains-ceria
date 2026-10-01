@@ -152,5 +152,12 @@
     "unit": 1,
     "title": "Kemahiran Proses Sains",
     "desc": "Mengelas, mengukur, inferens, meramal, graf"
+  },
+  {
+    "id": "T3-U02-peraturan-bilik-sains",
+    "year": 3,
+    "unit": 2,
+    "title": "Peraturan Bilik Sains",
+    "desc": "Sebelum, semasa dan selepas aktiviti"
   }
 ]
