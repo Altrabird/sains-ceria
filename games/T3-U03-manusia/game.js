@@ -22,7 +22,7 @@ function L1(S, play) {
   const cards = JOBS.map(([id, e, l, k], i) => { const c = emojiCard(id, e, l, 0.11, { border: '#00897b' }); c.userData.kind = k; c.position.set(-0.35 + [1, 2, 0][i] * 0.35, 0, 0.27); root.add(home(c)); return c; });
   const dr = dragger(S, () => cards.filter(c => !c.userData.done), {
     onDrop(c, x, y) {
-      const t = T.find(t => nearScreen(S, t, x, y, 0.08, 75) || flat(t.position, c.position) < 0.13);
+      const t = S.closest(T, x, y, t => nearScreen(S, t, x, y, 0.08, 75) || flat(t.position, c.position) < 0.13);
       if (!t) return goHome(S, c);
       if (t.userData.kind !== c.userData.kind) { S.info('🤔 Gigi itu tidak sesuai untuk kerja itu. Lihat bentuknya.'); return goHome(S, c); }
       c.userData.done = true; moveTo(S, c, t.position.clone().setY(0).add(new THREE.Vector3(0, 0, 0.12)));
@@ -181,7 +181,7 @@ function L7(S, play) {
   const pin = id => d.getObjectByName('pin_' + id);
   const dr = dragger(S, () => (next < 5 ? [bolus] : []), {
     onDrop(o, x, y) {
-      const hit = ROUTE.map(r => r[0]).find(id => pin(id).visible && nearScreen(S, pin(id), x, y, 0, 45));
+      const hit = S.closest(ROUTE.map(r => r[0]), x, y, id => pin(id).visible && nearScreen(S, pin(id), x, y, 0, 45), id => pin(id));
       if (!hit) return;
       if (hit !== ROUTE[next][0]) { S.info(`🤔 Makanan bergerak mengikut urutan. Seterusnya: <b>${ROUTE[next][0]}</b>.`); return goHome(S, o); }
       pin(hit).visible = false; o.position.copy(root.worldToLocal(pin(hit).getWorldPosition(new THREE.Vector3())));

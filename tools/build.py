@@ -2,6 +2,7 @@
 
   python tools/build.py web             -> dist/web/   (hub + shared + every game; upload this folder to the VPS)
   python tools/build.py apk T2-amali    -> games/T2-amali/build/T2-amali.apk  (Capacitor, debug-signed)
+  python tools/build.py apk-hub         -> dist/Sains-Tahun-1-6.apk  (ONE app: the hub + every game, offline)
 
 Dev-only files (tools/, blender/, viewer/, tests, .py) never ship."""
 import json, os, shutil, subprocess, sys
@@ -29,38 +30,58 @@ def stage(out, ids):
         shutil.copytree(os.path.join(ROOT, "games", gid), os.path.join(out, "games", gid), ignore=SKIP)
 
 
+HUB = ("index.html", "games.json", "manifest.webmanifest", "sw.js")
+
+
+def stage_hub(out):
+    for f in HUB:
+        shutil.copy(os.path.join(ROOT, f), out)
+    shutil.copytree(os.path.join(ROOT, "icons"), os.path.join(out, "icons"))
+
+
 def web():
     all_games = games()
     out = os.path.join(ROOT, "dist", "web")
     stage(out, all_games)
-    for f in ("index.html", "games.json"):
-        shutil.copy(os.path.join(ROOT, f), out)
+    stage_hub(out)
     mb = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(out) for f in fs) / 1e6
     print(f"dist/web: {len(all_games)} games, {mb:.1f} MB")
+
+
+def gradle(app_id, name, dst):
+    env = {**os.environ, "JAVA_HOME": JAVA_HOME, "ANDROID_HOME": SDK}
+    subprocess.run("npx cap sync android", shell=True, cwd=ROOT, env=env, check=True)
+    gradlew = os.path.join(ROOT, "android", "gradlew.bat" if os.name == "nt" else "gradlew")
+    subprocess.run([gradlew, "assembleDebug", f"-PappId={app_id}", f"-PappName={name}"], cwd=os.path.join(ROOT, "android"), env=env, check=True)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    shutil.copy(os.path.join(ROOT, "android", "app", "build", "outputs", "apk", "debug", "app-debug.apk"), dst)
+    print(f"{dst}  ({os.path.getsize(dst) / 1e6:.1f} MB, {app_id}, '{name}')")
 
 
 def apk(gid):
     g = games()[gid]
     out = os.path.join(ROOT, "dist", "apk")
     stage(out, [gid])
-    # app opens straight into the game (a file path: Capacitor answers bare folder URLs with the root index -> loop); the game's "← Semua permainan" link lands back here -> back into the game
+    # app opens straight into the game (a file path: Capacitor answers bare folder URLs with the root index -> loop); the game's "Semua permainan" link lands back here -> back into the game
     open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(
         f'<!doctype html><meta charset="utf-8"><script>location.replace("/games/{gid}/index.html")</script>')
-    env = {**os.environ, "JAVA_HOME": JAVA_HOME, "ANDROID_HOME": SDK}
-    subprocess.run("npx cap sync android", shell=True, cwd=ROOT, env=env, check=True)
     app_id = "my.sains." + gid.lower().replace("-", "_")  # own id per game -> all games install side by side
     name = f"Sains T{g['year']} " + (f"U{g['unit']} " if g.get("unit") else "") + g["title"]
-    gradlew = os.path.join(ROOT, "android", "gradlew.bat" if os.name == "nt" else "gradlew")
-    subprocess.run([gradlew, "assembleDebug", f"-PappId={app_id}", f"-PappName={name}"], cwd=os.path.join(ROOT, "android"), env=env, check=True)
-    dst = os.path.join(ROOT, "games", gid, "build", gid + ".apk")
-    os.makedirs(os.path.dirname(dst), exist_ok=True)
-    shutil.copy(os.path.join(ROOT, "android", "app", "build", "outputs", "apk", "debug", "app-debug.apk"), dst)
-    print(f"{dst}  ({os.path.getsize(dst) / 1e6:.1f} MB, {app_id}, '{name}')")
+    gradle(app_id, name, os.path.join(ROOT, "games", gid, "build", gid + ".apk"))
+
+
+def apk_hub():
+    out = os.path.join(ROOT, "dist", "apk")
+    stage(out, games())
+    stage_hub(out)  # the hub is the app's start page; every game's 🏠 goes back to it
+    gradle("my.sains.hub", "Sains Tahun 1-6", os.path.join(ROOT, "dist", "Sains-Tahun-1-6.apk"))
 
 
 if __name__ == "__main__":
     if sys.argv[1:2] == ["web"]:
         web()
+    elif sys.argv[1:2] == ["apk-hub"]:
+        apk_hub()
     elif sys.argv[1:2] == ["apk"] and len(sys.argv) == 3:
         apk(sys.argv[2])
     else:

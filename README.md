@@ -1,24 +1,36 @@
-# Permainan Sains Tahun 1–6
+# Sains Ceria · Tahun 1–6
 
-Interactive science games (camera + hand gestures + 3D) for every unit of KSSR Sains Tahun 1–6.
-One codebase → website on the VPS **and** one Android APK per game.
+Interactive science games for the Malaysian primary syllabus (KSSR Sains, Tahun 1–6): **63 units, one game each**,
+played with **hand gestures in front of the camera** (MediaPipe) or with mouse/touch. All text and narration in Bahasa Melayu.
+
+**Play:** https://edugames.altrabird.click/
+
+- ☝️ point and hold = press / tap · ✌️ two fingers = grab and move (scroll on menus) · 👋 wave = blow/shake · ✋ hold still = restart
+- Progress (stars per level) is saved on the device; no login.
+- Works offline once loaded (installable web app), or as an Android app (one hub APK with every game).
+
+## Tech
+
+Plain HTML + ES modules, no bundler: [three.js](https://threejs.org/) scenes, [MediaPipe](https://developers.google.com/mediapipe) hand
+landmarks, [Capacitor](https://capacitorjs.com/) for Android. Every game is `games/T<year>-U<unit>-<slug>/` on the shared engine in
+`shared/` (see `CLAUDE.md` for the full layout and rules).
 
 ```bash
-python -m http.server 8000                       # play locally: http://localhost:8000/
-python tools/build.py web                        # -> dist/web/ (upload to VPS)
-python tools/build.py apk T2-amali               # -> games/T2-amali/build/T2-amali.apk
-DEPLOY=user@host:/var/www/sains sh tools/deploy.sh
+python -m http.server 8000            # http://localhost:8000/
+python games/<id>/tools/test_game.py  # plays every level (mouse + simulated hands) in headless Chromium
+python tools/test_hub.py              # hub, progress, hand navigation
+python tools/build.py web             # dist/web  (static site)
+python tools/build.py apk-hub         # dist/Sains-Tahun-1-6.apk (all games)
+DEPLOY=root@host:/var/www/edugames sh tools/deploy.sh
 ```
 
-Layout and the per-game checklist: [CLAUDE.md](CLAUDE.md). First game: [games/T2-amali](games/T2-amali/README.md).
+## License
 
-## VPS (Caddy)
+MIT — see [LICENSE](LICENSE). Third-party parts below keep their own licenses.
 
-```
-sains.example.my {
-    root * /var/www/sains
-    file_server
-    encode gzip
-}
-```
-Caddy fetches the HTTPS certificate itself — the camera only works over HTTPS.
+## Credits
+
+- 3D icons: [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) — MIT License
+- Fonts: Fredoka, Nunito — SIL Open Font License
+- three.js (MIT), MediaPipe Tasks Vision (Apache 2.0), MindAR (MIT) — vendored in `shared/vendor/`
+- Narration: Microsoft Edge neural TTS voice ms-MY-YasminNeural

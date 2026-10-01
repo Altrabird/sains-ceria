@@ -1,0 +1,41 @@
+/* Cartoon theme shared by the hub (index.html) and every game (stage.css imports it).
+   Warm cream background, white rounded cards, soft shadows, Fredoka headings, 3D-lip buttons, Fluent 3D icons. */
+@import url("vendor/fonts/fonts.css");
+:root {
+  --bg:#fff8ee; --surface:#ffffff; --ink:#27304a; --muted:#6b7590; --line:#ece4d6; --soft:#f6efe3;
+  --green:#58cc02; --green-d:#46a302; --blue:#1cb0f6; --blue-d:#1899d6; --orange:#ff9600; --orange-d:#e08400; --pink:#ff6fae; --yellow:#ffc800; --red:#ff4b4b;
+  --head:'Fredoka','Nunito',system-ui,sans-serif; --text:'Nunito',system-ui,sans-serif;
+  --radius:20px; --shadow:0 2px 0 #00000008, 0 8px 24px #3a2a1012;
+  --y1:#ff9600; --y2:#00b8a9; --y3:#1cb0f6; --y4:#8b5cf6; --y5:#ff6fae; --y6:#58cc02;
+}
+* { box-sizing:border-box; }
+[hidden] { display:none !important; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:2px solid var(--line); border-bottom-width:4px; border-radius:16px;
+  padding:9px 16px; font:600 15px var(--head); letter-spacing:.2px; color:var(--ink); background:var(--surface); text-decoration:none; cursor:pointer;
+  transition:transform .08s, border-bottom-width .08s; }
+.btn:hover { filter:brightness(1.03); }
+.btn:active { transform:translateY(2px); border-bottom-width:2px; }
+.btn:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+.btn.green { background:var(--green); border-color:var(--green-d); color:#fff; }
+.btn.blue { background:var(--blue); border-color:var(--blue-d); color:#fff; }
+.btn.orange { background:var(--orange); border-color:var(--orange-d); color:#fff; }
+.btn.big { padding:13px 26px; font-size:18px; border-radius:18px; }
+.btn img { width:22px; height:22px; }
+.ico { display:grid; place-items:center; border-radius:50%; background:color-mix(in srgb, var(--c, var(--blue)) 18%, #fff); box-shadow:inset 0 -4px 0 color-mix(in srgb, var(--c, var(--blue)) 22%, transparent); }
+.ico img { width:72%; height:72%; object-fit:contain; filter:drop-shadow(0 4px 4px #0002); }
+.stars { color:var(--yellow); letter-spacing:1px; font-size:14px; }
+.stars .off { color:#e3dccd; }
+.pill { display:inline-block; font:600 12px var(--head); padding:3px 10px; border-radius:999px; background:color-mix(in srgb, var(--c, var(--blue)) 16%, #fff); color:color-mix(in srgb, var(--c, var(--blue)) 75%, #000); }
+@media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
+
+/* ---- hands (shared/handnav.js on normal pages; stage.js has its own layer in levels) — always the top-most layer */
+.hand-hover { outline:4px solid var(--orange) !important; outline-offset:3px; transform:scale(1.05); transition:transform .12s; }
+#hnToggle { position:fixed; left:14px; bottom:max(14px, env(safe-area-inset-bottom)); z-index:900; box-shadow:var(--shadow); }
+#hnCam { position:fixed; right:14px; bottom:max(14px, env(safe-area-inset-bottom)); z-index:900; width:168px; aspect-ratio:4/3; object-fit:cover; transform:scaleX(-1);
+  border-radius:18px; border:3px solid #fff; box-shadow:var(--shadow); background:#000; }
+#hnLayer { position:fixed; inset:0; z-index:1000; pointer-events:none; }
+#hnRing { position:fixed; z-index:1001; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; pointer-events:none;
+  background:conic-gradient(var(--orange) calc(var(--p,0) * 360deg), #ffffff99 0);
+  -webkit-mask:radial-gradient(circle, transparent 19px, #000 20px); mask:radial-gradient(circle, transparent 19px, #000 20px); }
+#hnIcon { position:fixed; z-index:1002; font-size:26px; margin:-17px 0 0 -13px; pointer-events:none; text-shadow:0 1px 4px #0006; }
+@media (max-width:600px) { #hnCam { width:110px; } }

@@ -24,7 +24,7 @@ class Circuit {
   place(k, part) { this.parts[k] = part; this.g.attach(part); part.position.copy(SLOT[k]); part.rotation.set(0, 0, 0); this.markers[k].visible = false; this.update(); }
   remove(k) { const p = this.parts[k]; delete this.parts[k]; this.markers[k].visible = true; this.update(); return p; }
   slotNear(x, y, part) {  // which free slot is the pointer over
-    return Object.keys(SLOT).find(k => !this.parts[k] && (nearScreen(this.S, this.markers[k], x, y, 0.02, 60) || flat(this.g.localToWorld(SLOT[k].clone()), part.getWorldPosition(new THREE.Vector3())) < 0.07));
+    return this.S.closest(Object.keys(SLOT), x, y, k => !this.parts[k] && (nearScreen(this.S, this.markers[k], x, y, 0.02, 60) || flat(this.g.localToWorld(SLOT[k].clone()), part.getWorldPosition(new THREE.Vector3())) < 0.07), k => this.markers[k]);
   }
   get complete() {
     const { sel, beban, suis } = this.parts;
@@ -63,7 +63,7 @@ function L1(S, play) {
   const done = new Set();
   const dr = dragger(S, () => cards.filter(c => !done.has(c)), {
     onDrop(c, x, y) {
-      const p = parts.find(p => nearScreen(S, p, x, y, 0.03, 70) || flat(p.position, c.position) < 0.12);
+      const p = S.closest(parts, x, y, p => nearScreen(S, p, x, y, 0.03, 70) || flat(p.position, c.position) < 0.12);
       if (!p) return goHome(S, c);
       if (p.name !== c.userData.id) { S.info('🤔 Bukan fungsi komponen itu. Cuba lagi.'); return goHome(S, c); }
       done.add(c); moveTo(S, c, p.position.clone().add(new THREE.Vector3(0, 0, 0.12)));

@@ -81,7 +81,7 @@ function L5(S, play) {
     if (scene) root.remove(scene);
     const [id, e, clues] = MYST[r]; scene = group('misteri');
     const card = emojiCard('haiwan_' + id, '❓', '', 0.18); card.position.set(-0.45, 0, -0.15); scene.add(card); scene.userData.card = card;
-    clues.forEach((c, i) => { const t = textCard('petunjuk' + i, '🔎 ' + c, 0.4); t.position.set(0.2, 0, -0.32 + i * 0.13); scene.add(t); });
+    clues.forEach((c, i) => { const t = textCard('petunjuk' + i, '🔎 ' + c, 0.4); t.position.set(0.2, 0, -0.34 + i * 0.165); scene.add(t); });
     root.add(scene); S.info(`🕵️ Haiwan misteri ${r + 1}/3: baca petunjuk, kemudian tuding kelasnya.`);
   }
   setup();

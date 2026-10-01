@@ -14,6 +14,7 @@ shared/                  engine used by every game
                          + sorter(S, root, {zones, items}) = the card-into-zones level in ~10 lines (test: g.sort_all())
                          + cycleRing() ordered stages on a ring; diagramBoard()+labelPins() label a drawn diagram
                          + sequence() ordered slots; textCard() word-wrapped SENTENCE answers (emojiCard is for words)
+                         + emojiChip() wide emoji+2-line label card (sorter uses it; readable on phones)
   tools/make_audio.py    python shared/tools/make_audio.py games/<id>  -> Malay mp3 narration for assets/steps.json
   tools/gametest.py      Game(__file__) test kit: open/drag/click/hand/hand_drag/hand_tap/check (see T1-U02 test)
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
@@ -37,7 +38,7 @@ Folder id = `T<year>-U<unit 2 digits>-<lowercase-slug>`. Add it to `games.json` 
 
 ## Source material
 
-Syllabus notes: `C:\Users\HARSIDI BIN JUNICK\Downloads\Telegram Desktop\Nota Ringkas Sains Tahun N by RPH365.pdf`.
+Syllabus notes: `Nota Ringkas Sains Tahun N by RPH365.pdf` (in the author's Downloads; copyrighted — never commit them).
 They are **images with no text layer** — render pages with pymupdf and read them visually.
 Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP standard codes (SP x.y.z); put them in the game.
 
@@ -59,13 +60,20 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 
 - NEVER append `// comment` mid-line via sed/replace: it silently comments out the rest of the line (node --check still passes). Use /* */.
 - Ship with `sh tools/ship.sh <id> "msg"` — it commits only if test_game.py prints `failed: none`.
+- Hub: `python tools/test_hub.py` (hub, progress, hands on hub/game page/Tahniah!). Hands: ☝️ hold presses any button/link,
+  shared/handnav.js does it on normal pages; hand layers are z-index 1000+ (always on top).
+- Theme lives in shared/theme.css (tokens, .btn/.ico/.pill); icons are shared/icons/<slug>.png (Fluent 3D, MIT) set via games.json `icon`.
 
 - Object names are test handles (getObjectByName = first match, depth-first): keep them unique per level (e.g. label_akar vs akar).
 - `.scale(x,y,z)` / `.translate()` exist on geometries, not meshes (mesh.scale is a Vector3): transform the geometry before mesh().
 - Drop on a TALL target (funnel, shelf, head)? the carried object moves on a low plane, so use nearScreen(S, obj, x, y, dy) in onDrop(o, x, y).
+- Camera framing is automatic (stage.js fitView fits every mesh in level.root, hidden ones too, except userData.nofit like the table);
+  `view: {w, d}` in a level is ignored now. Something far away that should not shrink the scene -> userData.nofit = true.
+- Phones run landscape at ~915x412 CSS px: run `python tools/lint_layout.py [id...]` (desktop + phone: CROPPED / SMALL / UNDER-GUIDE / OVERLAP).
 - Keep anything the pupil must touch out of the top-left guide panel area (x < -0.5 at the front is under it on 16:9).
 - Tap targets must not overlap on screen: tilted cards in a FRONT row cover a back row. Hide or move one set (hitTest ignores only invisible meshes, not invisible parents).
-- Close drop targets: pick the NEAREST within range, never the first in the list (bit us twice).
+- Close drop targets: pick the NEAREST within range with `S.closest(list, x, y, ok, obj)`, never `list.find(...)` (bit us 4 times; camera
+  framing changes move targets closer on screen, so first-match picks silently go wrong).
 - Raycast only meshes (stage.js hitTest does): three.js Lines hit with a 1 m slop and steal every grab.
 - Headless Chromium paints ~15 fps, so pointermoves arrive ~55 ms apart — speed-based rules need test moves that account for it.
 - Test fake camera: launch Chromium with --use-fake-device-for-media-stream --use-fake-ui-for-media-stream.

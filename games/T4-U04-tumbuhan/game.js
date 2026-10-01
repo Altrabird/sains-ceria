@@ -20,7 +20,7 @@ function L1(S, play) {
   const dr = dragger(S, () => (wet ? [] : [drop]), {
     onDrop(o, x, y) {
       goHome(S, o);
-      const c = [A, B].find(c => nearScreen(S, c, x, y, 0.02, 60) || flat(c.position, o.position) < 0.08);
+      const c = S.closest([A, B], x, y, c => nearScreen(S, c, x, y, 0.02, 60) || flat(c.position, o.position) < 0.08);
       if (!c) return;
       if (c === B) return S.info('🤔 Lembapkan kapas <b>A sahaja</b>. Kapas B dibiarkan kering.');
       wet = true; c.children[0].material.color.setHex(0x64b5f6); next.visible = true; S.evt('wet', 'A'); S.info('💧 Kapas A dilembapkan. Tuding <b>Seminggu kemudian</b>.');

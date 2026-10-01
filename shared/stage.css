@@ -1,50 +1,92 @@
-/* UI shared by every game built on shared/stage.js (same look as games/T2-amali) */
-:root { --bg:#fff7fa; --fg:#2b2340; --card:#fff; --line:#f1d5e0; --accent:#e0457b; --muted:#7a6c85; --ok:#2fae6b; }
-@media (prefers-color-scheme: dark) { :root { --bg:#17131f; --fg:#f3eef8; --card:#221c2e; --line:#3a2f4a; --accent:#ff7aa8; --muted:#a898b8; } }
-* { box-sizing:border-box; }
-html, body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:15px/1.4 system-ui, sans-serif; overflow:hidden; }
+/* UI shared by every game built on shared/stage.js — cartoon theme (tokens + .btn/.ico/.pill in theme.css) */
+@import url("theme.css");
+html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:600 15px/1.4 var(--text); overflow:hidden; }
 #stage { position:fixed; inset:0; touch-action:none; }
-#menu { position:fixed; inset:0; overflow:auto; padding:16px; z-index:20; background:var(--bg); }
-#menu h1 { font-size:22px; margin:4px 0; }
-#menu p { color:var(--muted); margin:0 0 14px; }
-#menu a.back { color:inherit; }
-.list { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:10px; }
-.lv { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:10px; }
-.lv b { display:block; } .lv small { color:var(--muted); }
-.lv a { display:inline-block; margin:8px 8px 0 0; color:var(--accent); font-weight:600; text-decoration:none; font-size:13px; }
-.lv a.play { display:block; margin:0 0 6px; padding:10px; border-radius:10px; background:var(--accent); color:#fff; text-align:center; font-size:15px; }
+
+/* ---- game page */
+#menu { position:fixed; inset:0; overflow:auto; padding:max(14px, env(safe-area-inset-top)) 20px 48px; z-index:20; background:var(--bg); }
+#menu > * { max-width:1000px; margin-left:auto; margin-right:auto; }
+#menu .mnav { margin-bottom:16px; }
+#menu .exp { display:flex; gap:26px; align-items:center; flex-wrap:wrap; padding:24px; border-radius:28px; background:var(--surface); box-shadow:var(--shadow);
+  background-image:radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--c) 16%, transparent), transparent 55%); }
+#menu .ico.big { width:170px; height:170px; flex:none; }
+#menu .about { flex:1; min-width:240px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+#menu h1 { margin:0; font:700 clamp(28px, 4vw, 40px)/1.1 var(--head); }
+#menu .meta { display:flex; gap:12px; align-items:center; color:var(--muted); font:600 15px var(--head); }
+#menu .meta .stars { font-size:20px; }
+#menu .intro { margin-top:18px; color:var(--muted); line-height:1.55; }
+#menu h2 { margin-top:24px; margin-bottom:12px; font:700 22px var(--head); }
+.list { display:flex; flex-direction:column; gap:10px; }
+.lv { display:flex; align-items:center; gap:14px; padding:12px 14px; background:var(--surface); border:2px solid var(--line); border-bottom-width:4px; border-radius:18px; }
+.lv .num { flex:none; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; font:700 20px var(--head); color:#fff; background:var(--c); box-shadow:0 3px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.lv.done .num { background:var(--yellow); box-shadow:0 3px 0 #d9a700; }
+.lv .lvt { flex:1; min-width:0; } .lv .lvt b { display:block; font:600 17px var(--head); } .lv .lvt small { color:var(--muted); font-size:12.5px; }
+.lv .acts { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+@media (max-width:560px) { .lv { flex-wrap:wrap; } .lv .acts { width:100%; } .lv .acts .green { flex:1; } #menu .ico.big { width:120px; height:120px; } #menu .exp { justify-content:center; } }
+
+/* ---- in-level chrome */
 #top { position:fixed; top:max(10px, env(safe-area-inset-top)); left:10px; right:10px; z-index:10; display:flex; gap:8px; flex-wrap:wrap; }
-#top button, #top select { border:0; border-radius:999px; padding:8px 14px; background:var(--card); color:var(--fg); font:600 14px system-ui; box-shadow:0 2px 10px #0003; }
-#top #next { background:var(--ok); color:#fff; }
-#hint { position:fixed; top:max(58px, calc(env(safe-area-inset-top) + 48px)); left:10px; right:10px; z-index:10; text-align:center; font-size:13px;
-        color:#fff; text-shadow:0 1px 3px #000; pointer-events:none; }
-#guide { position:fixed; left:10px; top:max(90px, calc(env(safe-area-inset-top) + 80px)); z-index:11; width:min(340px, calc(100vw - 20px));
-         max-height:calc(100vh - 190px); overflow:auto; background:color-mix(in srgb, var(--card) 92%, transparent); color:var(--fg);
-         border:2px solid var(--accent); border-radius:16px; padding:10px 12px; box-shadow:0 6px 24px #0003; font-size:15px; }
+#top button, #top select { border:2px solid var(--line); border-bottom-width:4px; border-radius:14px; padding:7px 14px; background:var(--surface); color:var(--ink); font:600 14px var(--head); cursor:pointer; }
+#top button:active { transform:translateY(2px); border-bottom-width:2px; }
+#top #hub { font-size:18px; padding:4px 13px; }
+#top #next { background:var(--green); border-color:var(--green-d); color:#fff; }
+#top #handChip { color:var(--muted); }
+#hint { position:fixed; top:max(62px, calc(env(safe-area-inset-top) + 52px)); left:10px; right:10px; z-index:10; text-align:center; font:600 13px var(--head);
+        color:#fff; text-shadow:0 1px 3px #0006; pointer-events:none; }
+#guide { position:fixed; left:10px; top:max(94px, calc(env(safe-area-inset-top) + 84px)); z-index:11; width:min(330px, calc(100vw - 20px));
+         max-height:calc(100vh - 190px); overflow:auto; background:color-mix(in srgb, var(--surface) 96%, transparent); color:var(--ink);
+         border:2px solid var(--line); border-radius:22px; padding:12px 14px; box-shadow:var(--shadow); font-size:15px; }
 #guide header { display:flex; align-items:center; gap:6px; }
-#guide header b { flex:1; font-size:14px; }
-#guide header button, #guide > button { border:0; border-radius:999px; padding:4px 10px; background:var(--line); color:var(--fg); font:inherit; cursor:pointer; }
-#guide header button.on { background:var(--accent); color:#fff; }
-#guide .prog { font-weight:700; color:var(--accent); }
-#guide .q { margin:8px 0 6px; font-style:italic; color:var(--muted); }
-#guide .bar { height:6px; border-radius:6px; background:var(--line); overflow:hidden; margin:6px 0; }
-#guide .bar i { display:block; height:100%; background:var(--accent); transition:width .4s; }
+#guide header b { flex:1; font:600 15px var(--head); }
+#guide header button, #guide > button { border:2px solid var(--line); border-bottom-width:3px; border-radius:12px; padding:3px 10px; background:var(--surface); color:var(--ink); font:600 13px var(--head); cursor:pointer; }
+#guide header button.on { background:var(--blue); border-color:var(--blue-d); color:#fff; }
+#guide .prog { font:700 15px var(--head); color:var(--orange); }
+#guide .q { margin:8px 0 6px; color:var(--muted); }
+#guide .bar { height:10px; border-radius:10px; background:var(--soft); overflow:hidden; margin:6px 0; }
+#guide .bar i { display:block; height:100%; background:var(--green); border-radius:10px; transition:width .4s; }
 #guide ol { list-style:none; padding:0; margin:0; }
-#guide li { display:flex; gap:8px; padding:6px 8px; border-radius:10px; margin:3px 0; line-height:1.35; }
+#guide li { display:flex; gap:8px; padding:7px 10px; border-radius:14px; margin:4px 0; line-height:1.35; }
 #guide li .g { flex:none; width:24px; text-align:center; }
-#guide li.cur { background:color-mix(in srgb, var(--accent) 16%, transparent); font-weight:600; }
+#guide li.cur { background:color-mix(in srgb, var(--blue) 14%, #fff); border:2px solid color-mix(in srgb, var(--blue) 45%, #fff); font-weight:800; }
 #guide li.done { color:var(--muted); }
-#guide li.todo { opacity:.6; }
-#guide .k { margin:8px 0; padding:8px 10px; border-radius:10px; background:color-mix(in srgb, #3c9 18%, transparent); }
+#guide li.todo { opacity:.5; }
+#guide .k { margin:8px 0; padding:9px 12px; border-radius:14px; background:color-mix(in srgb, var(--green) 16%, #fff); border:2px solid color-mix(in srgb, var(--green) 40%, #fff); }
 #guide.pop { animation:pop .45s ease; }
 @keyframes pop { 40% { transform:scale(1.04); } }
-@media (prefers-reduced-motion: reduce) { #guide.pop { animation:none; } #guide .bar i { transition:none; } }
 #camBg { position:fixed; inset:0; width:100%; height:100%; object-fit:cover; transform:scaleX(-1); z-index:-1; }
-#info { position:fixed; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); z-index:10; background:var(--card); color:var(--fg);
-        border:2px solid var(--accent); border-radius:16px; padding:10px 14px; display:none; box-shadow:0 6px 24px #0003; font-size:16px; }
-#info b { color:var(--accent); }
-#handLayer { position:fixed; inset:0; z-index:6; pointer-events:none; }
-#cursor { position:fixed; z-index:7; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; pointer-events:none;
-          background:conic-gradient(var(--accent) calc(var(--p,0) * 360deg), #ffffff66 0);
+#info { position:fixed; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); z-index:10; background:var(--surface); color:var(--ink);
+        border:2px solid var(--line); border-radius:20px; padding:10px 16px; display:none; box-shadow:var(--shadow); font-size:16px; }
+#info b { color:var(--blue-d); }
+#handLayer { position:fixed; inset:0; z-index:1000; pointer-events:none; }  /* hands always in front of panels and cards */
+#cursor { position:fixed; z-index:1001; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; pointer-events:none;
+          background:conic-gradient(var(--orange) calc(var(--p,0) * 360deg), #ffffff88 0);
           -webkit-mask:radial-gradient(circle, transparent 19px, #000 20px); mask:radial-gradient(circle, transparent 19px, #000 20px); }
-#cursorIcon { position:fixed; z-index:8; font-size:26px; margin:-17px 0 0 -13px; pointer-events:none; text-shadow:0 1px 4px #000a; }
+#cursorIcon { position:fixed; z-index:1002; font-size:26px; margin:-17px 0 0 -13px; pointer-events:none; text-shadow:0 1px 4px #0006; }
+
+/* ---- level complete card (does not block the scene; only the card takes input) */
+#win { position:fixed; inset:0; z-index:15; display:grid; place-items:center; pointer-events:none; background:radial-gradient(circle, #27304a40, transparent 70%); }
+#win .wcard { position:relative; pointer-events:auto; text-align:center; background:var(--surface); border-radius:28px; padding:20px 26px 22px; box-shadow:0 20px 60px #27304a40;
+  animation:winIn .5s cubic-bezier(.2,1.5,.4,1); max-width:calc(100vw - 24px); }
+#win h2 { margin:2px 0; font:700 38px var(--head); color:var(--green); }
+#win p { margin:0 0 16px; color:var(--muted); }
+#win .wstars span { display:inline-block; font-size:52px; line-height:1; color:var(--yellow); text-shadow:0 4px 0 #d9a700; animation:starIn .5s both; }
+#win .wstars span:nth-child(2) { font-size:68px; animation-delay:.15s; } #win .wstars span:nth-child(3) { animation-delay:.3s; }
+#win .wbtn { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+#win #winX { position:absolute; top:10px; right:12px; border:0; background:none; font-size:20px; color:var(--muted); cursor:pointer; }
+@keyframes winIn { from { transform:scale(.7); opacity:0; } }
+@keyframes starIn { from { transform:scale(0) rotate(-90deg); } }
+
+/* phones in landscape (short screens): compact chrome so the 3D scene gets the room */
+@media (max-height: 500px) {
+  #top { top:max(6px, env(safe-area-inset-top)); gap:6px; }
+  #top button, #top select { padding:4px 10px; font-size:12px; border-radius:12px; }
+  #top #hub { font-size:15px; padding:2px 10px; }
+  #hint { display:none; }
+  #guide { top:max(46px, calc(env(safe-area-inset-top) + 40px)); width:min(230px, 34vw); max-height:calc(100vh - 100px); padding:7px 9px; font-size:12.5px; border-radius:16px; }
+  #guide header b { font-size:12.5px; }
+  #guide .q { margin:4px 0; font-size:12px; }
+  #guide li { padding:3px 7px; }
+  #guide .k { margin:4px 0; padding:5px 8px; }
+  #info { left:8px; right:8px; bottom:max(6px, env(safe-area-inset-bottom)); padding:5px 12px; font-size:13px; border-radius:14px; }
+  #win h2 { font-size:28px; } #win .wstars span { font-size:34px; } #win .wstars span:nth-child(2) { font-size:44px; } #win .wcard { padding:12px 18px 14px; } #win p { margin-bottom:10px; }
+}

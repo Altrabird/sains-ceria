@@ -41,7 +41,18 @@ export function magnifier(name = 'kanta') {
   const lens = group('', ring, glass, handle); lens.rotation.x = -Math.PI / 2; lens.position.y = 0.012;
   return group(name, lens);
 }
-export const table = (w, d, play) => mesh(new THREE.BoxGeometry(w, 0.02, d), M(0xf3e6d3, play ? { transparent: true, opacity: 0.5 } : {}), 0, -0.011, 0);
+// the play surface: a warm cream play mat with a soft grid and a wooden rim (stage.js frames the props, not the table)
+let matTex;
+export const table = (w, d, play) => {
+  matTex ||= (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+    g.fillStyle = '#fbf4e8'; g.fillRect(0, 0, 128, 128); g.strokeStyle = '#efe3cf'; g.lineWidth = 3; g.strokeRect(0, 0, 128, 128);
+    g.fillStyle = '#efe3cf'; g.beginPath(); g.arc(64, 64, 3, 0, 7); g.fill();
+    const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; })();
+  const map = matTex.clone(); map.repeat.set(w / 0.1, d / 0.1); map.needsUpdate = true;
+  const o = play ? { transparent: true, opacity: 0.5 } : {};
+  const top = M(0xfff1d6, { map, roughness: 0.9, ...o }), side = M(0xe2b98a, { roughness: 0.7, ...o });
+  const t = new THREE.Mesh(new THREE.BoxGeometry(w, 0.024, d), [side, side, top, side, side, side]); t.position.set(0, -0.013, 0); t.userData.nofit = true; return t;
+};
 
 // a draggable thing remembers where it lives
 export const home = o => { o.userData.home = o.position.clone(); return o; };
@@ -190,20 +201,42 @@ export const nest = (name = 'sarang') => group(name, mesh(new THREE.TorusGeometr
   mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.01, 16), M(0x6b4f2a), 0, 0.006, 0));
 // an upright card with a big emoji + label, readable from the front-above camera; size = card height (m)
 export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e0457b', tint = '#000' } = {}) {  // tint colours plain glyphs like ● ▲
-  const c = document.createElement('canvas'); c.width = 256; c.height = label && emoji ? 300 : label ? 140 : 256;  // no emoji = a word card
+  if (label && !emoji) size *= 1.3;  // word-only cards read small on phones: 30% bigger
+  const c = document.createElement('canvas'); c.width = 256; c.height = label && emoji ? 340 : label ? 140 : 256;  // no emoji = a word card
   const g = c.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, 248, c.height - 8, 28); g.fill();
   g.lineWidth = 8; g.strokeStyle = border; g.stroke();
-  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillStyle = tint; g.fillText(emoji, 128, 128);
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = `${label ? 140 : 170}px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif`; g.fillStyle = tint; g.fillText(emoji, 128, label ? 104 : 128);
   if (label && !emoji) { g.fillStyle = '#2b2340'; let f = 52; const ws = label.split(' '), lines = ws.length > 2 ? [ws.slice(0, Math.ceil(ws.length / 2)).join(' '), ws.slice(Math.ceil(ws.length / 2)).join(' ')] : [label];
     do g.font = `bold ${f}px system-ui, sans-serif`; while (Math.max(...lines.map(l => g.measureText(l).width)) > 228 && --f > 18);
     lines.forEach((l, i) => g.fillText(l, 128, 70 + (i - (lines.length - 1) / 2) * f * 1.1));
-  } else if (label) { g.fillStyle = '#2b2340'; let f = 44; do g.font = `bold ${f}px system-ui, sans-serif`; while (g.measureText(label).width > 236 && --f > 18); g.fillText(label, 128, 268); }  // shrink to fit
+  } else if (label) {  // up to 2 big lines under the emoji, shrink to fit
+    g.fillStyle = '#2b2340'; let f = 64, lines;
+    const wrap = () => { g.font = `bold ${f}px system-ui, sans-serif`; lines = []; let cur = ''; for (const w of label.split(' ')) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > 236 && cur) { lines.push(cur); cur = w; } else cur = t; } lines.push(cur); };
+    do wrap(); while ((lines.length > 2 || lines.some(l => g.measureText(l).width > 236)) && (f -= 2) > 18);
+    lines.forEach((l, i) => g.fillText(l, 128, 262 + (i - (lines.length - 1) / 2) * f * 1.05));
+  }
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
   const w = size * c.width / c.height;
   const card = mesh(new THREE.PlaneGeometry(w, size), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide, transparent: true }), 0, size / 2 + 0.005, 0);
   card.rotation.x = -0.35;
   const g2 = group(name, card, mesh(new THREE.BoxGeometry(w * 0.6, 0.01, 0.03), M(0x8a8a8a), 0, 0.005, 0));
   g2.userData.cardW = w; return g2;
+}
+
+// a wide chip: emoji on the left, label (up to 2 lines, large) on the right — readable on phones. h = height in metres.
+export function emojiChip(name, emoji, label, h = 0.08, { border = '#3a7bd5', tint = '#000' } = {}) {
+  const W = 520, H = 200, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, W - 8, H - 8, 30); g.fill(); g.lineWidth = 8; g.strokeStyle = border; g.stroke();
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '130px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillStyle = tint; g.fillText(emoji, 96, 104);
+  const tx = emoji ? 186 : 24, tw = W - tx - 22; let f = 76, lines;
+  const wrap = () => { g.font = `bold ${f}px system-ui, sans-serif`; lines = []; let cur = ''; for (const w of label.split(' ')) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > tw && cur) { lines.push(cur); cur = w; } else cur = t; } lines.push(cur); };
+  const fits = () => lines.length * f * 1.08 <= H - 24 && lines.every(l => g.measureText(l).width <= tw);  /* 1-3 lines, biggest font that fits */
+  do wrap(); while (!fits() && (f -= 2) > 22);
+  g.fillStyle = '#2b2340'; g.textAlign = emoji ? 'left' : 'center'; lines.forEach((l, i) => g.fillText(l, emoji ? tx : W / 2, H / 2 + (i - (lines.length - 1) / 2) * f * 1.08));
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; const w = h * W / H;
+  const card = mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide, transparent: true }), 0, h / 2 * Math.sin(1.0) + 0.005, 0);
+  card.rotation.x = -1.0;
+  const g2 = group(name, card); g2.userData.cardW = w; return g2;
 }
 
 // ------------------------------------------------------------ the five senses (Tahun 1 U1, U4)
@@ -344,14 +377,19 @@ export function ruler(name = 'pembaris') {
 // Adds zones + cards to root; emits evt(type, item.id) on each correct drop; returns the dragger. onDone() after the last.
 export function sorter(S, root, { zones, items, type = 'sort', size = 0.12, row = 0.27, gap = 0.21, ok = it => `✅ ${it.label}.`, onDone } = {}) {
   const Z = zones.map(z => {
-    const g = group('zon_' + z.id, mesh(new THREE.BoxGeometry(z.w || 0.6, 0.006, z.d || 0.3), M(z.color, { transparent: true, opacity: 0.6 }), 0, 0.003, 0));
-    const t = textSprite(z.label, { h: 0.036 }); t.position.set(0, 0.03, -(z.d || 0.3) / 2 - 0.03); g.add(t);
+    const g = group('zon_' + z.id, mesh(new THREE.BoxGeometry(z.w || 0.6, 0.012, z.d || 0.3), M(new THREE.Color(z.color).offsetHSL(0, 0.35, -0.12)), 0, 0.006, 0));
+    const t = textSprite(z.label, { h: 0.05 }); t.position.set(0, 0.035, -(z.d || 0.3) / 2 - 0.035); g.add(t);
     g.position.set(z.x, 0, z.z); g.userData = { ...z, w: z.w || 0.6, d: z.d || 0.3, n: 0 }; root.add(g); return g;
   });
   const order = items.map((_, i) => i).sort((a, b) => ((a * 7 + 3) % items.length) - ((b * 7 + 3) % items.length));  // fixed shuffle
+  // chips (emoji + big label) in up to 2 rows, as wide as the zones allow; size/gap only set the old single-row scale
+  const n = items.length, rows = n > 5 ? 2 : 1, cols = Math.ceil(n / rows);
+  const spanW = Math.max(...Z.map(z => z.position.x + z.userData.w / 2)) - Math.min(...Z.map(z => z.position.x - z.userData.w / 2));
+  const ch = Math.min(0.095, (Math.max(spanW, (n - 1) * gap) / cols - 0.02) / 2.6), cw = ch * 2.6;
   const cards = items.map((it, i) => {
-    const c = emojiCard(it.id, it.emoji, it.label, size, { border: '#3a7bd5', tint: it.tint }); c.userData.it = it;
-    c.position.set((order[i] - (items.length - 1) / 2) * gap, 0, row); root.add(home(c)); return c;
+    const c = emojiChip(it.id, it.emoji, it.label, ch, { tint: it.tint }); c.userData.it = it;
+    const k = order[i], r = Math.floor(k / cols), col = k % cols, inRow = r < rows - 1 ? cols : n - cols * (rows - 1);
+    c.position.set((col - (inRow - 1) / 2) * (cw + 0.02), 0, row - 0.04 + r * (ch * 0.75 + 0.03)); root.add(home(c)); return c;
   });
   const done = new Set();
   return dragger(S, () => cards.filter(c => !done.has(c)), {
@@ -360,8 +398,8 @@ export function sorter(S, root, { zones, items, type = 'sort', size = 0.12, row 
       if (!z) return goHome(S, c);
       const it = c.userData.it;
       if (it.zone !== z.userData.id) { S.info('🤔 ' + (it.why || 'Cuba lagi!')); return goHome(S, c); }
-      done.add(c); const n = z.userData.n++, per = Math.max(1, Math.floor(z.userData.w / (size * 0.9)));
-      moveTo(S, c, z.position.clone().add(new THREE.Vector3((n % per - (per - 1) / 2) * size * 0.88, 0, Math.floor(n / per) * 0.06 - 0.02)));
+      done.add(c); const k = z.userData.n++, per = Math.max(1, Math.floor(z.userData.w / (cw * 0.62)));  /* overlap chips a little inside the zone */
+      c.scale.setScalar(0.62); moveTo(S, c, z.position.clone().add(new THREE.Vector3((k % per - (per - 1) / 2) * cw * 0.62, 0, Math.floor(k / per) * ch * 0.55 - z.userData.d / 2 + 0.06)));
       S.evt(type, it.id); S.info(ok(it, z.userData));
       if (done.size === items.length) onDone?.();
     },
@@ -504,16 +542,20 @@ export function textCard(name, text, w = 0.36, { border = '#7e57c2', bg = '#ffff
 // ------------------------------------------------------------ matcher: drag each card onto its partner target
 // pairs: [{ id, target: [emoji, label], card: [emoji, label], ok?: html }]  targets in a back row ('sasaran_<id>'), cards shuffled in front ('kad_<id>')
 export function matcher(S, root, pairs, { type = 'match', gap = 0.26, size = 0.11, cardSize = 0.09, targetZ = -0.2, rowZ = 0.27, wrong = '🤔 Bukan pasangan itu. Cuba lagi.', onDone } = {}) {
-  const n = pairs.length, x = i => (i - (n - 1) / 2) * gap;
-  const mk = (name, [e, l], sz, border) => (e ? emojiCard(name, e, l, sz, { border }) : textCard(name, l, gap * 0.85, { border }));  // word-only -> readable text card
-  const targets = pairs.map((p, i) => { const t = mk('sasaran_' + p.id, p.target, size, '#3a7bd5'); t.position.set(x(i), 0, targetZ); t.userData.id = p.id; root.add(t); return t; });
+  // more than 6 pairs: targets and cards each in 2 rows, so every card can be ~1.6x bigger (readable on phones)
+  const n = pairs.length, rows = n > 6 ? 2 : 1, cols = Math.ceil(n / rows), k = rows > 1 ? Math.min(1.6, (n - 1) * gap / ((cols - 1) * gap * 1.0) * 0.8) : 1;
+  const G = gap * k, x = i => ((i % cols) - ((i < cols * (rows - 1) ? cols : n - cols * (rows - 1)) - 1) / 2) * G, r = i => Math.floor(i / cols);
+  size *= k; cardSize *= k;
+  const mk = (name, [e, l], sz, border) => (e && l ? emojiChip(name, e, l, Math.min(sz * 0.9, G * 0.9 / 2.6), { border }) : e ? emojiCard(name, e, l, sz, { border }) : textCard(name, l, G * 0.85, { border }));  // emoji+caption -> wide chip; word-only -> text card
+  const tRow = rows > 1 ? Math.min(size * 0.9, G * 0.9 / 2.6) * 1.1 + 0.05 : 0, cRow = rows > 1 ? cardSize * 1.1 + 0.05 : 0;
+  const targets = pairs.map((p, i) => { const t = mk('sasaran_' + p.id, p.target, size, '#3a7bd5'); t.position.set(x(i), 0, targetZ - tRow * (rows - 1) + r(i) * tRow); t.userData.id = p.id; root.add(t); return t; });
   const mix = pairs.map((_, i) => i).sort((a, b) => ((a * 3 + 1) % n) - ((b * 3 + 1) % n));
-  const cards = pairs.map((p, i) => { const c = mk('kad_' + p.id, p.card, cardSize, '#ef6c00'); c.userData.id = p.id; c.position.set(x(mix[i]), 0, rowZ); root.add(home(c)); return c; });
+  const cards = pairs.map((p, i) => { const c = mk('kad_' + p.id, p.card, cardSize, '#ef6c00'); c.userData.id = p.id; c.position.set(x(mix[i]), 0, rowZ + r(mix[i]) * cRow); root.add(home(c)); return c; });
   let left = n;
   return dragger(S, () => cards.filter(c => !c.userData.done), {
     onDrop(c, x0, y0) {
       const d = t => { const q = t.getWorldPosition(new THREE.Vector3()); q.y += size / 2; q.project(S.camera); return Math.hypot((q.x + 1) / 2 * innerWidth - x0, (1 - q.y) / 2 * innerHeight - y0); };
-      const t = targets.filter(t => d(t) < 80 || flat(t.position, c.position) < gap * 0.45).sort((a, b) => d(a) - d(b))[0];
+      const t = targets.filter(t => d(t) < 80 || flat(t.position, c.position) < G * 0.45).sort((a, b) => d(a) - d(b))[0];
       if (!t) return goHome(S, c);
       if (t.userData.id !== c.userData.id) { S.info(wrong); return goHome(S, c); }
       c.userData.done = true; moveTo(S, c, t.position.clone().add(new THREE.Vector3(0, 0, 0.12)));

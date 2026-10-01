@@ -69,7 +69,7 @@ function L2(S, play) {
   let next = 0, flying = false, spin = 0;
   const dr = dragger(S, () => parts.filter(p => !p.userData.done), {
     onDrop(p, x, y) {
-      const gh = ghosts.find(g => g.visible && nearScreen(S, g, x, y, U, 70));
+      const gh = S.closest(ghosts, x, y, g => g.visible && nearScreen(S, g, x, y, U, 70));
       if (!gh) return goHome(S, p);
       if (gh.name !== 'slot_' + ORDER[next] || p.name !== ORDER[next]) { S.info(`📘 Ikut manual: langkah ${next + 1} ialah <b>${ORDER[next]}</b>.`); return goHome(S, p); }
       p.userData.done = true; p.userData.tag.visible = false; gh.visible = false; heli.attach(p); moveTo(S, p, gh.position.clone()); p.rotation.set(0, 0, 0); p.scale.setScalar(1);

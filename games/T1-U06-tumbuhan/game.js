@@ -162,9 +162,8 @@ function L4(S, play) {
   const labels = mix.map((k, i) => { const c = emojiCard('label_' + k, '', k[0].toUpperCase() + k.slice(1), 0.075, { border: '#e0457b' }); c.position.set(-0.55 + i * 0.16, 0, 0.28); c.userData.part = k; root.add(home(c)); return c; });
   const done = new Set();
   const dr = dragger(S, () => labels.filter(c => !done.has(c)), {
-    onDrop(c) {
-      const sc = S.screenOf(c);
-      const pin = pins.find(pn => { const s = S.screenOf(pn); return Math.hypot(s.x - sc.x, s.y - sc.y) < 60; });  // screen-space: pins float at different heights
+    onDrop(c, x, y) {
+      const pin = S.nearest(x, y, pins.filter(p => p.visible), 60);  /* screen-space nearest: pins float at different heights */
       if (!pin) return goHome(S, c);
       if (pin.name !== 'pin_' + c.userData.part) { S.info('🤔 Bukan bahagian itu. Lihat sekali lagi.'); return goHome(S, c); }
       done.add(c); pin.visible = false;

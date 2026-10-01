@@ -24,7 +24,7 @@ function L1(S, play) {
   const pin = id => d.getObjectByName('pin_' + id);
   const dr = dragger(S, () => (k < 5 ? [air] : []), {
     onDrop(o, x, y) {
-      const hit = Object.keys(PINS).find(id => nearScreen(S, pin(id), x, y, 0, 45));
+      const hit = S.closest(Object.keys(PINS), x, y, id => nearScreen(S, pin(id), x, y, 0, 45), id => pin(id));
       if (!hit) return;
       if (hit !== ROUTE[k]) { S.info(`🤔 ${k < 3 ? 'Menarik nafas' : 'Menghembus nafas'}: seterusnya <b>${ROUTE[k]}</b>.`); return goHome(S, o); }
       o.position.copy(root.worldToLocal(pin(hit).getWorldPosition(new THREE.Vector3()))); S.evt('route', 'r' + k); k++;

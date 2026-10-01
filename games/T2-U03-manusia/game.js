@@ -136,7 +136,7 @@ function L3(S, play) {
   const done = new Set();
   const dr = dragger(S, () => cards.filter(c => !done.has(c)), {
     onDrop(c, x, y) {
-      const p = rel.find(p => nearScreen(S, p, x, y, 0.1, 75) || flat(p.position, c.position) < 0.12);
+      const p = S.closest(rel, x, y, p => nearScreen(S, p, x, y, 0.1, 75) || flat(p.position, c.position) < 0.12);
       if (!p) return goHome(S, c);
       const tr = TRAITS.find(t => t[0] === c.userData.id), f = FAMILY[p.userData.id];
       if (!tr[2](f)) { S.info(`🤔 Bandingkan ${tr[1].toLowerCase()} Kugan dengan ${f.label.toLowerCase()} sekali lagi.`); return goHome(S, c); }

@@ -98,7 +98,7 @@ function L6(S, play) {
     async onDrop(o, x, y) {
       const T = { telur_burung: [ns, 0, '🐦 Burung membuat sarang di atas dahan pokok untuk melindungi telur daripada haiwan lain di bawah pokok.'], telur_penyu: [sand, 0.02, '🐢 Penyu <b>menimbus</b> telurnya di dalam pasir.'], anak_kucing: [hide, 0.0, '🐈 Kucing melahirkan anak di <b>tempat tersorok</b> supaya selamat daripada gangguan musuh. Ibu kucing menjaga dan menyusukan anaknya.'] }[o.name];
       if (!(nearScreen(S, T[0], x, y, T[1], 70) || flat(o.position, T[0].getWorldPosition(new THREE.Vector3())) < 0.12)) {
-        const wrong = [ns, sand, hide].find(t => nearScreen(S, t, x, y, 0, 70));
+        const wrong = S.closest([ns, sand, hide], x, y, t => nearScreen(S, t, x, y, 0, 70));
         if (wrong) S.info('🤔 Adakah tempat itu sesuai? Fikirkan di mana haiwan itu melindungi telur atau anaknya.');
         return goHome(S, o);
       }

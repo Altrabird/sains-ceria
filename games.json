@@ -1,450 +1,641 @@
 [
   {
-    "id": "T2-amali",
-    "year": 2,
-    "unit": null,
-    "title": "AR Amali",
-    "desc": "12 amali Rekod Amali Tahun 2 — kad AR + gerak tangan"
-  },
-  {
     "id": "T1-U01-kemahiran-saintifik",
     "year": 1,
     "unit": 1,
     "title": "Saintis Cilik",
-    "desc": "Kemahiran saintifik — deria, spesimen, lakaran, bersih & simpan"
+    "desc": "Kemahiran saintifik — deria, spesimen, lakaran, bersih & simpan",
+    "emoji": "🔬",
+    "levels": 4,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T1-U02-peraturan-bilik-sains",
     "year": 1,
     "unit": 2,
     "title": "Peraturan Bilik Sains",
-    "desc": "Beratur, cari pelanggar peraturan, kemaskan bilik sains"
+    "desc": "Beratur, cari pelanggar peraturan, kemaskan bilik sains",
+    "emoji": "🥽",
+    "levels": 3,
+    "icon": "peraturan-bilik-sains"
   },
   {
     "id": "T1-U03-benda-hidup",
     "year": 1,
     "unit": 3,
     "title": "Benda Hidup",
-    "desc": "Hidup atau bukan hidup, ciri benda hidup, saiz, keperluan asas"
+    "desc": "Hidup atau bukan hidup, ciri benda hidup, saiz, keperluan asas",
+    "emoji": "🐣",
+    "levels": 4,
+    "icon": "benda-hidup"
   },
   {
     "id": "T1-U04-manusia",
     "year": 1,
     "unit": 4,
     "title": "Deria Kita",
-    "desc": "Deria dan ciri, kenal pasti buah, deria lain dalam gelap, alat bantu deria"
+    "desc": "Deria dan ciri, kenal pasti buah, deria lain dalam gelap, alat bantu deria",
+    "emoji": "🧍",
+    "levels": 4,
+    "icon": "manusia"
   },
   {
     "id": "T1-U05-haiwan",
     "year": 1,
     "unit": 5,
     "title": "Haiwan",
-    "desc": "Bahagian tubuh, kepentingannya, bulu halus, lakar & label"
+    "desc": "Bahagian tubuh, kepentingannya, bulu halus, lakar & label",
+    "emoji": "🐾",
+    "levels": 4,
+    "icon": "haiwan"
   },
   {
     "id": "T1-U06-tumbuhan",
     "year": 1,
     "unit": 6,
     "title": "Tumbuhan",
-    "desc": "Bina pokok, bandingkan ciri, serupa, labelkan"
+    "desc": "Bina pokok, bandingkan ciri, serupa, labelkan",
+    "emoji": "🌱",
+    "levels": 4,
+    "icon": "tumbuhan"
   },
   {
     "id": "T1-U07-magnet",
     "year": 1,
     "unit": 7,
     "title": "Magnet",
-    "desc": "Bentuk, objek ditarik, kutub, kekuatan, pin bermagnet"
+    "desc": "Bentuk, objek ditarik, kutub, kekuatan, pin bermagnet",
+    "emoji": "🧲",
+    "levels": 5,
+    "icon": "magnet"
   },
   {
     "id": "T1-U08-penyerapan",
     "year": 1,
     "unit": 8,
     "title": "Penyerapan",
-    "desc": "Titis air, ujian adil serapan, kepentingan, reka mop mini"
+    "desc": "Titis air, ujian adil serapan, kepentingan, reka mop mini",
+    "emoji": "🧽",
+    "levels": 4,
+    "icon": "penyerapan"
   },
   {
     "id": "T1-U09-bumi",
     "year": 1,
     "unit": 9,
     "title": "Bumi",
-    "desc": "Bentuk muka bumi, jenis tanah, balang tanah, penapis air"
+    "desc": "Bentuk muka bumi, jenis tanah, balang tanah, penapis air",
+    "emoji": "🌍",
+    "levels": 4,
+    "icon": "bumi"
   },
   {
     "id": "T1-U10-asas-binaan",
     "year": 1,
     "unit": 10,
     "title": "Asas Binaan",
-    "desc": "Bentuk asas, bongkah, bina robot, bentuk ikut kegunaan"
+    "desc": "Bentuk asas, bongkah, bina robot, bentuk ikut kegunaan",
+    "emoji": "🧱",
+    "levels": 4,
+    "icon": "asas-binaan"
   },
   {
     "id": "T2-U01-kemahiran-saintifik",
     "year": 2,
     "unit": 1,
     "title": "Saintis Muda",
-    "desc": "Mengelas, mengukur, siput kebun, urutan penyiasatan"
+    "desc": "Mengelas, mengukur, siput kebun, urutan penyiasatan",
+    "emoji": "🔬",
+    "levels": 4,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T2-U02-peraturan-bilik-sains",
     "year": 2,
     "unit": 2,
     "title": "Jaga Bilik Sains",
-    "desc": "Buang sisa, beg di luar, maklumkan guru, simpan di tempat asal"
+    "desc": "Buang sisa, beg di luar, maklumkan guru, simpan di tempat asal",
+    "emoji": "🥽",
+    "levels": 4,
+    "icon": "peraturan-bilik-sains"
   },
   {
     "id": "T2-U03-manusia",
     "year": 2,
     "unit": 3,
     "title": "Saya Membesar",
-    "desc": "Membiak, peringkat tumbesaran, tumbesaran berbeza, pewarisan"
+    "desc": "Membiak, peringkat tumbesaran, tumbesaran berbeza, pewarisan",
+    "emoji": "🧍",
+    "levels": 3,
+    "icon": "manusia"
   },
   {
     "id": "T2-U04-haiwan",
     "year": 2,
     "unit": 4,
     "title": "Kitar Hidup Haiwan",
-    "desc": "Bertelur atau melahirkan, bilangan, kitar hidup, anak & induk, melindungi"
+    "desc": "Bertelur atau melahirkan, bilangan, kitar hidup, anak & induk, melindungi",
+    "emoji": "🐾",
+    "levels": 6,
+    "icon": "haiwan"
   },
   {
     "id": "T2-U05-tumbuhan",
     "year": 2,
     "unit": 5,
     "title": "Tumbuh-tumbuhan",
-    "desc": "Kepentingan, percambahan, urutan tumbesaran, rekod, penyiasatan air"
+    "desc": "Kepentingan, percambahan, urutan tumbesaran, rekod, penyiasatan air",
+    "emoji": "🌱",
+    "levels": 5,
+    "icon": "tumbuhan"
   },
   {
     "id": "T2-U06-terang-gelap",
     "year": 2,
     "unit": 6,
     "title": "Terang dan Gelap",
-    "desc": "Sumber cahaya, terang & gelap, bayang-bayang, wayang kertas"
+    "desc": "Sumber cahaya, terang & gelap, bayang-bayang, wayang kertas",
+    "emoji": "🌓",
+    "levels": 4,
+    "icon": "terang-gelap"
   },
   {
     "id": "T2-U07-elektrik",
     "year": 2,
     "unit": 7,
     "title": "Elektrik",
-    "desc": "Komponen, litar lengkap, baiki litar, konduktor & penebat, buzzer"
+    "desc": "Komponen, litar lengkap, baiki litar, konduktor & penebat, buzzer",
+    "emoji": "⚡",
+    "levels": 5,
+    "icon": "elektrik"
   },
   {
     "id": "T2-U08-campuran",
     "year": 2,
     "unit": 8,
     "title": "Campuran",
-    "desc": "Asingkan campuran, larut atau tidak, larut lebih cepat"
+    "desc": "Asingkan campuran, larut atau tidak, larut lebih cepat",
+    "emoji": "🥤",
+    "levels": 3,
+    "icon": "campuran"
   },
   {
     "id": "T2-U09-bumi",
     "year": 2,
     "unit": 9,
     "title": "Air dan Udara",
-    "desc": "Sumber air, aliran, kitar air, longkang, udara, angin, roket angin"
+    "desc": "Sumber air, aliran, kitar air, longkang, udara, angin, roket angin",
+    "emoji": "🌍",
+    "levels": 7,
+    "icon": "bumi"
   },
   {
     "id": "T2-U10-teknologi",
     "year": 2,
     "unit": 10,
     "title": "Set Binaan",
-    "desc": "Komponen, pasang ikut manual, cipta, buka dan simpan"
+    "desc": "Komponen, pasang ikut manual, cipta, buka dan simpan",
+    "emoji": "🤖",
+    "levels": 4,
+    "icon": "teknologi"
+  },
+  {
+    "id": "T2-amali",
+    "year": 2,
+    "unit": null,
+    "title": "AR Amali",
+    "desc": "12 amali Rekod Amali Tahun 2 — kad AR + gerak tangan",
+    "emoji": "📋",
+    "icon": "amali"
   },
   {
     "id": "T3-U01-kemahiran-saintifik",
     "year": 3,
     "unit": 1,
     "title": "Kemahiran Proses Sains",
-    "desc": "Mengelas, mengukur, inferens, meramal, graf"
+    "desc": "Mengelas, mengukur, inferens, meramal, graf",
+    "emoji": "🔬",
+    "levels": 5,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T3-U02-peraturan-bilik-sains",
     "year": 3,
     "unit": 2,
     "title": "Peraturan Bilik Sains",
-    "desc": "Sebelum, semasa dan selepas aktiviti"
+    "desc": "Sebelum, semasa dan selepas aktiviti",
+    "emoji": "🥽",
+    "levels": 3,
+    "icon": "peraturan-bilik-sains"
   },
   {
     "id": "T3-U03-manusia",
     "year": 3,
     "unit": 3,
     "title": "Gigi dan Makanan",
-    "desc": "Gigi, penjagaan gigi, piramid makanan, makanan seimbang, pencernaan"
+    "desc": "Gigi, penjagaan gigi, piramid makanan, makanan seimbang, pencernaan",
+    "emoji": "🧍",
+    "levels": 7,
+    "icon": "manusia"
   },
   {
     "id": "T3-U04-haiwan",
     "year": 3,
     "unit": 4,
     "title": "Tabiat Pemakanan Haiwan",
-    "desc": "Beri makan, herbivor/karnivor/omnivor, kegigian, beruang kutub"
+    "desc": "Beri makan, herbivor/karnivor/omnivor, kegigian, beruang kutub",
+    "emoji": "🐾",
+    "levels": 4,
+    "icon": "haiwan"
   },
   {
     "id": "T3-U05-tumbuhan",
     "year": 3,
     "unit": 5,
     "title": "Pembiakan Tumbuhan",
-    "desc": "Cara pembiakan, pelbagai cara, kepentingan, kultur tisu & tut"
+    "desc": "Cara pembiakan, pelbagai cara, kepentingan, kultur tisu & tut",
+    "emoji": "🌱",
+    "levels": 4,
+    "icon": "tumbuhan"
   },
   {
     "id": "T3-U06-pengukuran",
     "year": 3,
     "unit": 6,
     "title": "Luas dan Isi Padu",
-    "desc": "Unit luas, kira petak, anggar luas daun, kubus, meniskus, sesaran air"
+    "desc": "Unit luas, kira petak, anggar luas daun, kubus, meniskus, sesaran air",
+    "emoji": "📏",
+    "levels": 6,
+    "icon": "pengukuran"
   },
   {
     "id": "T3-U07-ketumpatan",
     "year": 3,
     "unit": 7,
     "title": "Ketumpatan",
-    "desc": "Timbul & tenggelam, garam & anggur, minyak & air, aplikasi"
+    "desc": "Timbul & tenggelam, garam & anggur, minyak & air, aplikasi",
+    "emoji": "⚓",
+    "levels": 4,
+    "icon": "ketumpatan"
   },
   {
     "id": "T3-U08-asid-alkali",
     "year": 3,
     "unit": 8,
     "title": "Asid dan Alkali",
-    "desc": "Kertas litmus, rasa bukan penunjuk, ekstrak kubis ungu, kapur"
+    "desc": "Kertas litmus, rasa bukan penunjuk, ekstrak kubis ungu, kapur",
+    "emoji": "🍋",
+    "levels": 4,
+    "icon": "asid-alkali"
   },
   {
     "id": "T3-U09-sistem-suria",
     "year": 3,
     "unit": 9,
     "title": "Sistem Suria",
-    "desc": "Urutan planet, ahli lain, suhu planet, orbit"
+    "desc": "Urutan planet, ahli lain, suhu planet, orbit",
+    "emoji": "🪐",
+    "levels": 4,
+    "icon": "sistem-suria"
   },
   {
     "id": "T3-U10-mesin",
     "year": 3,
     "unit": 10,
     "title": "Takal",
-    "desc": "Bahagian takal, tarik ke bawah beban naik, kegunaan, reka cipta"
+    "desc": "Bahagian takal, tarik ke bawah beban naik, kegunaan, reka cipta",
+    "emoji": "⚙️",
+    "levels": 4,
+    "icon": "mesin"
   },
   {
     "id": "T4-U01-kemahiran-saintifik",
     "year": 4,
     "unit": 1,
     "title": "Saintis Penyiasat",
-    "desc": "Ruang & masa, tafsir data, definisi operasi, pemboleh ubah, eksperimen"
+    "desc": "Ruang & masa, tafsir data, definisi operasi, pemboleh ubah, eksperimen",
+    "emoji": "🔬",
+    "levels": 5,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T4-U02-manusia",
     "year": 4,
     "unit": 2,
     "title": "Badan Kita Bekerja",
-    "desc": "Pernafasan, kadar pernafasan, udara bersih, perkumuhan, gerak balas"
+    "desc": "Pernafasan, kadar pernafasan, udara bersih, perkumuhan, gerak balas",
+    "emoji": "🧍",
+    "levels": 6,
+    "icon": "manusia"
   },
   {
     "id": "T4-U03-haiwan",
     "year": 4,
     "unit": 3,
     "title": "Pernafasan dan Kelas Haiwan",
-    "desc": "Organ pernafasan, katak, vertebrata, lima kelas, mamalia istimewa"
+    "desc": "Organ pernafasan, katak, vertebrata, lima kelas, mamalia istimewa",
+    "emoji": "🐾",
+    "levels": 5,
+    "icon": "haiwan"
   },
   {
     "id": "T4-U04-tumbuhan",
     "year": 4,
     "unit": 4,
     "title": "Gerak Balas dan Fotosintesis",
-    "desc": "Akar & air, pucuk & cahaya, graviti, semalu, fotosintesis"
+    "desc": "Akar & air, pucuk & cahaya, graviti, semalu, fotosintesis",
+    "emoji": "🌱",
+    "levels": 6,
+    "icon": "tumbuhan"
   },
   {
     "id": "T4-U05-cahaya",
     "year": 4,
     "unit": 5,
     "title": "Sifat Cahaya",
-    "desc": "Bergerak lurus, bayang-bayang, pantulan cermin, pembiasan, pelangi"
+    "desc": "Bergerak lurus, bayang-bayang, pantulan cermin, pembiasan, pelangi",
+    "emoji": "💡",
+    "levels": 6,
+    "icon": "cahaya"
   },
   {
     "id": "T4-U06-bunyi",
     "year": 4,
     "unit": 6,
     "title": "Bunyi",
-    "desc": "Getaran, semua arah, gema, berfaedah & memudaratkan, kurangkan bising"
+    "desc": "Getaran, semua arah, gema, berfaedah & memudaratkan, kurangkan bising",
+    "emoji": "🔊",
+    "levels": 5,
+    "icon": "bunyi"
   },
   {
     "id": "T4-U07-tenaga",
     "year": 4,
     "unit": 7,
     "title": "Tenaga",
-    "desc": "Sumber tenaga, sembilan bentuk, perubahan bentuk, berhemat"
+    "desc": "Sumber tenaga, sembilan bentuk, perubahan bentuk, berhemat",
+    "emoji": "🔋",
+    "levels": 4,
+    "icon": "tenaga"
   },
   {
     "id": "T4-U08-bahan",
     "year": 4,
     "unit": 8,
     "title": "Bahan",
-    "desc": "Sumber bahan, makmal sifat, cahaya/haba/kenyal, pilih bahan, reka cipta"
+    "desc": "Sumber bahan, makmal sifat, cahaya/haba/kenyal, pilih bahan, reka cipta",
+    "emoji": "🧪",
+    "levels": 5,
+    "icon": "bahan"
   },
   {
     "id": "T4-U09-bumi",
     "year": 4,
     "unit": 9,
     "title": "Graviti, Siang dan Malam",
-    "desc": "Graviti, putaran & peredaran, siang & malam, bayang-bayang pensel"
+    "desc": "Graviti, putaran & peredaran, siang & malam, bayang-bayang pensel",
+    "emoji": "🌍",
+    "levels": 4,
+    "icon": "bumi"
   },
   {
     "id": "T4-U10-mesin",
     "year": 4,
     "unit": 10,
     "title": "Tuas dan Mesin",
-    "desc": "Tuas, jarak fulkrum, 7 mesin ringkas, mesin kompleks, mesin lestari"
+    "desc": "Tuas, jarak fulkrum, 7 mesin ringkas, mesin kompleks, mesin lestari",
+    "emoji": "⚙️",
+    "levels": 5,
+    "icon": "mesin"
   },
   {
     "id": "T5-U01-kemahiran-saintifik",
     "year": 5,
     "unit": 1,
     "title": "Eksperimen Buih Sabun",
-    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen gliserin"
+    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen gliserin",
+    "emoji": "🔬",
+    "levels": 3,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T5-U02-manusia",
     "year": 5,
     "unit": 2,
     "title": "Rangka dan Darah",
-    "desc": "Sistem rangka, sendi, laluan darah, penjagaan sistem tubuh"
+    "desc": "Sistem rangka, sendi, laluan darah, penjagaan sistem tubuh",
+    "emoji": "🧍",
+    "levels": 5,
+    "icon": "manusia"
   },
   {
     "id": "T5-U03-haiwan",
     "year": 5,
     "unit": 3,
     "title": "Kemandirian Haiwan",
-    "desc": "Ciri khas haiwan, cuaca melampau, rantai dan siratan makanan"
+    "desc": "Ciri khas haiwan, cuaca melampau, rantai dan siratan makanan",
+    "emoji": "🐾",
+    "levels": 6,
+    "icon": "haiwan"
   },
   {
     "id": "T5-U04-tumbuhan",
     "year": 5,
     "unit": 4,
     "title": "Kemandirian Tumbuhan",
-    "desc": "Perlindungan tumbuhan, penyesuaian iklim, pencaran biji benih"
+    "desc": "Perlindungan tumbuhan, penyesuaian iklim, pencaran biji benih",
+    "emoji": "🌱",
+    "levels": 4,
+    "icon": "tumbuhan"
   },
   {
     "id": "T5-U05-elektrik",
     "year": 5,
     "unit": 5,
     "title": "Litar Elektrik",
-    "desc": "Sumber elektrik, simbol, litar bersiri dan selari, kecerahan mentol"
+    "desc": "Sumber elektrik, simbol, litar bersiri dan selari, kecerahan mentol",
+    "emoji": "⚡",
+    "levels": 5,
+    "icon": "elektrik"
   },
   {
     "id": "T5-U06-haba",
     "year": 5,
     "unit": 6,
     "title": "Haba dan Suhu",
-    "desc": "Termometer, takat didih, pengembangan dan pengecutan"
+    "desc": "Termometer, takat didih, pengembangan dan pengecutan",
+    "emoji": "🌡️",
+    "levels": 4,
+    "icon": "haba"
   },
   {
     "id": "T5-U07-pengaratan",
     "year": 5,
     "unit": 7,
     "title": "Pengaratan",
-    "desc": "Objek berkarat, penyiasatan sabut keluli, mencegah pengaratan"
+    "desc": "Objek berkarat, penyiasatan sabut keluli, mencegah pengaratan",
+    "emoji": "🔩",
+    "levels": 3,
+    "icon": "pengaratan"
   },
   {
     "id": "T5-U08-jirim",
     "year": 5,
     "unit": 8,
     "title": "Jirim dan Zarah",
-    "desc": "Tiga keadaan jirim, simulasi zarah, perubahan keadaan, kitaran air"
+    "desc": "Tiga keadaan jirim, simulasi zarah, perubahan keadaan, kitaran air",
+    "emoji": "🧊",
+    "levels": 4,
+    "icon": "jirim"
   },
   {
     "id": "T5-U09-fasa-bulan",
     "year": 5,
     "unit": 9,
     "title": "Fasa Bulan dan Buruj",
-    "desc": "Simulasi peredaran Bulan, urutan fasa Bulan, buruj"
+    "desc": "Simulasi peredaran Bulan, urutan fasa Bulan, buruj",
+    "emoji": "🌙",
+    "levels": 4,
+    "icon": "fasa-bulan"
   },
   {
     "id": "T5-U10-mesin",
     "year": 5,
     "unit": 10,
     "title": "Mesin dan Reka Cipta",
-    "desc": "Gabungan mesin ringkas, alat lestari, tong sampah lestari, langkah mereka cipta"
+    "desc": "Gabungan mesin ringkas, alat lestari, tong sampah lestari, langkah mereka cipta",
+    "emoji": "⚙️",
+    "levels": 4,
+    "icon": "mesin"
   },
   {
     "id": "T6-U01-kemahiran-saintifik",
     "year": 6,
     "unit": 1,
     "title": "Eksperimen Kereta Belon",
-    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen kereta belon"
+    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen kereta belon",
+    "emoji": "🔬",
+    "levels": 4,
+    "icon": "kemahiran-saintifik"
   },
   {
     "id": "T6-U02-manusia",
     "year": 6,
     "unit": 2,
     "title": "Pembiakan dan Saraf",
-    "desc": "Organ pembiakan, persenyawaan hingga kelahiran, sistem saraf"
+    "desc": "Organ pembiakan, persenyawaan hingga kelahiran, sistem saraf",
+    "emoji": "🧍",
+    "levels": 5,
+    "icon": "manusia"
   },
   {
     "id": "T6-U03-mikroorganisma",
     "year": 6,
     "unit": 3,
     "title": "Mikroorganisma",
-    "desc": "Mikroskop, yis bernafas, kulapuk roti, kegunaan dan keburukan"
+    "desc": "Mikroskop, yis bernafas, kulapuk roti, kegunaan dan keburukan",
+    "emoji": "🦠",
+    "levels": 3,
+    "icon": "mikroorganisma"
   },
   {
     "id": "T6-U04-interaksi-hidupan",
     "year": 6,
     "unit": 4,
     "title": "Interaksi Hidupan",
-    "desc": "Mangsa-pemangsa, persaingan, simbiosis, persaingan ruang tumbuhan"
+    "desc": "Mangsa-pemangsa, persaingan, simbiosis, persaingan ruang tumbuhan",
+    "emoji": "🦁",
+    "levels": 4,
+    "icon": "interaksi-hidupan"
   },
   {
     "id": "T6-U05-pemuliharaan",
     "year": 6,
     "unit": 5,
     "title": "Selamatkan Hidupan",
-    "desc": "Kepupusan, ancaman, pemeliharaan dan pemuliharaan"
+    "desc": "Kepupusan, ancaman, pemeliharaan dan pemuliharaan",
+    "emoji": "🐢",
+    "levels": 4,
+    "icon": "pemuliharaan"
   },
   {
     "id": "T6-U06-daya",
     "year": 6,
     "unit": 6,
     "title": "Daya dan Geseran",
-    "desc": "Tarikan, tolakan, kesan daya, geseran, tekanan udara"
+    "desc": "Tarikan, tolakan, kesan daya, geseran, tekanan udara",
+    "emoji": "💪",
+    "levels": 5,
+    "icon": "daya"
   },
   {
     "id": "T6-U07-kelajuan",
     "year": 6,
     "unit": 7,
     "title": "Kelajuan",
-    "desc": "Perlumbaan, guli pada landasan, mengira kelajuan, jarak dan masa"
+    "desc": "Perlumbaan, guli pada landasan, mengira kelajuan, jarak dan masa",
+    "emoji": "🏎️",
+    "levels": 4,
+    "icon": "kelajuan"
   },
   {
     "id": "T6-U08-pengawetan-makanan",
     "year": 6,
     "unit": 8,
     "title": "Pengawetan Makanan",
-    "desc": "Kerosakan makanan, kaedah pengawetan, projek cili kering"
+    "desc": "Kerosakan makanan, kaedah pengawetan, projek cili kering",
+    "emoji": "🥫",
+    "levels": 4,
+    "icon": "pengawetan-makanan"
   },
   {
     "id": "T6-U09-bahan-buangan",
     "year": 6,
     "unit": 9,
     "title": "Bahan Buangan",
-    "desc": "Terbiodegradasi, asingkan bahan buangan, 5R, bersihkan sungai"
+    "desc": "Terbiodegradasi, asingkan bahan buangan, 5R, bersihkan sungai",
+    "emoji": "♻️",
+    "levels": 4,
+    "icon": "bahan-buangan"
   },
   {
     "id": "T6-U10-gerhana",
     "year": 6,
     "unit": 10,
     "title": "Gerhana",
-    "desc": "Simulasi gerhana Bulan dan Matahari, umbra dan penumbra, pemerhatian selamat"
+    "desc": "Simulasi gerhana Bulan dan Matahari, umbra dan penumbra, pemerhatian selamat",
+    "emoji": "🌒",
+    "levels": 4,
+    "icon": "gerhana"
   },
   {
     "id": "T6-U11-galaksi",
     "year": 6,
     "unit": 11,
     "title": "Galaksi",
-    "desc": "Bentuk galaksi, Sistem Suria dalam Bima Sakti, perbandingan saiz"
+    "desc": "Bentuk galaksi, Sistem Suria dalam Bima Sakti, perbandingan saiz",
+    "emoji": "🌌",
+    "levels": 4,
+    "icon": "galaksi"
   },
   {
     "id": "T6-U12-kestabilan-kekuatan",
     "year": 6,
     "unit": 12,
     "title": "Kestabilan dan Kekuatan",
-    "desc": "Meja goncang, kekuatan penyedut minuman, bentuk struktur, bangku botol"
+    "desc": "Meja goncang, kekuatan penyedut minuman, bentuk struktur, bangku botol",
+    "emoji": "🏗️",
+    "levels": 4,
+    "icon": "kestabilan-kekuatan"
   },
   {
     "id": "T6-U13-teknologi",
     "year": 6,
     "unit": 13,
     "title": "Teknologi",
-    "desc": "Alat mengatasi had manusia, teknologi dalam pelbagai bidang, misi dron"
+    "desc": "Alat mengatasi had manusia, teknologi dalam pelbagai bidang, misi dron",
+    "emoji": "🤖",
+    "levels": 4,
+    "icon": "teknologi"
   }
 ]

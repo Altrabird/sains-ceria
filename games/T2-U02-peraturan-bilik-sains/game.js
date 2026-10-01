@@ -147,7 +147,7 @@ function L4(S, play) {
         const sp = emojiSprite('✨', 0.06); sp.position.set(0, 0.14, 0); o.add(sp); setTimeout(() => o.remove(sp), 1500);
         S.evt('wash', o.name); S.info('💧 Dibersihkan selepas digunakan.'); return goHome(S, o);
       }
-      const s = slots.find(s => nearScreen(S, s, x, y, 0.05, 50) || flat(s.position, o.position) < 0.06);
+      const s = S.closest(slots, x, y, s => nearScreen(S, s, x, y, 0.05, 50) || flat(s.position, o.position) < 0.06);
       if (!s) return goHome(S, o);
       if (!clean.has(o)) { S.info('🧼 Bersihkan alat ini di <b>singki</b> dahulu.'); return goHome(S, o); }
       if (s.userData.id !== o.name) { S.info('🤔 Simpan semula di <b>tempat asalnya</b> — lihat garis bentuk di almari.'); return goHome(S, o); }

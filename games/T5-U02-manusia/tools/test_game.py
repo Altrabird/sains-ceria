@@ -16,7 +16,7 @@ with Game(__file__) as g:
     g.match_all(); g.check("L2 -> level done", g.done(), g.guide()); g.shot("L2")
 
     g.open("L3", "&handsim")
-    g.click(g.at(0.6, 0, 0.35)); g.check("L3 empty tap hints", "🔎" in g.info(), g.info())
+    g.click((1180, 640)); g.check("L3 empty tap hints", "🔎" in g.info(), g.info())
     g.hand_tap(g.pos("pin_leher"))
     for j in JOINTS[1:]:
         g.click(g.pos("pin_" + j), 300)

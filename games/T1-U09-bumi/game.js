@@ -30,14 +30,14 @@ function L1(S, play) {
   const root = group('L1', landscape());
   const anchors = LAND.map(([id, , p]) => { const a = new THREE.Object3D(); a.name = 'tempat_' + id; a.position.set(...p); root.add(a); return a; });
   const flags = LAND.map(([id, label], i) => {
-    const f = emojiCard('bendera_' + id, '', label, 0.07, { border: '#e65100' }); f.userData.id = id;
-    f.position.set(-0.63 + i * 0.18, 0, 0.53); root.add(home(f)); return f;
+    const f = emojiCard('bendera_' + id, '', label, 0.085, { border: '#e65100' }); f.userData.id = id;
+    f.position.set(-0.48 + (i % 4) * 0.32, 0, 0.5 + Math.floor(i / 4) * 0.13); root.add(home(f)); return f;
   });
-  const shelf = flat2(1.5, 0.14, 0xfff3e0, 0, 0.53, 0.003); root.add(shelf);
+  const shelf = flat2(1.5, 0.27, 0xfff3e0, 0, 0.565, 0.003); root.add(shelf);
   const placed = new Set();
   const dr = dragger(S, () => flags.filter(f => !placed.has(f)), {
     onDrop(f, x, y) {
-      const a = anchors.find(a => nearScreen(S, a, x, y, 0, 55));
+      const a = S.nearest(x, y, anchors, 55);  /* nearest landform on screen, never the first in the list */
       if (!a) return goHome(S, f);
       if (a.name !== 'tempat_' + f.userData.id) {
         const was = LAND.find(l => 'tempat_' + l[0] === a.name)[1];
@@ -141,7 +141,7 @@ function L3(S, play) {
   }
   const dr = dragger(S, () => piles.filter(p => !filled.has(jars.find(j => j.userData.id === p.userData.id))), {
     onDrop(p, x, y) {
-      const j = jars.find(j => flat(j.position, p.position) < 0.1 || nearScreen(S, j, x, y, 0.16));
+      const j = S.closest(jars, x, y, j => flat(j.position, p.position) < 0.1 || nearScreen(S, j, x, y, 0.16));
       if (!j) return goHome(S, p);
       if (j.userData.id !== p.userData.id) { S.info('Masukkan tanah ke dalam balang yang berlabel sama.'); return goHome(S, p); }
       p.visible = false; filled.add(j); fill(j); S.evt('fill', j.userData.id);

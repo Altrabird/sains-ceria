@@ -2,7 +2,7 @@
 // the 5R, clean a polluted river (effects of careless disposal).
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, table, sorter, matcher, emojiCard, textCard, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
+import { M, mesh, group, table, sorter, matcher, emojiCard, emojiChip, textCard, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
 
 // ------------------------------------------------------------ L1 Terbiodegradasi atau tidak
 function L1(S, play) {
@@ -23,10 +23,10 @@ const BINS = [['kaca', 'Kaca', 0x795548], ['kertas', 'Kertas', 0x1e88e5], ['plas
 function L2(S, play) {
   const root = group('L2', table(1.9, 0.95, play));
   const bins = BINS.map(([id, l, col], i) => { const b = group('tong_' + id, mesh(new THREE.BoxGeometry(0.2, 0.16, 0.14), M(col), 0, 0.08, 0), mesh(new THREE.BoxGeometry(0.21, 0.012, 0.15), M(0x263238), 0, 0.166, 0));
-    b.position.set(-0.72 + i * 0.29, 0, -0.2); b.userData.id = id; root.add(b); const t = textSprite(l, { h: 0.03, bg: '#ffffffdd' }); t.position.set(b.position.x, 0.24, -0.2); root.add(t); return b; });
+    b.position.set(-0.72 + i * 0.29, 0, -0.2); b.userData.id = id; root.add(b); const t = textSprite(l, { h: 0.055, bg: '#ffffffee' }); t.position.set(b.position.x, 0.26, -0.2); root.add(t); return b; });
   const W = [['botol_kaca', '🍾', 'Botol kaca', 'kaca'], ['akhbar', '📰', 'Surat khabar', 'kertas'], ['kotak', '📦', 'Kotak kertas', 'kertas'], ['botol', '🧴', 'Botol plastik', 'plastik'], ['beg', '🛍️', 'Beg plastik', 'plastik'],
     ['tin', '🥫', 'Tin', 'logam'], ['bateri', '🔋', 'Bateri', 'toksik'], ['cat', '🎨', 'Tin cat', 'toksik'], ['pisang', '🍌', 'Kulit pisang', 'kompos'], ['sayur', '🥬', 'Sisa sayur', 'kompos']];
-  const items = W.map(([id, e, l, b], i) => { const c = emojiCard(id, e, l, 0.085, { border: '#607d8b' }); c.userData.bin = b; c.position.set(-0.78 + i * 0.173, 0, 0.3); root.add(home(c)); return c; });
+  const items = W.map(([id, e, l, b], i) => { const c = emojiChip(id, e, l, 0.085, { border: '#607d8b' }); c.userData.bin = b; c.position.set(-0.6 + (i % 5) * 0.3, 0, 0.2 + Math.floor(i / 5) * 0.12); root.add(home(c)); return c; });
   let left = items.length;
   const dr = dragger(S, () => items.filter(c => c.visible), {
     onDrop(c, x, y) {

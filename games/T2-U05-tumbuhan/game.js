@@ -51,7 +51,7 @@ function L2(S, play) {
         if (!(nearScreen(S, fridge, x, y, 0.13, 80) || flat(o.position, fridge.position) < 0.15)) return goHome(S, o);
         setup.add('peti_ais'); moveTo(S, o, fridge.position.clone().add(new THREE.Vector3(0, 0.02, 0.11))); S.evt('setup', 'peti_ais'); S.info('❄️ Piring A di dalam <b>peti ais</b> — suhu sejuk.'); return check();
       }
-      const d = D.find(d => flat(d.getWorldPosition(new THREE.Vector3()), o.position) < 0.1 || nearScreen(S, d, x, y, 0.02, 55));
+      const d = S.closest(D, x, y, d => flat(d.getWorldPosition(new THREE.Vector3()), o.position) < 0.1 || nearScreen(S, d, x, y, 0.02, 55));
       if (o.userData.dish) {
         if (!d) return goHome(S, o);
         if (d.name !== o.userData.dish) { S.info('🤔 Bandingkan keadaan piring itu sekali lagi.'); return goHome(S, o); }

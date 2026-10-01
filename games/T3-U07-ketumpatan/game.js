@@ -121,7 +121,7 @@ function L4(S, play) {
     onDrop(c, x, y) {
       const it = ITEMS.find(i => i[0] === c.name), target = it[3];
       if (!(nearScreen(S, target, x, y, 0.12, 90) || flat(target.position, c.position) < 0.2)) {
-        const other = ITEMS.find(i => nearScreen(S, i[3], x, y, 0.12, 90));
+        const other = S.closest(ITEMS, x, y, i => nearScreen(S, i[3], x, y, 0.12, 90), i => i[3]);
         if (other) S.info('🤔 Adakah barang itu sesuai di situ? Fikir: timbul atau tenggelam?');
         return goHome(S, c);
       }

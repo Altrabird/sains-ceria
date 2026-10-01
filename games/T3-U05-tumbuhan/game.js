@@ -32,7 +32,7 @@ function L2(S, play) {
   const table_ = textSprite('Jadual A', { h: 0.03 }); table_.position.set(0.55, 0.03, -0.2); table_.visible = false; root.add(table_);
   const dr = dragger(S, () => cards.filter(c => !planted.has(c.name)), {
     onDrop(c, x, y) {
-      const p = pots.find(p => nearScreen(S, p, x, y, 0.08, 70) || flat(p.position, c.position) < 0.1);
+      const p = S.closest(pots, x, y, p => nearScreen(S, p, x, y, 0.08, 70) || flat(p.position, c.position) < 0.1);
       if (!p) return goHome(S, c);
       if (p.userData.id !== c.name) { S.info('Tanam di dalam pasu yang berlabel sama.'); return goHome(S, c); }
       planted.add(c.name); c.visible = false; S.evt('plant', c.name);

@@ -59,12 +59,30 @@ export function textSprite(text, { h = 0.05, bg = '#ffffffee', fg = '#2b2340', f
   s.scale.set(h * w / 64, h, 1); s.userData.fx = true; return s;
 }
 
+// per-device progress for the hub (index.html reads the same keys): sains.done = {gameId: [levelIds]}, sains.last = {id, level, t}
+const GAME = (location.pathname.match(/games\/([^/]+)\//) || [])[1];
+const store = (k, f) => { try { const v = f(JSON.parse(localStorage.getItem(k) || 'null')); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode: no progress */ } };
+const progress = {
+  done: lv => GAME && store('sains.done', d => { d ||= {}; d[GAME] = [...new Set([...(d[GAME] || []), lv])]; return d; }),
+  last: lv => GAME && store('sains.last', () => ({ id: GAME, level: lv, t: Date.now() })),
+};
+
+// soft sky gradient with round cartoon clouds (no camera = preview / no permission)
+function skyTexture() {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 512; const g = c.getContext('2d');
+  const gr = g.createLinearGradient(0, 0, 0, 512); gr.addColorStop(0, '#8fd8ff'); gr.addColorStop(0.6, '#cdeeff'); gr.addColorStop(1, '#fff6e6');
+  g.fillStyle = gr; g.fillRect(0, 0, 1024, 512);
+  const cloud = (x, y, s) => { g.fillStyle = '#ffffffe6'; for (const [dx, dy, r] of [[0, 0, 26], [28, -12, 32], [60, 0, 26], [30, 8, 24]]) { g.beginPath(); g.arc(x + dx * s, y + dy * s, r * s, 0, 7); g.fill(); } };
+  cloud(90, 90, 1.2); cloud(700, 60, 1.5); cloud(860, 170, 0.9); cloud(380, 140, 0.8);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+
 const UI = `
 <div id="stage"></div>
-<div id="top" hidden><button id="home">← Menu</button><button id="handChip">✋ Tangan: memuatkan…</button><select id="pick" aria-label="Tukar tahap"></select><button id="next" hidden>Seterusnya ▶</button></div>
+<div id="top" hidden><button id="hub" aria-label="Semua permainan">⌂</button><button id="home">← Menu</button><button id="handChip">✋ Tangan: memuatkan…</button><select id="pick" aria-label="Tukar tahap"></select><button id="next" hidden>Seterusnya ▶</button></div>
 <canvas id="handLayer"></canvas><div id="cursor" hidden></div><div id="cursorIcon" hidden></div>
 <div id="hint"></div><aside id="guide" hidden aria-live="polite"></aside><div id="info" role="status"></div>
-<div id="menu" hidden></div>`;
+<div id="menu" hidden></div><div id="win" hidden></div>`;
 
 export async function boot({ title, intro, levels, steps, build }) {
   document.body.insertAdjacentHTML('afterbegin', UI);
@@ -72,15 +90,27 @@ export async function boot({ title, intro, levels, steps, build }) {
   const MODE = ['play', 'preview'].find(k => Q.has(k));
   const ids = levels.map(l => l.id);
   if (!MODE || !ids.includes(Q.get(MODE))) {
-    $('menu').hidden = false;
-    $('menu').innerHTML = `<p style="margin:0"><a class="back" href="../../">← Semua permainan</a></p><h1>${title}</h1><p>${intro}</p>
-      <div class="list">${levels.map(l => `<div class="lv"><a class="play" href="?play=${l.id}">▶ ${l.id}</a><b>${l.title}</b><small>${l.sp}</small><br>
-      <a href="?preview=${l.id}">🧊 3D (tetikus)</a></div>`).join('')}</div>`;
+    let meta = {}; try { meta = (await (await fetch('../../games.json')).json()).find(g => g.id === GAME) || {}; } catch (e) { /* opened alone */ }
+    let got = []; try { got = (JSON.parse(localStorage.getItem('sains.done') || '{}') || {})[GAME] || []; } catch (e) {}
+    const first = levels.find(l => !got.includes(l.id)) || levels[0], img = meta.icon ? `<img src="../../shared/icons/${meta.icon}.png" alt="">` : '';
+    $('menu').hidden = false; $('menu').style.setProperty('--c', `var(--y${meta.year || 3})`);
+    $('menu').innerHTML = `<div class="mnav"><a class="btn" href="../../index.html">← Semua permainan</a></div>
+      <section class="exp"><span class="ico big">${img}</span><div class="about">
+        <span class="pill">${meta.year ? `Tahun ${meta.year}${meta.unit ? ' · Unit ' + meta.unit : ''}` : 'Sains'}</span><h1>${title}</h1>
+        <div class="meta"><span class="stars">${'★'.repeat(got.length)}<span class="off">${'★'.repeat(Math.max(0, levels.length - got.length))}</span></span><span>${got.length}/${levels.length} tahap selesai</span></div>
+        <a class="btn green big" href="?play=${first.id}">▶ ${got.length ? 'Sambung' : 'Mula main'} · ${first.id}</a></div></section>
+      <p class="intro">${intro}</p><h2>Tahap</h2>
+      <div class="list">${levels.map((l, i) => `<div class="lv${got.includes(l.id) ? ' done' : ''}"><span class="num">${got.includes(l.id) ? '★' : i + 1}</span>
+        <div class="lvt"><b>${l.title}</b><small>${l.sp}</small></div>
+        <div class="acts"><a class="btn green" href="?play=${l.id}">▶ Main</a><a class="btn" href="?preview=${l.id}" title="Tanpa kamera">Tanpa kamera</a></div></div>`).join('')}</div>`;
+    (await import('./handnav.js')).handNav({ scroller: $('menu') });  /* hands on the game page too */
     return;
   }
   const id = Q.get(MODE), lv = levels[ids.indexOf(id)], nextId = ids[ids.indexOf(id) + 1];
   $('top').hidden = false;
   $('home').onclick = () => location.href = location.pathname;
+  $('hub').onclick = () => location.href = '../../index.html';
+  progress.last(id);
   $('pick').innerHTML = levels.map(l => `<option value="${l.id}">${l.id} · ${l.title}</option>`).join('');
   $('pick').value = id; $('pick').onchange = e => location.search = `?${MODE}=${e.target.value}`;
   if (nextId) $('next').onclick = () => location.search = `?${MODE}=${nextId}`;
@@ -96,7 +126,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: !!video });
   renderer.setPixelRatio(devicePixelRatio); renderer.setSize(innerWidth, innerHeight); renderer.toneMapping = THREE.ACESFilmicToneMapping;
   $('stage').append(renderer.domElement);
-  const scene = new THREE.Scene(); if (!video) scene.background = new THREE.Color(0xe9e3ee);
+  const scene = new THREE.Scene(); if (!video) scene.background = skyTexture();  /* blocky sky; in play mode the camera is the background */
   scene.add(new THREE.HemisphereLight(0xffffff, 0x886677, 1.2));
   const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(0.5, 2, 1); scene.add(sun);
   scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
@@ -120,6 +150,10 @@ export async function boot({ title, intro, levels, steps, build }) {
       for (const o of objs) { const s = S.screenOf(o), d = Math.hypot(s.x - x, s.y - y); if (d < bd) { bd = d; best = o; } }
       return best;
     },
+    // the nearest (on screen) of `list` that passes ok(v): use this, never list.find(), to pick a drop target (obj maps an item to its 3D object)
+    closest(list, x, y, ok = () => true, obj = v => v) {
+      return list.filter(ok).map(v => { const s = S.screenOf(obj(v)); return [v, Math.hypot(s.x - x, s.y - y)]; }).sort((a, b) => a[1] - b[1])[0]?.[0];
+    },
     onPlane(x, y, h = 0) { return aim(x, y).ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -h), new THREE.Vector3()); },
     screenOf(o) { const p = o.getWorldPosition(new THREE.Vector3()).project(camera); return { x: (p.x + 1) / 2 * innerWidth, y: (1 - p.y) / 2 * innerHeight }; },
     rayAt: aim,
@@ -135,24 +169,53 @@ export async function boot({ title, intro, levels, steps, build }) {
     onComplete: spec => {
       setTimeout(() => info(`🎉 <b>Tahniah! Tahap selesai.</b> ${spec.k}`, 12), 1500);
       for (let i = 0; i < 5; i++) setTimeout(() => S.star(new THREE.Vector3((i - 2) * 0.12, 0.2, 0)), i * 180);
-      $('next').hidden = !nextId; window.levelDone = true;
+      $('next').hidden = !nextId; window.levelDone = true; progress.done(id);
+      setTimeout(() => { const w = $('win'); w.hidden = false;
+        w.innerHTML = `<div class="wcard"><div class="wstars"><span>★</span><span>★</span><span>★</span></div><h2>Tahniah!</h2><p>${lv.id} · ${lv.title} selesai</p>
+          <div class="wbtn">${nextId ? `<a class="btn green big" href="?${MODE}=${nextId}">Tahap seterusnya ▶</a>` : `<a class="btn green big" href="../../index.html">Unit selesai! Pilih unit lain</a>`}
+          <a class="btn" href="?${MODE}=${id}">↻ Main semula</a><a class="btn" href="../../index.html">⌂ Semua permainan</a></div><button id="winX" aria-label="Tutup">✕</button></div>`;
+        $('winX').onclick = () => { w.hidden = true; }; }, 2600);
     },
   });
   async function load() {
     if (level) scene.remove(level.root);
-    level = await build(id, S); scene.add(level.root); fitView();
-    window.level = level;
+    level = await build(id, S); scene.add(level.root); fitView(); crisp();
+    window.level = level; window.S = S;  /* test hook */
   }
-  // frame the level's table area (w wide, d deep) from the front-above, clear of the guide panel on wide screens
-  function fitView() {
-    const { w = 1.2, d = 0.8 } = level?.view || {};
-    camera.aspect = innerWidth / innerHeight;
+  // frame everything the level built (hidden things too: they appear later), clear of the guide panel, top bar and info bar.
+  // Tagging a mesh userData.nofit leaves it out (the table). Iterates: perspective makes the screen span ~ 1/distance.
+  // cards, labels and drawn diagrams are flat pictures: keep their whites white (ACES tone mapping greys them). Re-run for things added later.
+  const crisp = () => level.root.traverse(o => { const ms = [].concat(o.material || []); for (const m of ms) if ((m.isMeshBasicMaterial || m.isSpriteMaterial) && m.map && m.toneMapped) { m.toneMapped = false; m.needsUpdate = true; } });
+  setInterval(() => level && crisp(), 500);
+  let fitted = new THREE.Box3();
+  function contentBox() {
+    const box = new THREE.Box3(), tmp = new THREE.Box3();
+    level.root.updateMatrixWorld(true);
+    level.root.traverse(o => { if ((o.isMesh || o.isSprite || o.isPoints) && !o.userData.nofit && o.geometry) { o.geometry.computeBoundingBox?.(); tmp.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld); box.union(tmp); } });
+    return box;
+  }
+  // things spawned later (a new cell, a result card) can land outside the first framing: widen the view (never shrink) when they do
+  setInterval(() => { if (!level || holding || hHold) return; const b = contentBox(); if (!b.isEmpty() && !fitted.containsBox(b)) fitView(b.union(fitted)); }, 700);
+  function fitView(extra) {
+    camera.aspect = innerWidth / innerHeight; camera.clearViewOffset();
+    const box = extra || contentBox(); fitted = box.clone().expandByScalar(0.02);
+    if (box.isEmpty()) box.setFromCenterAndSize(new THREE.Vector3(), new THREE.Vector3(1.2, 0.2, 0.8));
     const g = $('guide'), off = !g.hidden && innerWidth > 700 ? g.getBoundingClientRect().right / 2 : 0;
-    const vf = THREE.MathUtils.degToRad(camera.fov), hf = 2 * Math.atan(Math.tan(vf / 2) * (innerWidth - 2 * off) / innerHeight);  // fit beside the panel
-    const el = THREE.MathUtils.degToRad(55);  // table seen from the front-above: depth shrinks by sin(el), props add ~0.3 m
-    const dist = Math.max((w / 2) / Math.tan(hf / 2), (d * Math.sin(el) + 0.3) / 2 / Math.tan(vf / 2)) * 1.05;
-    camera.position.set(0, Math.sin(el) * dist, Math.cos(el) * dist); camera.lookAt(0, 0, 0);
-    if (off) camera.setViewOffset(innerWidth, innerHeight, -off, 0, innerWidth, innerHeight); else camera.clearViewOffset();
+    const topPx = ($('top').getBoundingClientRect().bottom || 0) + 8, botPx = innerHeight < 500 ? 40 : 64;  // info bar
+    const availW = innerWidth - 2 * off - 16, availH = innerHeight - topPx - botPx;
+    const c = box.getCenter(new THREE.Vector3()), el = THREE.MathUtils.degToRad(55), dir = new THREE.Vector3(0, Math.sin(el), Math.cos(el));
+    const corners = []; for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) corners.push(new THREE.Vector3(x, y, z));
+    let dist = 2;
+    for (let it = 0; it < 4; it++) {
+      camera.position.copy(c).addScaledVector(dir, dist); camera.lookAt(c); camera.updateProjectionMatrix(); camera.updateMatrixWorld();
+      let x0 = 1, x1 = -1, y0 = 1, y1 = -1; for (const k of corners) { const q = k.clone().project(camera); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }
+      const sx = (x1 - x0) / 2 * innerWidth / availW, sy = (y1 - y0) / 2 * innerHeight / availH;
+      dist *= Math.max(sx, sy) * 1.02;
+      if (it === 3) { /* shift so the content's screen centre sits in the middle of the free area (between top bar and info bar) */
+        const midY = (y0 + y1) / 2, wantY = 1 - 2 * (topPx + availH / 2) / innerHeight; camera.position.copy(c).addScaledVector(dir, dist);
+        const up = new THREE.Vector3(0, Math.cos(el), -Math.sin(el)); camera.position.addScaledVector(up, (midY - wantY) / 2 * 2 * dist * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)); camera.lookAt(camera.position.clone().addScaledVector(dir, -dist)); }
+    }
+    if (off) camera.setViewOffset(innerWidth, innerHeight, -off, 0, innerWidth, innerHeight);
     camera.updateProjectionMatrix();
   }
   GUIDE.load(id, lv.title);
@@ -185,9 +248,14 @@ export async function boot({ title, intro, levels, steps, build }) {
   };
   const sc = f => (x, y) => { const s = toScreen(x, y); return f(s.x, s.y); };
   let hHold = false, penOn = false;
+  // ☝️ point-and-hold also presses on-screen buttons (sound, next level, Tahniah! card, hub...): a button under the finger wins over the 3D scene.
+  // #handChip is skipped so a hand can never switch the hands off.
+  let hovered = null;
+  const uiAt = (x, y) => { const el = document.elementFromPoint(x, y)?.closest('button, a[href], [data-hand]'); return el && el.id !== 'handChip' && !el.closest('[hidden]') ? el : null; };
+  const hover = el => { if (el === hovered) return; hovered?.classList.remove('hand-hover'); hovered = el; el?.classList.add('hand-hover'); };
   const G = new Gestures({
-    hit: sc((x, y) => level.hit?.(x, y) ?? null),
-    tap: sc((x, y) => level.tap?.(x, y)),
+    hit: sc((x, y) => { const el = uiAt(x, y); hover(el); return el || (level.hit?.(x, y) ?? null); }),
+    tap: sc((x, y) => { const el = uiAt(x, y); if (el) { hover(null); el.click(); } else level.tap?.(x, y); }),
     grab: sc((x, y) => { hHold = !!level.pick?.(x, y); }),
     drag: sc((x, y) => { if (hHold) level.drag?.(x, y); }),
     drop: sc((x, y) => { if (hHold) level.drop?.(x, y); hHold = false; }),
@@ -205,6 +273,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   function feed(lm, now) {
     lastLm = handsOn ? lm : null;
     G.update(lastLm ? classify(lastLm, G.grabbing) : null, now / 1000);
+    if (G.g !== "point") hover(null);
     const pen = !!lastLm && G.g === 'point';  // ☝️ = pen down (tracing); anything else lifts it
     if (pen || penOn) { const s = toScreen(G.x, G.y); level.pen?.(s.x, s.y, pen); }
     penOn = pen;

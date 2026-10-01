@@ -68,7 +68,7 @@ function L3(S, play) {
   const cards = [['herbivor', '🐄', 'Herbivor'], ['karnivor', '🐅', 'Karnivor'], ['omnivor', '🐻', 'Omnivor']].map(([id, e, l], i) => { const c = emojiCard('jenis_' + id, e, l, 0.1, { border: '#7e57c2' }); c.userData.kind = id; c.position.set(-0.4 + [1, 0, 2][i] * 0.4, 0, 0.28); root.add(home(c)); return c; });
   const dr = dragger(S, () => cards.filter(c => !c.userData.done), {
     onDrop(c, x, y) {
-      const s = skulls.find(s => nearScreen(S, s, x, y, 0.07, 80) || flat(s.position, c.position) < 0.15);
+      const s = S.closest(skulls, x, y, s => nearScreen(S, s, x, y, 0.07, 80) || flat(s.position, c.position) < 0.15);
       if (!s) return goHome(S, c);
       if (s.userData.kind !== c.userData.kind) { S.info('🦷 Lihat gigi tengkorak itu: adakah taringnya tajam? Adakah gerahamnya besar?'); return goHome(S, c); }
       c.userData.done = true; moveTo(S, c, s.position.clone().add(new THREE.Vector3(0, 0, 0.14)));

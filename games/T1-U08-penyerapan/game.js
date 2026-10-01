@@ -91,7 +91,7 @@ function L2(S, play) {
         S.info(`✅ Direndam 20 saat. Sekarang perah ${MATS.find(x => x[0] === m.name)[1].toLowerCase()} di atas silinder penyukatnya.`);
         return;
       }
-      const c = cyls.find(c => flat(c.position, m.position) < 0.1 || nearScreen(S, c, x, y, 0.2) || nearScreen(S, c, x, y, 0.08));  // funnel or tube
+      const c = S.closest(cyls, x, y, c => flat(c.position, m.position) < 0.1 || nearScreen(S, c, x, y, 0.2) || nearScreen(S, c, x, y, 0.08));  // funnel or tube
       if (!c) return goHome(S, m);
       if (!soaked.has(m)) { S.info('Rendam bahan di dalam <b>besen air</b> dahulu.'); return goHome(S, m); }
       if (c.name !== 'silinder_' + m.name) { S.info('Perah di atas silinder yang berlabel sama.'); return; }

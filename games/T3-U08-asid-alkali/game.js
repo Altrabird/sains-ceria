@@ -33,7 +33,7 @@ function L1(S, play) {
   let current = null; const done = new Set();
   const dr = dragger(S, () => (current ? [] : [lit]), {
     async onDrop(o, x, y) {
-      const b = beakers.find(b => !done.has(b) && (nearScreen(S, b, x, y, 0.08, 60) || flat(b.position, o.position) < 0.08));
+      const b = S.closest(beakers, x, y, b => !done.has(b) && (nearScreen(S, b, x, y, 0.08, 60) || flat(b.position, o.position) < 0.08));
       if (!b) return goHome(S, o);
       current = b; o.userData.reset();
       await moveTo(S, o, b.position.clone().setY(0.1)); await S.tween(0.4, k => o.position.y = 0.1 - k * 0.05);
@@ -96,7 +96,7 @@ function L3(S, play) {
   const dr = dragger(S, () => (done.size < 3 ? [ext] : []), {
     async onDrop(o, x, y) {
       goHome(S, o);
-      const b = jars.find(b => !done.has(b) && (nearScreen(S, b, x, y, 0.08, 70) || flat(b.position, o.position) < 0.12));
+      const b = S.closest(jars, x, y, b => !done.has(b) && (nearScreen(S, b, x, y, 0.08, 70) || flat(b.position, o.position) < 0.12));
       if (!b) return;
       done.add(b); const liq = b.children[b.children.length - 2]; const c0 = liq.material.color.clone(), c1 = new THREE.Color(b.userData.col);
       await S.tween(1, k => liq.material.color.lerpColors(c0, c1, k));

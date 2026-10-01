@@ -66,7 +66,7 @@ function L3(S, play) {
   }
   return {
     root, view: { w: 1.4, d: 1.45 },
-    hit: (x, y) => pins.filter(p => p.visible).find(p => nearScreen(S, p, x, y, 0, 30))?.name ?? null,
+    hit: (x, y) => S.closest(pins, x, y, p => p.visible && nearScreen(S, p, x, y, 0, 30))?.name ?? null,
     tap(x, y) {
       const p = pins.filter(p => !found.has(p)).map(p => [p, p.getWorldPosition(new THREE.Vector3()).project(S.camera)]).map(([p, q]) => [p, Math.hypot((q.x + 1) / 2 * innerWidth - x, (1 - q.y) / 2 * innerHeight - y)]).filter(a => a[1] < 30).sort((a, b) => a[1] - b[1])[0]?.[0];
       if (!p) return S.info('🔎 Sendi ialah tempat pertemuan dua atau lebih tulang. Cari titik biru.');
@@ -101,7 +101,7 @@ function L4(S, play) {
   const pin = id => d.getObjectByName('pin_' + id);
   const dr = dragger(S, () => (k < 5 ? [blood] : []), {
     onDrop(o, x, y) {
-      const hit = Object.keys(PINS).find(id => nearScreen(S, pin(id), x, y, 0, 50));
+      const hit = S.closest(Object.keys(PINS), x, y, id => nearScreen(S, pin(id), x, y, 0, 50), id => pin(id));
       if (!hit) return;
       if (hit !== ROUTE[k]) { S.info(`🤔 ${k < 3 ? 'Darah lebih oksigen' : 'Darah lebih karbon dioksida'}: seterusnya ke <b>${ROUTE[k]}</b>.`); return goHome(S, o); }
       o.position.copy(root.worldToLocal(pin(hit).getWorldPosition(new THREE.Vector3()))); S.evt('route', 'r' + k); k++;

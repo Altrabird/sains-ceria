@@ -49,7 +49,7 @@ function L1(S, play) {
   }
   const dr = dragger(S, () => cards.filter(c => !done.has(c)), {
     async onDrop(c, x, y) {
-      const b = mixes.find(b => nearScreen(S, b, x, y, 0.05, 70) || flat(b.position, c.position) < 0.12);
+      const b = S.closest(mixes, x, y, b => nearScreen(S, b, x, y, 0.05, 70) || flat(b.position, c.position) < 0.12);
       if (!b) return goHome(S, c);
       const m = MIX.find(m => m[0] === b.name);
       if (m[2] !== c.userData.tool) { S.info(`🤔 Adakah ${TOOLS.find(t => t[0] === c.userData.tool)[2].toLowerCase()} sesuai untuk mengasingkan ${m[1].toLowerCase()}?`); return goHome(S, c); }
@@ -76,7 +76,7 @@ function L2(S, play) {
   const inGlass = new Map();
   const dr = dragger(S, () => spoons.filter(s => !inGlass.has(s)), {
     async onDrop(sp, x, y) {
-      const g = glasses.find(g => nearScreen(S, g, x, y, 0.1, 70) || flat(g.position, sp.position) < 0.1);
+      const g = S.closest(glasses, x, y, g => nearScreen(S, g, x, y, 0.1, 70) || flat(g.position, sp.position) < 0.1);
       if (!g) return goHome(S, sp);
       if (g.userData.id !== sp.name) { S.info('Masukkan setiap bahan ke dalam gelas yang berlabel sama.'); return goHome(S, sp); }
       const stuff = sp.children.slice(1).filter(c => c.isMesh); inGlass.set(sp, g);
