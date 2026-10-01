@@ -11,7 +11,7 @@ const tube = (pts, r, color) => { const m = mesh(new THREE.TubeGeometry(new THRE
 function L1(S, play) {
   const root = group('L1', table(1.3, 0.8, play));
   const dish = group('piring_petri', mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.02, 40), M(0xe1f5fe, { transparent: true, opacity: 0.4 }), 0, 0.01, 0)); dish.position.set(0, 0, -0.1); root.add(dish);
-  const cotton = (x, wet, name) => { const c = group(name, mesh(new THREE.SphereGeometry(0.06, 14, 10).scale(1, 0.4, 1.2), M(wet ? 0x90caf9 : 0xfafafa, { roughness: 1 }), 0, 0.02, 0)); c.position.set(x, 0, -0.1); root.add(c); const t = textSprite(wet ? 'A: lembap' : 'B: kering', { h: 0.03 }); t.position.set(x, 0.07, -0.25); root.add(t); return c; };
+  const cotton = (x, wet, name) => { const c = group(name, mesh(new THREE.SphereGeometry(0.06, 14, 10).scale(1, 0.4, 1.2), M(wet ? 0x90caf9 : 0xfafafa, { roughness: 1 }), 0, 0.02, 0)); c.position.set(x, 0, -0.1); root.add(c); const t = textSprite(name === 'kapas_A' ? 'Kapas A' : 'Kapas B', { h: 0.032 }); t.position.set(x, 0.07, -0.25); root.add(t); return c; };
   const A = cotton(-0.13, false, 'kapas_A'), B = cotton(0.13, false, 'kapas_B');
   const seeds = [-0.06, 0, 0.06].map(z => { const s = mesh(new THREE.SphereGeometry(0.012, 10, 8), M(0xc0ca33), 0, 0.022, -0.1 + z); root.add(s); return s; });
   const drop = emojiCard('penitis', '💧', 'Air', 0.09, { border: '#1e88e5' }); drop.position.set(0.4, 0, 0.22); root.add(home(drop));
@@ -134,11 +134,11 @@ function L4(S, play) {
 // ------------------------------------------------------------ L5 Persamaan fotosintesis + hasil
 function L5(S, play) {
   const root = group('L5', table(1.6, 0.9, play));
-  const slots = ['bahan1', 'bahan2', 'hasil1', 'hasil2'].map((id, i) => { const m = mesh(new THREE.BoxGeometry(0.26, 0.004, 0.11), M(i < 2 ? 0xbbdefb : 0xc8e6c9, { transparent: true, opacity: 0.7 }), [-0.62, -0.3, 0.3, 0.62][i], 0.002, -0.22); m.name = 'petak_' + id; root.add(m); return m; });
-  const arrow = textCard('anak_panah', '➜ cahaya matahari + klorofil ➜', 0.28); arrow.position.set(0, 0, -0.22); root.add(arrow);
-  for (const [x, t] of [[-0.46, '+'], [0.46, '+']]) { const s = textSprite(t, { h: 0.05, bg: '#ffffff00' }); s.position.set(x, 0.03, -0.22); root.add(s); }
+  const slots = ['bahan1', 'bahan2', 'hasil1', 'hasil2'].map((id, i) => { const m = mesh(new THREE.BoxGeometry(0.3, 0.004, 0.13), M(i < 2 ? 0xbbdefb : 0xc8e6c9, { transparent: true, opacity: 0.7 }), [-0.66, -0.33, 0.33, 0.66][i], 0.002, -0.2); m.name = 'petak_' + id; root.add(m); return m; });
+  const arrow = textCard('anak_panah', '➜ cahaya matahari + klorofil ➜', 0.3); arrow.position.set(0, 0, -0.2); root.add(arrow);
+  for (const [x, t] of [[-0.495, '+'], [0.495, '+']]) { const s = textSprite(t, { h: 0.06, bg: '#ffffff00' }); s.position.set(x, 0.03, -0.2); root.add(s); }
   const W = [['karbon_dioksida', 'Karbon dioksida', 'bahan'], ['air', 'Air', 'bahan'], ['glukosa', 'Glukosa', 'hasil'], ['oksigen', 'Oksigen', 'hasil']];
-  const cards = W.map(([id, l, kind], i) => { const c = textCard('perkataan_' + id, l, 0.24); c.userData = { id, kind }; c.position.set(-0.45 + [2, 0, 3, 1][i] * 0.3, 0, 0.27); root.add(home(c)); return c; });
+  const cards = W.map(([id, l, kind], i) => { const c = textCard('perkataan_' + id, l, 0.28); c.userData = { id, kind }; c.position.set(-0.45 + [2, 0, 3, 1][i] * 0.3, 0, 0.27); root.add(home(c)); return c; });
   const used = new Set();
   const dr = dragger(S, () => cards.filter(c => !c.userData.done), {
     onDrop(c) {
@@ -151,7 +151,7 @@ function L5(S, play) {
       if (used.size === 4) setTimeout(() => S.info('🌿 Karbon dioksida + air → (cahaya matahari, klorofil) → glukosa + oksigen.', 8), 2500);
     },
   });
-  return { root, view: { w: 1.6, d: 0.9 }, ...dr };
+  return { root, view: { w: 1.5, d: 0.7 }, ...dr };
 }
 
 // ------------------------------------------------------------ L6 Kepentingan fotosintesis + responses that help
