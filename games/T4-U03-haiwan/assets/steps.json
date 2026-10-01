@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U03-haiwan after editing.",
+ "L1": { "q": "Apakah organ pernafasan haiwan?",
+  "k": "Haiwan bernafas melalui peparu, insang, kulit lembap atau spirakel. Kucing, buaya dan lembu bernafas melalui peparu; ikan, ketam dan udang melalui insang; cacing dan lintah melalui kulit lembap; belalang dan kupu-kupu melalui spirakel.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap haiwan mengikut organ pernafasannya.", "on": "organ", "count": 10 } ] },
+ "L2": { "q": "Bagaimanakah katak bernafas di darat dan di air?",
+  "k": "Katak mempunyai lebih daripada satu organ pernafasan. Di darat katak bernafas melalui peparu dan di dalam air melalui kulit lembap.",
+  "steps": [ { "g": "✌️", "t": "Bawa katak ke darat dan ke air, kemudian pilih organ pernafasannya.", "on": "frog", "ids": ["darat", "air"], "count": 2 } ] },
+ "L3": { "q": "Apakah perbezaan haiwan vertebrata dan invertebrata?",
+  "k": "Haiwan vertebrata mempunyai tulang belakang, contohnya ular, kuda, burung, ikan dan kura-kura. Haiwan invertebrata tidak mempunyai tulang belakang, contohnya cacing, belalang, lebah, nyamuk dan udang.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan haiwan: vertebrata atau invertebrata.", "on": "backbone", "count": 10 } ] },
+ "L4": { "q": "Apakah lima kelas vertebrata?",
+  "k": "Lima kelas vertebrata ialah mamalia, reptilia, amfibia, burung dan ikan. Ciri pengelasan ialah organ pernafasan, cara pembiakan, litupan badan dan habitat.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap haiwan dalam kelas vertebratanya.", "on": "class", "count": 10 } ] },
+ "L5": { "q": "Mengapakah paus, kelawar dan platipus ialah mamalia?",
+  "k": "Paus hidup di laut tetapi bernafas dengan peparu dan melahirkan anak. Kelawar boleh terbang tetapi ialah mamalia. Platipus bertelur tetapi menyusukan anaknya. Ketiga-tiganya mamalia yang istimewa.",
+  "steps": [ { "g": "☝️", "t": "Baca petunjuk dan tuding kelas setiap haiwan misteri.", "on": "special", "count": 3 } ] }
+}

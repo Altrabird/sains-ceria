@@ -44,7 +44,7 @@ class Game:
         if exc[0] is None:
             self.check("no JS errors", not self.errors, self.errors[:3])
         self.b.close(); self.p.stop(); self.srv.shutdown()
-        print("failed:", self.fails or "none")
+        print("failed:", "CRASH " + repr(exc[1])[:200] if exc[0] else (self.fails or "none"))  # ship.sh gates on "failed: none"
         if exc[0] is None:
             sys.exit(1 if self.fails else 0)
 
