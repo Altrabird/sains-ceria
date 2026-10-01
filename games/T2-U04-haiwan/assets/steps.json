@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U04-haiwan after editing.",
+ "L1": { "q": "Bagaimanakah haiwan membiak?",
+  "k": "Haiwan membiak dengan cara bertelur atau melahirkan anak. Katak, buaya, nyamuk dan itik bertelur. Kucing, kanggaru dan ikan lumba-lumba melahirkan anak.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap haiwan: bertelur atau melahirkan anak.", "on": "reproduce", "count": 7 } ] },
+ "L2": { "q": "Adakah bilangan telur atau anak haiwan sama banyak?",
+  "k": "Bilangan telur atau anak haiwan tidak sama banyak. Burung, angsa dan penguin bertelur sedikit; ikan, katak dan semut bertelur banyak. Tenggiling dan ikan lumba-lumba melahirkan sedikit anak; arnab dan kucing melahirkan banyak anak.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap haiwan di petak yang betul.", "on": "count", "count": 10 } ] },
+ "L3": { "q": "Apakah peringkat kitar hidup katak?",
+  "k": "Haiwan mengalami perubahan tumbesaran dalam kitar hidupnya. Kitar hidup katak: telur, berudu, anak katak dan katak dewasa.",
+  "steps": [ { "g": "✌️", "t": "Susun peringkat kitar hidup katak bermula dengan telur.", "on": "frog", "count": 4 } ] },
+ "L4": { "q": "Apakah peringkat kitar hidup rama-rama?",
+  "k": "Kitar hidup rama-rama: telur, larva atau beluncas, pupa dan rama-rama. Larva tidak menyerupai induknya. Rama-rama dewasa mempunyai sayap.",
+  "steps": [ { "g": "✌️", "t": "Susun peringkat kitar hidup rama-rama bermula dengan telur.", "on": "butterfly", "count": 4 } ] },
+ "L5": { "q": "Adakah anak haiwan menyerupai induknya?",
+  "k": "Induk bermaksud ibu dan bapa haiwan. Anak beruang, harimau dan belalang menyerupai induknya. Anak katak, rama-rama dan kumbang kura-kura tidak menyerupai induknya.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan haiwan: anak menyerupai induk atau tidak menyerupai induk.", "on": "resemble", "count": 6 } ] },
+ "L6": { "q": "Bagaimanakah haiwan melindungi telur dan anaknya?",
+  "k": "Burung membuat sarang di atas dahan pokok. Penyu menimbus telurnya di dalam pasir. Kucing melahirkan anak di tempat tersorok, kemudian menjaga dan menyusukan anaknya.",
+  "steps": [ { "g": "✌️", "t": "Bawa telur burung, telur penyu dan anak kucing ke tempat yang selamat.", "on": "protect", "ids": ["telur_burung", "telur_penyu", "anak_kucing"], "count": 3 } ] }
+}

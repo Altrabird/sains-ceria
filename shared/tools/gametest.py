@@ -113,6 +113,22 @@ class Game:
             self.hand("two", (a[0] + (b[0] - a[0]) * i / steps, a[1] + (b[1] - a[1]) * i / steps), 0.04)
         self.hand("open", b, 0.4); self.pg.wait_for_timeout(600)
 
+    def sort_cards(self):
+        """[(card name, zone id)] for every shared sorter() card still in the level"""
+        return self.js("() => { const out = []; window.level.root.traverse(o => o.userData.it && out.push([o.name, o.userData.it.zone])); return out; }")
+
+    def sort_all(self, by_hand=1):
+        """drop every sorter() card on its zone; the first `by_hand` with simulated hands, the rest with the mouse"""
+        for i, (card, zone) in enumerate(self.sort_cards()):
+            (self.hand_drag if i < by_hand else self.drag)(self.pos(card, 0.04), self.pos("zon_" + zone))
+
+    def sort_wrong(self):
+        """drop the first sorter() card on a wrong zone; returns the hint text"""
+        zones = self.js("() => { const z = []; window.level.root.traverse(o => o.name.startsWith('zon_') && z.push(o.name)); return z; }")
+        card, zone = self.sort_cards()[0]
+        self.drag(self.pos(card, 0.04), self.pos(next(z for z in zones if z != "zon_" + zone)))
+        return self.info()
+
     def hand_tap(self, at):
         self.hand("point", at, 1.2); self.hand("none", at, 0.2); self.pg.wait_for_timeout(300)
 

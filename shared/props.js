@@ -338,3 +338,32 @@ export function ruler(name = 'pembaris') {
   const top = mesh(new THREE.PlaneGeometry(0.52, 0.05), new THREE.MeshBasicMaterial({ map: t }), 0, 0.005, 0); top.rotation.x = -Math.PI / 2;
   return group(name, mesh(new THREE.BoxGeometry(0.52, 0.004, 0.05), M(0xffca28), 0, 0.002, 0), top);
 }
+
+// ------------------------------------------------------------ card sorter: the most common unit mechanic
+// zones: [{ id, label, color, x, z, w, d }]   items: [{ id, emoji, label, zone, why }]  (why = hint when dropped wrong)
+// Adds zones + cards to root; emits evt(type, item.id) on each correct drop; returns the dragger. onDone() after the last.
+export function sorter(S, root, { zones, items, type = 'sort', size = 0.12, row = 0.27, gap = 0.21, ok = it => `✅ ${it.label}.`, onDone } = {}) {
+  const Z = zones.map(z => {
+    const g = group('zon_' + z.id, mesh(new THREE.BoxGeometry(z.w || 0.6, 0.006, z.d || 0.3), M(z.color, { transparent: true, opacity: 0.6 }), 0, 0.003, 0));
+    const t = textSprite(z.label, { h: 0.036 }); t.position.set(0, 0.03, -(z.d || 0.3) / 2 - 0.03); g.add(t);
+    g.position.set(z.x, 0, z.z); g.userData = { ...z, w: z.w || 0.6, d: z.d || 0.3, n: 0 }; root.add(g); return g;
+  });
+  const order = items.map((_, i) => i).sort((a, b) => ((a * 7 + 3) % items.length) - ((b * 7 + 3) % items.length));  // fixed shuffle
+  const cards = items.map((it, i) => {
+    const c = emojiCard(it.id, it.emoji, it.label, size, { border: '#3a7bd5' }); c.userData.it = it;
+    c.position.set((order[i] - (items.length - 1) / 2) * gap, 0, row); root.add(home(c)); return c;
+  });
+  const done = new Set();
+  return dragger(S, () => cards.filter(c => !done.has(c)), {
+    onDrop(c) {
+      const z = Z.find(z => Math.abs(c.position.x - z.position.x) < z.userData.w / 2 + 0.02 && Math.abs(c.position.z - z.position.z) < z.userData.d / 2 + 0.02);
+      if (!z) return goHome(S, c);
+      const it = c.userData.it;
+      if (it.zone !== z.userData.id) { S.info('🤔 ' + (it.why || 'Cuba lagi!')); return goHome(S, c); }
+      done.add(c); const n = z.userData.n++, per = Math.max(1, Math.floor(z.userData.w / (size * 0.9)));
+      moveTo(S, c, z.position.clone().add(new THREE.Vector3((n % per - (per - 1) / 2) * size * 0.88, 0, Math.floor(n / per) * 0.06 - 0.02)));
+      S.evt(type, it.id); S.info(ok(it, z.userData));
+      if (done.size === items.length) onDone?.();
+    },
+  });
+}

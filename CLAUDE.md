@@ -11,6 +11,7 @@ shared/                  engine used by every game
   stage.js + stage.css   game shell: menu, 3D stage over selfie camera, guide panel, ONE input layer (mouse/touch + hands
                          -> pick/drag/drop/tap/pen). A game = boot({levels, steps, build}) — see games/T1-U01-*/game.js
   props.js               primitives props (M, mesh, group, leaf, magnifier, sink, beaker, labTable, stool, kid...) + dragger
+                         + sorter(S, root, {zones, items}) = the card-into-zones level in ~10 lines (test: g.sort_all())
   tools/make_audio.py    python shared/tools/make_audio.py games/<id>  -> Malay mp3 narration for assets/steps.json
   tools/gametest.py      Game(__file__) test kit: open/drag/click/hand/hand_drag/hand_tap/check (see T1-U02 test)
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
