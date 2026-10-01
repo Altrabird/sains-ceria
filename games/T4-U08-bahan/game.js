@@ -27,13 +27,13 @@ function L2(S, play) {
   const root = group('L2', table(1.6, 0.95, play));
   const ST = [['serap', '💧 Titis air', 0xe3f2fd], ['apung', '🌊 Bekas air', 0x81d4fa], ['elektrik', '💡 Litar elektrik', 0xfff9c4]];
   const stations = ST.map(([id, l, c], i) => { const s = group('stesen_' + id, mesh(new THREE.BoxGeometry(0.3, 0.02, 0.24), M(c), 0, 0.01, 0)); s.position.set(-0.45 + i * 0.45, 0, -0.2); root.add(s); const t = textSprite(l, { h: 0.034 }); t.position.set(0, 0.05, -0.15); s.add(t); s.userData.id = id; return s; });
-  const samples = Object.entries(MAT).map(([id, [l, c]], i) => { const o = group(id, mesh(new THREE.BoxGeometry(0.07, 0.012, 0.05), M(c, { metalness: id === 'kunci' || id === 'syiling' ? 0.7 : 0 }), 0, 0.006, 0)); o.position.set(-0.5 + i * 0.25, 0, 0.3); o.userData.carryY = 0.03; const t = textSprite(l, { h: 0.024 }); t.position.set(0, 0.03, 0.05); o.add(t); root.add(home(o)); return o; });
+  const samples = Object.entries(MAT).map(([id, [l, c]], i) => { const o = group(id, mesh(new THREE.BoxGeometry(0.07, 0.012, 0.05), M(c, { metalness: id === 'kunci' || id === 'syiling' ? 0.7 : 0 }), 0, 0.006, 0)); o.position.set(-0.46 + i * 0.23, 0, 0.3); o.scale.setScalar(1.5); o.userData.carryY = 0.03; const t = textSprite(l, { h: 0.02 }); t.position.set(0, 0.025, 0.04); o.add(t); root.add(home(o)); return o; });
   const tc = document.createElement('canvas'); tc.width = 560; tc.height = 250; const tg = tc.getContext('2d'); const tt = new THREE.CanvasTexture(tc); tt.colorSpace = THREE.SRGBColorSpace;
   const res = {}; const draw = () => { tg.fillStyle = '#fff'; tg.fillRect(0, 0, 560, 250); tg.fillStyle = '#2b2340'; tg.font = 'bold 20px system-ui'; ['Bahan', 'Air', 'Dalam air', 'Elektrik'].forEach((h, i) => tg.fillText(h, 10 + i * 135, 26));
     tg.font = '19px system-ui'; Object.entries(MAT).forEach(([id, [l, , p]], r) => { const y = 64 + r * 38; tg.fillText(l.replace('Batang aiskrim kayu', 'Kayu aiskrim'), 10, y); const R = res[id] || {};
       if ('serap' in R) tg.fillText(p.serap ? 'Menyerap' : 'Kalis air', 145, y); if ('apung' in R) tg.fillText(p.apung ? 'Terapung' : 'Tenggelam', 280, y); if ('elektrik' in R) tg.fillText(p.elektrik ? 'Konduktor' : 'Penebat', 415, y); }); tt.needsUpdate = true; };
   draw();
-  const board = mesh(new THREE.PlaneGeometry(0.5, 0.22), new THREE.MeshBasicMaterial({ map: tt }), 0.0, 0.004, 0.08); board.rotation.x = -Math.PI / 2; board.userData.fx = true; root.add(board);
+  const board = mesh(new THREE.PlaneGeometry(0.6, 0.27), new THREE.MeshBasicMaterial({ map: tt }), 0.0, 0.004, 0.06); board.rotation.x = -Math.PI / 2; board.userData.fx = true; root.add(board);
   let tests = 0;
   const dr = dragger(S, () => samples, {
     onDrop(o) {
@@ -46,7 +46,7 @@ function L2(S, play) {
       goHome(S, o);
     },
   });
-  return { root, view: { w: 1.6, d: 0.95 }, ...dr };
+  return { root, view: { w: 1.2, d: 0.8 }, ...dr };
 }
 
 // ------------------------------------------------------------ L3 Cahaya, haba, kenyal
