@@ -1,0 +1,30 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U03-manusia after editing.",
+ "L1": { "q": "Apakah fungsi setiap jenis gigi?",
+  "k": "Gigi kacip memotong makanan, gigi taring mengoyakkan makanan dan gigi geraham melumatkan makanan.",
+  "steps": [ { "g": "✌️", "t": "Bawa setiap kad makanan kepada gigi yang sesuai.", "on": "job", "count": 3 } ] },
+ "L2": { "q": "Apakah struktur gigi?",
+  "k": "Gigi mempunyai enamel, dentin, saraf dan salur darah, dan dipegang oleh gusi.",
+  "steps": [ { "g": "✌️", "t": "Labelkan lima bahagian gigi pada rajah.", "on": "label", "count": 5 } ] },
+ "L3": { "q": "Apakah perbezaan gigi susu dengan gigi kekal?",
+  "k": "Gigi susu ada 20 batang, enamel nipis, mula tumbuh pada umur 6 bulan dan lengkap pada 3 tahun. Gigi kekal ada 32 batang, enamel tebal, mula tumbuh pada umur 6 tahun dan lengkap pada 21 tahun. Kedua-duanya mempunyai gigi kacip, taring dan geraham.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap ciri: gigi susu atau gigi kekal.", "on": "teeth", "count": 9 } ] },
+ "L4": { "q": "Bagaimanakah kita menjaga kesihatan gigi?",
+  "k": "Berus gigi sekurang-kurangnya dua kali sehari, gunakan flos, kurangkan makanan manis dan periksa gigi di klinik setiap enam bulan. Rawatan pergigian termasuk tampalan, pendakap gigi, gigi palsu dan rawatan akar.",
+  "steps": [
+   { "g": "✌️", "t": "Gosok gigi dengan berus sehingga bersih.", "on": "brush" },
+   { "g": "✌️", "t": "Kelaskan tabiat yang menjaga dan yang merosakkan gigi.", "on": "habit", "count": 5 }
+  ] },
+ "L5": { "q": "Bagaimanakah makanan disusun dalam piramid makanan Malaysia?",
+  "k": "Aras satu: nasi, roti dan ubi, makan secukupnya. Aras dua: buah-buahan dan sayur-sayuran, makan banyak. Aras tiga: ikan, ayam dan susu, makan sederhana. Aras empat: minyak, gula dan garam, makan sedikit.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap makanan di aras piramid yang betul.", "on": "pyramid", "count": 12 } ] },
+ "L6": { "q": "Apakah hidangan makanan seimbang?",
+  "k": "Makanan seimbang mengandungi semua kelas makanan dalam jumlah yang mencukupi. Makanan berlemak berlebihan menyebabkan kegemukan, makanan manis berlebihan merosakkan gigi, dan kurang sayur menyebabkan sembelit.",
+  "steps": [ { "g": "✌️", "t": "Isi pinggan dengan hidangan seimbang: karbohidrat, protein, sayur, buah dan air.", "on": "plate", "count": 5 } ] },
+ "L7": { "q": "Bagaimanakah makanan bergerak di dalam badan?",
+  "k": "Pencernaan ialah proses menghancurkan makanan supaya nutrien boleh diserap. Makanan bergerak dari mulut ke esofagus, perut, usus dan dubur. Makan sambil berlari atau terlalu cepat boleh menyebabkan tersedak, muntah dan sakit perut.",
+  "steps": [
+   { "g": "✌️", "t": "Gerakkan makanan melalui saluran pencernaan mengikut urutan.", "on": "digest", "count": 5 },
+   { "g": "☝️", "t": "Tuding cara makan yang tidak mengganggu pencernaan.", "on": "habit" }
+  ] }
+}

@@ -159,5 +159,12 @@
     "unit": 2,
     "title": "Peraturan Bilik Sains",
     "desc": "Sebelum, semasa dan selepas aktiviti"
+  },
+  {
+    "id": "T3-U03-manusia",
+    "year": 3,
+    "unit": 3,
+    "title": "Gigi dan Makanan",
+    "desc": "Gigi, penjagaan gigi, piramid makanan, makanan seimbang, pencernaan"
   }
 ]

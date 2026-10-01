@@ -437,3 +437,33 @@ export function cycleRing(S, root, stages, type, { start = 'telur' } = {}) {
     },
   });
 }
+
+// ------------------------------------------------------------ diagram board: a drawn picture standing up (tilted to the camera)
+// with named pins ('pin_<id>') at (u, v) in 0..1 picture coords (v down). draw(g, W, H) paints the picture.
+// Use with labelPins() for "put the labels on the diagram" levels.
+export function diagramBoard(name, { w = 0.5, h = 0.4, px = 900, draw, pins = {}, tilt = 0.35 }) {
+  const W = px, H = Math.round(px * h / w), c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); draw?.(g, W, H);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const face = mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: t }), 0, 0, 0); face.userData.fx = true;
+  const board = group(name, face); board.rotation.x = -tilt; board.position.y = h / 2 * Math.cos(tilt) + 0.01;
+  for (const [id, [u, v]] of Object.entries(pins)) { const p = mesh(new THREE.SphereGeometry(0.011, 12, 8), M(0xe0457b, { emissive: 0xe0457b, emissiveIntensity: 0.4 }), (u - 0.5) * w, (0.5 - v) * h, 0.006); p.name = 'pin_' + id; board.add(p); }
+  const holder = group(name + '_dudukan', board); return holder;
+}
+// label cards ('label_<id>') along the front; dropping one on its pin snaps it beside the pin. onLabel(id) per correct drop.
+export function labelPins(S, root, holder, labels, { row = 0.3, size = 0.07, onLabel, wrong = '🤔 Bukan di situ. Lihat rajah sekali lagi.' } = {}) {
+  const order = labels.map((_, i) => i).sort((a, b) => ((a * 5 + 2) % labels.length) - ((b * 5 + 2) % labels.length));
+  const cards = labels.map(([id, text], i) => { const c = emojiCard('label_' + id, '', text, size, { border: '#e0457b' }); c.userData.id = id; c.position.set((order[i] - (labels.length - 1) / 2) * 0.22, 0, row); root.add(home(c)); return c; });
+  const pins = () => { const o = []; holder.traverse(p => p.name.startsWith('pin_') && p.visible && o.push(p)); return o; };
+  return dragger(S, () => cards.filter(c => !c.userData.done), {
+    onDrop(c, x, y) {
+      const d = p => { const q = p.getWorldPosition(new THREE.Vector3()).project(S.camera); return Math.hypot((q.x + 1) / 2 * innerWidth - x, (1 - q.y) / 2 * innerHeight - y); };
+      const p = pins().filter(p => d(p) < 55).sort((a, b) => d(a) - d(b))[0];
+      if (!p) return goHome(S, c);
+      if (p.name !== 'pin_' + c.userData.id) { S.info(wrong); return goHome(S, c); }
+      c.userData.done = true; p.visible = false;
+      const tag = textSprite(c.children[0] ? labels.find(l => l[0] === c.userData.id)[1] : '', { h: 0.024, bg: '#fff59dee' }); tag.position.copy(p.position).add(new THREE.Vector3(0, 0, 0.01)); p.parent.add(tag);
+      c.visible = false; onLabel?.(c.userData.id);
+    },
+  });
+}
