@@ -34,7 +34,7 @@ const CHAINS = [['lampu_suluh', '🔦', 'Lampu suluh', ['kimia', 'elektrik', 'ca
 const FORMS = ['suria', 'haba', 'cahaya', 'bunyi', 'elektrik', 'kimia', 'kinetik', 'keupayaan'];
 function L3(S, play) {
   const root = group('L3', table(1.7, 0.95, play));
-  const chips = FORMS.map((f, i) => { const c = textCard('bentuk_' + f, f[0].toUpperCase() + f.slice(1), 0.19); c.userData.f = f; c.position.set(-0.7 + i * 0.2, 0, 0.33); root.add(c); return c; });
+  const chips = FORMS.map((f, i) => { const c = textCard('bentuk_' + f, f[0].toUpperCase() + f.slice(1), 0.17); c.userData.f = f; c.position.set(-0.6 + i * 0.175, 0, 0.33); root.add(c); return c; });
   let r = 0, k = 0, row = null;
   function setup() {
     if (row) root.remove(row); row = group('rantai'); root.add(row); k = 0;
