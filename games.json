@@ -19,5 +19,12 @@
     "unit": 2,
     "title": "Peraturan Bilik Sains",
     "desc": "Beratur, cari pelanggar peraturan, kemaskan bilik sains"
+  },
+  {
+    "id": "T1-U03-benda-hidup",
+    "year": 1,
+    "unit": 3,
+    "title": "Benda Hidup",
+    "desc": "Hidup atau bukan hidup, ciri benda hidup, saiz, keperluan asas"
   }
 ]

@@ -1,0 +1,26 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U03-benda-hidup after editing.",
+ "L1": { "q": "Bagaimanakah kita membezakan benda hidup dengan benda bukan hidup?",
+  "k": "Manusia, pokok dan burung ialah benda hidup. Anak patung, kereta dan batu ialah benda bukan hidup.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan setiap benda di kawasan benda hidup atau benda bukan hidup.", "on": "sort", "ids": ["manusia", "pokok", "burung", "anak_patung", "kereta", "batu"], "count": 6 }
+  ] },
+ "L2": { "q": "Apakah ciri-ciri benda hidup?",
+  "k": "Semua benda hidup bernafas, memerlukan air dan makanan, bergerak, membesar dan membiak. Kapal terbang boleh bergerak tetapi tidak mempunyai ciri-ciri lain.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan kad Bergerak pada kapal terbang.", "on": "plane" },
+   { "g": "✌️", "t": "Berikan kelima-lima kad ciri benda hidup kepada burung.", "on": "trait", "ids": ["bernafas", "makan", "bergerak", "membesar", "membiak"], "count": 5 }
+  ] },
+ "L3": { "q": "Bagaimanakah kita menyusun haiwan mengikut saiz?",
+  "k": "Tikus, kucing hutan, rusa, seladang dan gajah disusun daripada kecil kepada besar.",
+  "steps": [
+   { "g": "✌️", "t": "Susun haiwan di petak satu hingga lima, daripada yang paling kecil kepada yang paling besar.", "on": "size", "ids": ["tikus", "kucing_hutan", "rusa", "seladang", "gajah"], "count": 5 }
+  ] },
+ "L4": { "q": "Apakah keperluan asas manusia, haiwan dan tumbuhan?",
+  "k": "Benda hidup memerlukan makanan, air dan udara. Manusia dan haiwan memerlukan tempat perlindungan daripada hujan, panas dan bahaya.",
+  "steps": [
+   { "g": "✌️", "t": "Pokok layu. Bawa air kepada pokok.", "on": "water" },
+   { "g": "✌️", "t": "Bawa makanan kepada manusia.", "on": "food" },
+   { "g": "✌️", "t": "Hujan! Bawa manusia ke rumah dan burung ke sarang.", "on": "shelter", "ids": ["manusia", "burung"], "count": 2 }
+  ] }
+}

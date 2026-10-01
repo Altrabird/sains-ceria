@@ -57,6 +57,7 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 - Raycast only meshes (stage.js hitTest does): three.js Lines hit with a 1 m slop and steal every grab.
 - Headless Chromium paints ~15 fps, so pointermoves arrive ~55 ms apart — speed-based rules need test moves that account for it.
 - Test fake camera: launch Chromium with --use-fake-device-for-media-stream --use-fake-ui-for-media-stream.
+- Emoji: only use ones from Emoji 12 (2019) or older — 🫁 🪨 🪺 etc. render as boxes on older Androids / Windows.
 - APK: Capacitor serves bare folder URLs as the root index — always link to .../index.html inside the app.
 
 ## Run / build

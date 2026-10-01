@@ -122,3 +122,77 @@ export function kid(name, { shirt = 0xffffff, pants = 0x1f4fa8, skin = 0xe0ac7e,
   g.add(legL, legR, lower, body, arm(-1), arm(1), head);
   g.scale.setScalar(scale); return g;
 }
+
+// ------------------------------------------------------------ living things + everyday objects (Tahun 1 units)
+export function tree(name = 'pokok', h = 0.22) {
+  const g = group(name, mesh(new THREE.CylinderGeometry(0.014, 0.02, h * 0.55), M(0x7a4a22), 0, h * 0.27, 0));
+  for (const [x, y, z, r] of [[0, 0.72, 0, 0.075], [-0.045, 0.62, 0.02, 0.055], [0.05, 0.63, -0.01, 0.058], [0.01, 0.85, 0, 0.05]])
+    g.add(mesh(new THREE.IcosahedronGeometry(r * h / 0.22, 1), M(0x3c9a44, { flatShading: true }), x * h / 0.22, y * h, z));
+  return g;
+}
+// small bird facing +x; parts 'sayapL'/'sayapR' flap, 'badan' breathes
+export function bird(name = 'burung', color = 0x9c6b3e) {
+  const body = mesh(new THREE.SphereGeometry(0.03, 16, 12), M(color)); body.scale.set(1.3, 1, 0.9); body.name = 'badan';
+  const head = mesh(new THREE.SphereGeometry(0.019, 14, 10), M(color), 0.036, 0.02, 0);
+  const beak = mesh(new THREE.ConeGeometry(0.006, 0.016, 8), M(0xf2b134), 0.058, 0.018, 0).rotateZ(-Math.PI / 2);
+  const eyes = [-1, 1].map(s => mesh(new THREE.SphereGeometry(0.0035), M(0x111111), 0.048, 0.026, s * 0.011));
+  const belly = mesh(new THREE.SphereGeometry(0.022, 12, 8), M(0xf3dcb8), 0.008, -0.008, 0); belly.scale.set(1.2, 0.8, 0.85);
+  const wing = s => { const w = mesh(new THREE.SphereGeometry(0.022, 12, 8), M(0x7a4f2a)); w.scale.set(1.2, 0.35, 0.6); const p = group(s < 0 ? 'sayapL' : 'sayapR', w); w.position.set(-0.004, 0, s * 0.012); p.position.set(0, 0.01, s * 0.022); return p; };
+  const tail = mesh(new THREE.BoxGeometry(0.03, 0.004, 0.02), M(0x7a4f2a), -0.045, 0.008, 0).rotateZ(0.4);
+  const legs = [-1, 1].map(s => mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.02), M(0xf2b134), 0.004, -0.032, s * 0.008));
+  const g = group(name, body, belly, head, beak, ...eyes, wing(-1), wing(1), tail, ...legs);
+  g.children.forEach(c => c.position.y += 0.042); return g;
+}
+export function car(name = 'kereta', color = 0xe53935) {
+  const g = group(name, mesh(new THREE.BoxGeometry(0.16, 0.04, 0.08), M(color, { metalness: 0.3, roughness: 0.35 }), 0, 0.035, 0),
+    mesh(new THREE.BoxGeometry(0.09, 0.035, 0.07), M(color, { metalness: 0.3, roughness: 0.35 }), -0.01, 0.07, 0),
+    mesh(new THREE.BoxGeometry(0.092, 0.025, 0.072), M(0xbfe3ff, { roughness: 0.1 }), -0.01, 0.07, 0));
+  for (const [x, z] of [[0.05, 0.04], [-0.05, 0.04], [0.05, -0.04], [-0.05, -0.04]]) g.add(mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.012, 16), M(0x222222), x, 0.018, z).rotateX(Math.PI / 2));
+  return g;
+}
+export const rock = (name = 'batu', r = 0.04) => group(name, mesh(new THREE.DodecahedronGeometry(r, 0), M(0x8d8d8d, { flatShading: true, roughness: 1 }), 0, r * 0.7, 0).rotateY(0.6));
+export function plane(name = 'kapal_terbang') {
+  const g = group(name, mesh(new THREE.CylinderGeometry(0.016, 0.012, 0.18, 16), M(0xf5f7fa), 0, 0, 0).rotateZ(Math.PI / 2),
+    mesh(new THREE.SphereGeometry(0.016, 14, 10), M(0xf5f7fa), 0.09, 0, 0),
+    mesh(new THREE.BoxGeometry(0.06, 0.004, 0.2), M(0x3a6fd8), 0.005, 0, 0),
+    mesh(new THREE.BoxGeometry(0.03, 0.004, 0.07), M(0x3a6fd8), -0.08, 0.004, 0),
+    mesh(new THREE.BoxGeometry(0.03, 0.04, 0.004), M(0x3a6fd8), -0.083, 0.022, 0));
+  for (let i = 0; i < 5; i++) g.add(mesh(new THREE.SphereGeometry(0.0035), M(0x1d2b53), 0.06 - i * 0.022, 0.008, 0.0145));
+  g.children.forEach(c => c.position.y += 0.05); return g;
+}
+// potted plant; 'daun' group droops when wilt = 1 (set .userData.setWilt(0..1)); 'akar' roots hidden by default
+export function pottedPlant(name = 'pokok_pasu') {
+  const pot = mesh(new THREE.CylinderGeometry(0.045, 0.035, 0.06, 20), M(0xc8643b), 0, 0.03, 0);
+  const soil = mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.006, 20), M(0x5a3b22), 0, 0.058, 0);
+  const stem = mesh(new THREE.CylinderGeometry(0.004, 0.005, 0.1), M(0x3c9a44), 0, 0.11, 0);
+  const leaves = group('daun', ...[0, 1, 2, 3].map(i => {
+    const l = mesh(new THREE.SphereGeometry(0.022, 10, 6).scale(1, 0.2, 0.55).translate(0.022, 0, 0), M(0x46b04f));
+    const p = group('', l); p.rotation.y = i * Math.PI / 2 + 0.4; p.position.y = 0.09 + i * 0.022; return p;
+  }));
+  const roots = group('akar', ...[-1, 0, 1].map(s => mesh(new THREE.CylinderGeometry(0.002, 0.001, 0.04), M(0xe9d7b0), s * 0.012, 0.035, 0).rotateZ(s * 0.5)));
+  roots.visible = false;
+  const g = group(name, pot, soil, stem, leaves, roots);
+  g.userData.setWilt = w => { leaves.children.forEach((p, i) => p.children[0].rotation.z = -w * (0.9 + i * 0.1)); stem.rotation.z = w * 0.25; leaves.rotation.z = w * 0.25; leaves.children.forEach(p => p.children[0].material.color.setHex(w > 0.5 ? 0x9bb04a : 0x46b04f)); };
+  return g;
+}
+export function house(name = 'rumah') {
+  return group(name, mesh(new THREE.BoxGeometry(0.2, 0.13, 0.16), M(0xf3e1b5), 0, 0.065, 0),
+    mesh(new THREE.ConeGeometry(0.16, 0.09, 4), M(0xc0392b), 0, 0.175, 0).rotateY(Math.PI / 4),
+    mesh(new THREE.BoxGeometry(0.05, 0.08, 0.004), M(0x8a5a2e), 0, 0.04, 0.081));
+}
+export const nest = (name = 'sarang') => group(name, mesh(new THREE.TorusGeometry(0.04, 0.016, 8, 20), M(0x8a6a3a, { roughness: 1 }), 0, 0.016, 0).rotateX(Math.PI / 2),
+  mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.01, 16), M(0x6b4f2a), 0, 0.006, 0));
+// an upright card with a big emoji + label, readable from the front-above camera; size = card height (m)
+export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e0457b' } = {}) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = label ? 300 : 256;
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, 248, c.height - 8, 28); g.fill();
+  g.lineWidth = 8; g.strokeStyle = border; g.stroke();
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillText(emoji, 128, 128);
+  if (label) { g.fillStyle = '#2b2340'; g.font = 'bold 40px system-ui, sans-serif'; g.fillText(label, 128, 268); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const w = size * c.width / c.height;
+  const card = mesh(new THREE.PlaneGeometry(w, size), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide, transparent: true }), 0, size / 2 + 0.005, 0);
+  card.rotation.x = -0.35;
+  const g2 = group(name, card, mesh(new THREE.BoxGeometry(w * 0.6, 0.01, 0.03), M(0x8a8a8a), 0, 0.005, 0));
+  g2.userData.cardW = w; return g2;
+}
