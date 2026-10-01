@@ -1,0 +1,30 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U04-tumbuhan after editing.",
+ "L1": { "q": "Ke arah manakah akar tumbuh?",
+  "k": "Tumbuh-tumbuhan bergerak balas terhadap air. Akar tumbuh ke arah air.",
+  "steps": [
+   { "g": "✌️", "t": "Lembapkan kapas A sahaja.", "on": "wet" },
+   { "g": "☝️", "t": "Tuding seminggu kemudian dan perhatikan akar.", "on": "grow" }
+  ] },
+ "L2": { "q": "Ke arah manakah pucuk tumbuh?",
+  "k": "Tumbuh-tumbuhan bergerak balas terhadap cahaya. Pucuk tumbuh ke arah cahaya.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan anak pokok cili di dalam kotak A dan kotak B.", "on": "box", "count": 2 },
+   { "g": "☝️", "t": "Tuding seminggu kemudian dan perhatikan pucuk.", "on": "bend" }
+  ] },
+ "L3": { "q": "Bagaimanakah tumbuhan bergerak balas terhadap graviti dan sentuhan?",
+  "k": "Akar tumbuh ke arah graviti. Daun sesetengah tumbuhan seperti pokok semalu dan perangkap lalat Venus tertutup atau menguncup apabila disentuh.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding putar piring dan perhatikan arah akar.", "on": "gravity" },
+   { "g": "☝️", "t": "Tuding pokok semalu untuk menyentuhnya.", "on": "touch" }
+  ] },
+ "L4": { "q": "Apakah yang diperlukan untuk fotosintesis?",
+  "k": "Fotosintesis ialah proses tumbuh-tumbuhan membuat makanan sendiri. Fotosintesis memerlukan cahaya matahari, air, karbon dioksida dan klorofil.",
+  "steps": [ { "g": "✌️", "t": "Berikan keempat-empat keperluan fotosintesis kepada pokok.", "on": "need", "count": 4 } ] },
+ "L5": { "q": "Apakah hasil fotosintesis?",
+  "k": "Klorofil menyerap cahaya matahari dan menukarkan air serta karbon dioksida kepada glukosa dan oksigen. Glukosa disimpan sebagai kanji dan oksigen dibebaskan ke udara.",
+  "steps": [ { "g": "✌️", "t": "Lengkapkan persamaan fotosintesis.", "on": "equation", "count": 4 } ] },
+ "L6": { "q": "Mengapakah fotosintesis penting?",
+  "k": "Fotosintesis membekalkan sumber makanan dan oksigen, dan mengekalkan keseimbangan udara. Gerak balas pucuk ke arah cahaya dan akar ke arah air membantu tumbuhan menjalankan fotosintesis.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap kad dengan pasangannya.", "on": "importance", "count": 5 } ] }
+}
