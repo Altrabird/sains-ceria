@@ -390,5 +390,12 @@
     "unit": 5,
     "title": "Selamatkan Hidupan",
     "desc": "Kepupusan, ancaman, pemeliharaan dan pemuliharaan"
+  },
+  {
+    "id": "T6-U06-daya",
+    "year": 6,
+    "unit": 6,
+    "title": "Daya dan Geseran",
+    "desc": "Tarikan, tolakan, kesan daya, geseran, tekanan udara"
   }
 ]

@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U06-daya after editing.",
+ "L1": { "q": "Apakah daya?",
+  "k": "Daya ialah tarikan atau tolakan. Tarikan menggerakkan objek mendekati kita. Tolakan menggerakkan objek menjauhi kita.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap aktiviti.", "on": "force", "count": 8 } ] },
+ "L2": { "q": "Apakah kesan daya?",
+  "k": "Daya boleh mengubah bentuk, arah dan kelajuan objek, menggerakkan objek pegun dan menghentikan objek yang bergerak.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh dengan kesan daya.", "on": "effect", "count": 5 } ] },
+ "L3": { "q": "Adakah jenis permukaan mempengaruhi daya geseran?",
+  "k": "Semakin besar daya geseran, semakin pendek jarak pergerakan sel kering. Permukaan kasar menghasilkan daya geseran lebih besar.",
+  "steps": [
+   { "g": "👋", "t": "Uji empat permukaan. Lepaskan sel kering dan ukur jaraknya.", "on": "trial", "count": 4 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L4": { "q": "Bagaimanakah kita mengawal daya geseran?",
+  "k": "Minyak pelincir, bedak dan roda mengurangkan geseran. Kain, berus, grip dan bunga tayar menambahkan geseran.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap contoh.", "on": "friction", "count": 8 } ] },
+ "L5": { "q": "Bagaimanakah tekanan udara membantu kita?",
+  "k": "Zarah udara berlanggar dengan permukaan objek lalu menghasilkan tekanan udara. Semakin tinggi dari aras laut, semakin rendah tekanan udara.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh dengan penerangannya.", "on": "pressure", "count": 5 } ] }
+}
