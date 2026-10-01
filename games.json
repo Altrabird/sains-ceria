@@ -285,5 +285,12 @@
     "unit": 10,
     "title": "Tuas dan Mesin",
     "desc": "Tuas, jarak fulkrum, 7 mesin ringkas, mesin kompleks, mesin lestari"
+  },
+  {
+    "id": "T5-U01-kemahiran-saintifik",
+    "year": 5,
+    "unit": 1,
+    "title": "Eksperimen Buih Sabun",
+    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen gliserin"
   }
 ]

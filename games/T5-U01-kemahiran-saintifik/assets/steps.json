@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Apakah kemahiran proses sains?",
+  "k": "Kemahiran proses sains termasuk memerhati, mengelas, mengukur, membuat inferens, meramal, berkomunikasi, menggunakan perhubungan ruang dan masa, dan mentafsir data.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh dengan kemahiran proses sains.", "on": "skill", "count": 8 } ] },
+ "L2": { "q": "Apakah pemboleh ubah dalam penyiasatan buih sabun?",
+  "k": "Dimanipulasikan: kuantiti gliserin. Bergerak balas: tempoh buih sabun untuk pecah. Dimalarkan: jenis cecair pencuci, isi padu air, saiz buih dan kelajuan angin.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap pemboleh ubah.", "on": "variable", "count": 6 } ] },
+ "L3": { "q": "Adakah kuantiti gliserin mempengaruhi tempoh buih sabun untuk pecah?",
+  "k": "Semakin bertambah kuantiti gliserin, semakin bertambah tempoh buih sabun untuk pecah. Hipotesis diterima.",
+  "steps": [
+   { "g": "👋", "t": "Pilih satu, tiga dan lima sudu gliserin. Tiup buih bagi setiap satu dan rekod tempohnya.", "on": "trial", "count": 3 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] }
+}
