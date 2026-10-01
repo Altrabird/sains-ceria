@@ -341,5 +341,12 @@
     "unit": 8,
     "title": "Jirim dan Zarah",
     "desc": "Tiga keadaan jirim, simulasi zarah, perubahan keadaan, kitaran air"
+  },
+  {
+    "id": "T5-U09-fasa-bulan",
+    "year": 5,
+    "unit": 9,
+    "title": "Fasa Bulan dan Buruj",
+    "desc": "Simulasi peredaran Bulan, urutan fasa Bulan, buruj"
   }
 ]

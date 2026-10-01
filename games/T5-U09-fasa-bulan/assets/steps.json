@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U09-fasa-bulan after editing.",
+ "L1": { "q": "Mengapakah fasa Bulan berubah?",
+  "k": "Bulan memantulkan cahaya Matahari. Apabila Bulan beredar mengelilingi Bumi, bahagian Bulan yang disinari Matahari dan dapat dilihat dari Bumi berubah.",
+  "steps": [ { "g": "✌️", "t": "Gerakkan Bulan ke empat titik kuning pada orbit. Perhatikan rupa Bulan dari Bumi.", "on": "phase", "count": 4 } ] },
+ "L2": { "q": "Apakah urutan fasa Bulan?",
+  "k": "Anak bulan, bulan sabit, bulan separa, bulan hampir purnama, bulan purnama, bulan hampir purnama, bulan separa dan bulan sabit.",
+  "steps": [ { "g": "✌️", "t": "Susun lapan fasa Bulan mengikut urutan.", "on": "order", "count": 8 } ] },
+ "L3": { "q": "Apakah buruj?",
+  "k": "Buruj ialah gugusan bintang yang kelihatan membentuk corak tertentu di langit pada waktu malam, seperti Biduk, Belantik, Pari dan Skorpio.",
+  "steps": [ { "g": "☝️", "t": "Tuding bintang yang berkelip untuk membentuk empat buruj.", "on": "trace", "count": 4 } ] },
+ "L4": { "q": "Apakah kegunaan buruj?",
+  "k": "Buruj Biduk menunjukkan arah utara dan Buruj Pari menunjukkan arah selatan. Biduk menandakan musim menanam, Belantik musim sejuk dan Skorpio musim menuai.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap buruj dengan kegunaannya.", "on": "use", "count": 4 } ] }
+}
