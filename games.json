@@ -138,5 +138,12 @@
     "unit": 9,
     "title": "Air dan Udara",
     "desc": "Sumber air, aliran, kitar air, longkang, udara, angin, roket angin"
+  },
+  {
+    "id": "T2-U10-teknologi",
+    "year": 2,
+    "unit": 10,
+    "title": "Set Binaan",
+    "desc": "Komponen, pasang ikut manual, cipta, buka dan simpan"
   }
 ]
