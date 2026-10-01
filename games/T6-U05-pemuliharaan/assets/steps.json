@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U05-pemuliharaan after editing.",
+ "L1": { "q": "Haiwan dan tumbuhan manakah yang telah pupus atau diancam kepupusan?",
+  "k": "Burung Dodo, mamot dan dinosaur telah pupus. Gajah, badak sumbu, orang utan, harimau Malaya dan bunga pakma diancam kepupusan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap hidupan.", "on": "status", "count": 10 } ] },
+ "L2": { "q": "Apakah ancaman kepada hidupan dan cara mengatasinya?",
+  "k": "Ancaman termasuk pemusnahan habitat, pemburuan haram, pencemaran, bencana alam dan pemanasan global.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap ancaman dengan cara mengatasinya.", "on": "solve", "count": 5 } ] },
+ "L3": { "q": "Apakah perbezaan pemeliharaan dan pemuliharaan?",
+  "k": "Pemeliharaan mengekalkan hidupan dalam keadaan asal yang seimbang. Pemuliharaan mengembalikan hidupan kepada keadaan asal.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap usaha.", "on": "protect", "count": 8 } ] },
+ "L4": { "q": "Bagaimanakah kita memulihkan habitat?",
+  "k": "Menanam semula pokok dan membina pusat pemuliharaan penyu mengelakkan kepupusan dan kehilangan habitat.",
+  "steps": [
+   { "g": "✌️", "t": "Tanam anak pokok pada setiap tunggul.", "on": "plant", "count": 4 },
+   { "g": "✌️", "t": "Lepaskan anak penyu ke laut.", "on": "turtle", "count": 3 }
+  ] }
+}
