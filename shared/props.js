@@ -185,11 +185,14 @@ export const nest = (name = 'sarang') => group(name, mesh(new THREE.TorusGeometr
   mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.01, 16), M(0x6b4f2a), 0, 0.006, 0));
 // an upright card with a big emoji + label, readable from the front-above camera; size = card height (m)
 export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e0457b' } = {}) {
-  const c = document.createElement('canvas'); c.width = 256; c.height = label ? 300 : 256;
+  const c = document.createElement('canvas'); c.width = 256; c.height = label && emoji ? 300 : label ? 140 : 256;  // no emoji = a word card
   const g = c.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, 248, c.height - 8, 28); g.fill();
   g.lineWidth = 8; g.strokeStyle = border; g.stroke();
   g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillText(emoji, 128, 128);
-  if (label) { g.fillStyle = '#2b2340'; let f = 44; do g.font = `bold ${f}px system-ui, sans-serif`; while (g.measureText(label).width > 236 && --f > 18); g.fillText(label, 128, 268); }  // shrink to fit
+  if (label && !emoji) { g.fillStyle = '#2b2340'; let f = 52; const ws = label.split(' '), lines = ws.length > 2 ? [ws.slice(0, Math.ceil(ws.length / 2)).join(' '), ws.slice(Math.ceil(ws.length / 2)).join(' ')] : [label];
+    do g.font = `bold ${f}px system-ui, sans-serif`; while (Math.max(...lines.map(l => g.measureText(l).width)) > 228 && --f > 18);
+    lines.forEach((l, i) => g.fillText(l, 128, 70 + (i - (lines.length - 1) / 2) * f * 1.1));
+  } else if (label) { g.fillStyle = '#2b2340'; let f = 44; do g.font = `bold ${f}px system-ui, sans-serif`; while (g.measureText(label).width > 236 && --f > 18); g.fillText(label, 128, 268); }  // shrink to fit
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
   const w = size * c.width / c.height;
   const card = mesh(new THREE.PlaneGeometry(w, size), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide, transparent: true }), 0, size / 2 + 0.005, 0);
@@ -218,4 +221,49 @@ export function fruit(kind) {
   const g = group(kind, body, stem);
   if (kind !== 'ciku') g.add(mesh(new THREE.SphereGeometry(0.01, 8, 6).scale(1.4, 0.2, 0.7), M(0x43a047), 0.01, F[1] * F[2][1] * 2 + 0.006, 0));
   return g;
+}
+
+// ------------------------------------------------------------ tracing sheet (lakar): dotted outline the pupil follows with ☝️ / mouse drag
+// pts = outline in sheet metres (x right, y up, origin at sheet centre). decorate(g, px) draws extra print on the paper.
+// Returns { sheet, pen(x, y, on) -> true once when the outline is done, tracePath() (tests), fill(color) }.
+export function traceSheet(S, { name = 'kertas', w = 0.64, h = 0.44, pts, decorate, ink = '#2f7d3a', need = 0.85 }) {
+  const PX = 1000, CW = Math.round(w * PX), CH = Math.round(h * PX);
+  const c = document.createElement('canvas'); c.width = CW; c.height = CH;
+  const g = c.getContext('2d'), tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const px = ([x, y]) => [CW / 2 + x * PX, CH / 2 - y * PX], P = pts.map(px);
+  g.fillStyle = '#fffdf6'; g.fillRect(0, 0, CW, CH);
+  decorate?.(g, px);
+  g.setLineDash([4, 14]); g.lineWidth = 6; g.lineCap = 'round'; g.strokeStyle = '#9a8fb0';
+  g.beginPath(); P.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); g.stroke(); g.setLineDash([]);
+  g.fillStyle = '#e0457b'; g.beginPath(); g.arc(...P[0], 12, 0, 7); g.fill();  // start dot
+  const sheet = mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 }), 0, 0.002, 0);
+  sheet.rotation.x = -Math.PI / 2; sheet.name = name;
+  const pencil = group('pensel', mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.12, 6), M(0xffc21a), 0, 0.06, 0),
+    mesh(new THREE.ConeGeometry(0.006, 0.02, 6), M(0x333333), 0, -0.01, 0).rotateX(Math.PI));
+  pencil.visible = false; pencil.rotation.z = -0.4;
+  const seen = new Set(); let last = null, done = false;
+  const api = {
+    sheet, pencil,
+    pen(x, y, on) {
+      if (done) return false;
+      const hit = S.rayAt(x, y).intersectObject(sheet)[0];
+      pencil.visible = !!hit && on;
+      if (!hit || !on) { last = null; return false; }
+      pencil.parent?.worldToLocal(pencil.position.copy(hit.point)); pencil.position.y += 0.02;
+      const qx = hit.uv.x * CW, qy = (1 - hit.uv.y) * CH;
+      g.strokeStyle = ink; g.lineWidth = 9; g.lineCap = 'round';
+      if (last && Math.hypot(qx - last[0], qy - last[1]) < 90) { g.beginPath(); g.moveTo(...last); g.lineTo(qx, qy); g.stroke(); }
+      last = [qx, qy]; tex.needsUpdate = true;
+      P.forEach(([a, b], i) => { if (Math.hypot(a - qx, b - qy) < 30) seen.add(i); });
+      if (seen.size < P.length * need) return false;
+      done = true; pencil.visible = false; api.fill(ink + '55'); return true;
+    },
+    fill(color) {
+      g.fillStyle = color; g.beginPath(); P.forEach(([a, b], i) => i ? g.lineTo(a, b) : g.moveTo(a, b)); g.closePath(); g.fill();
+      g.strokeStyle = ink; g.lineWidth = 9; g.stroke(); tex.needsUpdate = true;
+    },
+    progress: () => seen.size / P.length,
+    tracePath: () => pts.map(([x, y]) => sheet.localToWorld(new THREE.Vector3(x, y, 0)).toArray()),
+  };
+  return api;
 }

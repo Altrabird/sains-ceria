@@ -1,7 +1,7 @@
 // Sains Tahun 1 · Unit 1 Kemahiran Saintifik — four levels, props built from three.js primitives (no GLBs needed).
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, leafOutline, leaf, magnifier, table, sink, beaker, home, goHome, moveTo, flat, dragger } from '../../shared/props.js';
+import { M, mesh, group, leafOutline, leaf, magnifier, table, sink, beaker, traceSheet, home, goHome, moveTo, flat, dragger } from '../../shared/props.js';
 
 const CAREFUL = 2.0;  // m/s: carrying a fish faster than this and it slips back into tank A (raise if real hands jitter)
 
@@ -162,24 +162,10 @@ function L3(S, play) {
   const root = group('L3', table(1.4, 0.8, play));
   const real = leaf('spesimen'); real.scale.setScalar(1.6); real.position.set(-0.47, 0.004, 0.05); root.add(real);
   const tag = textSprite('Spesimen', { h: 0.035 }); tag.position.set(-0.47, 0.06, 0.15); root.add(tag);
-  // paper = canvas texture: dotted outline to trace + what the pupil draws
-  const CW = 640, CH = 440, c = document.createElement('canvas'); c.width = CW; c.height = CH;
-  const g = c.getContext('2d'), tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
-  const pts = leafOutline(36).map(([x, y]) => [CW / 2 + x / 0.16 * 520, CH / 2 - y / 0.16 * 520]);
-  function paper() {
-    g.fillStyle = '#fffdf6'; g.fillRect(0, 0, CW, CH);
-    g.setLineDash([4, 14]); g.lineWidth = 6; g.lineCap = 'round'; g.strokeStyle = '#9a8fb0';
-    g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); g.stroke(); g.setLineDash([]);
-    g.fillStyle = '#e0457b'; g.beginPath(); g.arc(...pts[0], 12, 0, 7); g.fill();  // start dot at the leaf base
-    tex.needsUpdate = true;
-  }
-  paper();
-  const sheet = mesh(new THREE.PlaneGeometry(0.64, 0.44), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 }), 0.16, 0.002, 0.05);
-  sheet.rotation.x = -Math.PI / 2; sheet.name = 'kertas'; root.add(sheet);
-  const pencil = group('pensel', mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.12, 6), M(0xffc21a), 0, 0.06, 0),
-    mesh(new THREE.ConeGeometry(0.006, 0.02, 6), M(0x333333), 0, -0.01, 0).rotateX(Math.PI));
-  pencil.visible = false; root.add(pencil);
-  const seen = new Set(); let last = null, sketched = false;
+  // the leaf outline, 3.25x, to trace on paper
+  const ts = traceSheet(S, { pts: leafOutline(36).map(([x, y]) => [x * 3.25, y * 3.25]) });
+  const sheet = ts.sheet; sheet.position.set(0.16, 0.002, 0.05); root.add(sheet, ts.pencil);
+  let sketched = false;
   const cards = [['lisan', '🗣️', 'Lisan', '🗣️ <b>Lisan</b> — bercakap: “Daun ini berwarna hijau dan mempunyai urat.”'],
     ['lakaran', '✏️', 'Lakaran', '✏️ <b>Lakaran</b> — melukis apa yang diperhatikan, seperti lakaran daun anda!'],
     ['tulisan', '📝', 'Tulisan', '📝 <b>Tulisan</b> — menulis: “Kumbang kura-kura berwarna merah dengan tompok-tompok hitam pada sayapnya.”']]
@@ -197,24 +183,11 @@ function L3(S, play) {
   return {
     root, view: { w: 1.4, d: 0.8 },
     pen(x, y, on) {
-      if (sketched) return;
-      const h = S.rayAt(x, y).intersectObject(sheet)[0];
-      pencil.visible = !!h && on;
-      if (!h || !on) { last = null; return; }
-      pencil.position.copy(h.point).add(new THREE.Vector3(0, 0.02, 0)); pencil.rotation.z = -0.4;
-      const px = h.uv.x * CW, py = (1 - h.uv.y) * CH;
-      g.strokeStyle = '#2f7d3a'; g.lineWidth = 9; g.lineCap = 'round';
-      if (last && Math.hypot(px - last[0], py - last[1]) < 90) { g.beginPath(); g.moveTo(...last); g.lineTo(px, py); g.stroke(); }
-      last = [px, py]; tex.needsUpdate = true;
-      pts.forEach(([qx, qy], i) => { if (Math.hypot(qx - px, qy - py) < 30) seen.add(i); });
-      if (seen.size >= pts.length * 0.85) {
-        sketched = true; pencil.visible = false;
-        g.fillStyle = '#7cc68566'; g.beginPath(); pts.forEach(([qx, qy], i) => i ? g.lineTo(qx, qy) : g.moveTo(qx, qy)); g.closePath(); g.fill();
-        g.strokeStyle = '#2f7d3a'; g.lineWidth = 9; g.stroke(); tex.needsUpdate = true;
-        S.star(sheet.position.clone().add(new THREE.Vector3(0, 0.15, 0))); S.evt('sketch', 'daun');
-        S.info('✏️ Lakaran daun yang tepat! Lakaran ialah satu cara <b>berkomunikasi</b>. Tuding setiap kad.');
-        cards.forEach((cd, i) => { cd.visible = true; cd.scale.setScalar(0.01); S.tween(0.4 + i * 0.15, t => cd.scale.setScalar(0.01 + t)); });
-      }
+      if (sketched || !ts.pen(x, y, on)) return;
+      sketched = true;
+      S.star(sheet.position.clone().add(new THREE.Vector3(0, 0.15, 0))); S.evt('sketch', 'daun');
+      S.info('✏️ Lakaran daun yang tepat! Lakaran ialah satu cara <b>berkomunikasi</b>. Tuding setiap kad.');
+      cards.forEach((cd, i) => { cd.visible = true; cd.scale.setScalar(0.01); S.tween(0.4 + i * 0.15, t => cd.scale.setScalar(0.01 + t)); });
     },
     hit: (x, y) => S.hitTest(x, y, cards.filter(c => c.visible))?.name ?? null,
     tap(x, y) {
@@ -222,7 +195,7 @@ function L3(S, play) {
       S.info(cd.userData.msg, 8); S.evt('comm', cd.name);
       if (!tapped.has(cd.name)) { tapped.add(cd.name); S.star(cd.position.clone().add(new THREE.Vector3(0, 0.1, 0))); }
     },
-    tracePath: () => pts.map(([x, y]) => sheet.localToWorld(new THREE.Vector3((x / CW - 0.5) * 0.64, -(y / CH - 0.5) * 0.44, 0)).toArray()),  // for tests
+    tracePath: ts.tracePath,  // for tests
   };
 }
 

@@ -1,0 +1,24 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U05-haiwan after editing.",
+ "L1": { "q": "Apakah bahagian tubuh yang ada pada haiwan?",
+  "k": "Badak sumbu mempunyai sumbu, kura-kura mempunyai cangkerang, ikan mempunyai sisik, rama-rama mempunyai sesungut, itik mempunyai kaki selaput renang dan kambing mempunyai tanduk.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan setiap kad bahagian tubuh pada haiwan yang mempunyainya.", "on": "part", "ids": ["sumbu", "cangkerang", "sisik", "sesungut", "kaki_selaput", "tanduk"], "count": 6 }
+  ] },
+ "L2": { "q": "Apakah kepentingan bahagian tubuh haiwan?",
+  "k": "Kepak untuk terbang. Sirip dan kaki selaput renang untuk berenang. Ekor untuk memandu arah. Sumbu, tanduk dan kulit keras untuk mempertahankan diri. Setiap bahagian tubuh haiwan mempunyai kepentingannya.",
+  "steps": [
+   { "g": "✌️", "t": "Bantu setiap haiwan: berikan bahagian tubuh yang diperlukannya.", "on": "function", "ids": ["kepak", "kaki_selaput", "ekor", "sumbu", "kulit_keras"], "count": 5 }
+  ] },
+ "L3": { "q": "Adakah haiwan yang berlainan mempunyai bahagian tubuh yang serupa?",
+  "k": "Terdapat haiwan yang berlainan mempunyai bahagian tubuh yang serupa. Lembu, kucing, hamster dan arnab berbulu halus.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan semua haiwan yang berbulu halus di kawasan berbulu halus.", "on": "fur", "ids": ["lembu", "kucing", "hamster", "arnab"], "count": 4 }
+  ] },
+ "L4": { "q": "Bagaimanakah kita merekod pemerhatian tentang haiwan?",
+  "k": "Kita melakar haiwan dan melabelkan bahagian tubuhnya, kemudian menceritakan kepentingan bahagian tubuh itu.",
+  "steps": [
+   { "g": "☝️", "t": "Lakar ikan: ikut garisan titik dengan jari telunjuk.", "on": "sketch" },
+   { "g": "✌️", "t": "Letakkan label sirip, sisik dan ekor pada titik yang betul.", "on": "label", "ids": ["sirip", "sisik", "ekor"], "count": 3 }
+  ] }
+}
