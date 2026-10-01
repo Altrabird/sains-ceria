@@ -1,0 +1,25 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U10-mesin after editing.",
+ "L1": { "q": "Apakah bahagian tuas?",
+  "k": "Tuas digunakan untuk mengangkat atau mengumpil sesuatu objek. Bahagian tuas ialah beban, fulkrum dan daya.",
+  "steps": [ { "g": "✌️", "t": "Labelkan beban, fulkrum dan daya pada rajah tuas.", "on": "label", "count": 3 } ] },
+ "L2": { "q": "Bagaimanakah jarak beban dari fulkrum mempengaruhi daya?",
+  "k": "Semakin dekat jarak beban dari fulkrum, semakin sedikit daya yang diperlukan untuk mengangkat beban.",
+  "steps": [
+   { "g": "✌️", "t": "Gerakkan fulkrum ke 25 cm, 20 cm dan 15 cm dari blok kayu.", "on": "fulcrum", "count": 3 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L3": { "q": "Apakah tujuh mesin ringkas?",
+  "k": "Tujuh mesin ringkas ialah roda dan gandar, tuas, skru, gear, takal, satah condong dan baji. Mesin ringkas membantu kita melakukan kerja dengan lebih mudah dan cepat.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap mesin ringkas dengan contohnya.", "on": "simple", "count": 7 } ] },
+ "L4": { "q": "Apakah mesin kompleks?",
+  "k": "Mesin kompleks terdiri daripada gabungan lebih daripada satu mesin ringkas. Gunting pemangkas: skru dan baji. Kereta sorong: tuas, skru serta roda dan gandar. Basikal: gear, skru serta roda dan gandar.",
+  "steps": [ { "g": "☝️", "t": "Bagi setiap mesin kompleks, tuding mesin ringkas di dalamnya.", "on": "complex", "count": 3 } ] },
+ "L5": { "q": "Bagaimanakah kita mengalihkan beban berat ke atas lori?",
+  "k": "Gabungkan mesin ringkas: troli menggunakan roda dan gandar, dan papan bertindak sebagai satah condong. Mesin lestari seperti basikal tahan lama, mudah dan selamat digunakan, dan tidak mencemarkan alam sekitar.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan kotak di atas troli dan condongkan papan ke lori.", "on": "combine", "count": 2 },
+   { "g": "☝️", "t": "Tolak troli ke atas lori.", "on": "load" },
+   { "g": "☝️", "t": "Tuding mesin yang lestari.", "on": "lestari" }
+  ] }
+}

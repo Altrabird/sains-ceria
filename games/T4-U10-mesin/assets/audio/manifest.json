@@ -1,0 +1,21 @@
+{
+"L1_q": "Soalan. Apakah bahagian tuas?",
+"L1_s1": "Langkah 1. Labelkan beban, fulkrum dan daya pada rajah tuas.",
+"L1_k": "Tahniah! Kesimpulan. Tuas digunakan untuk mengangkat atau mengumpil sesuatu objek. Bahagian tuas ialah beban, fulkrum dan daya.",
+"L2_q": "Soalan. Bagaimanakah jarak beban dari fulkrum mempengaruhi daya?",
+"L2_s1": "Langkah 1. Gerakkan fulkrum ke 25 cm, 20 cm dan 15 cm dari blok kayu.",
+"L2_s2": "Langkah 2. Pilih kesimpulan.",
+"L2_k": "Tahniah! Kesimpulan. Semakin dekat jarak beban dari fulkrum, semakin sedikit daya yang diperlukan untuk mengangkat beban.",
+"L3_q": "Soalan. Apakah tujuh mesin ringkas?",
+"L3_s1": "Langkah 1. Padankan setiap mesin ringkas dengan contohnya.",
+"L3_k": "Tahniah! Kesimpulan. Tujuh mesin ringkas ialah roda dan gandar, tuas, skru, gear, takal, satah condong dan baji. Mesin ringkas membantu kita melakukan kerja dengan lebih mudah dan cepat.",
+"L4_q": "Soalan. Apakah mesin kompleks?",
+"L4_s1": "Langkah 1. Bagi setiap mesin kompleks, tuding mesin ringkas di dalamnya.",
+"L4_k": "Tahniah! Kesimpulan. Mesin kompleks terdiri daripada gabungan lebih daripada satu mesin ringkas. Gunting pemangkas: skru dan baji. Kereta sorong: tuas, skru serta roda dan gandar. Basikal: gear, skru serta roda dan gandar.",
+"L5_q": "Soalan. Bagaimanakah kita mengalihkan beban berat ke atas lori?",
+"L5_s1": "Langkah 1. Letakkan kotak di atas troli dan condongkan papan ke lori.",
+"L5_s2": "Langkah 2. Tolak troli ke atas lori.",
+"L5_s3": "Langkah 3. Tuding mesin yang lestari.",
+"L5_k": "Tahniah! Kesimpulan. Gabungkan mesin ringkas: troli menggunakan roda dan gandar, dan papan bertindak sebagai satah condong. Mesin lestari seperti basikal tahan lama, mudah dan selamat digunakan, dan tidak mencemarkan alam sekitar.",
+"_voice": "ms-MY-YasminNeural"
+}

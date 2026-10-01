@@ -278,5 +278,12 @@
     "unit": 9,
     "title": "Graviti, Siang dan Malam",
     "desc": "Graviti, putaran & peredaran, siang & malam, bayang-bayang pensel"
+  },
+  {
+    "id": "T4-U10-mesin",
+    "year": 4,
+    "unit": 10,
+    "title": "Tuas dan Mesin",
+    "desc": "Tuas, jarak fulkrum, 7 mesin ringkas, mesin kompleks, mesin lestari"
   }
 ]
