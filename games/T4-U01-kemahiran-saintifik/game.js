@@ -2,9 +2,9 @@
 // variables, hypothesis + a full sugar-stirring experiment.
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, table, sorter, sequence, emojiCard, beaker, pottedPlant, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
+import { M, mesh, group, table, sorter, sequence, emojiCard, textCard, beaker, pottedPlant, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
 
-const choices = (root, opts, z = 0.3, size = 0.075, gap = 0.4) => opts.map(([id, label, ok], i) => { const c = emojiCard('pilih_' + id, '', label, size, { border: '#7e57c2' }); c.userData.ok = ok; c.position.set((i - (opts.length - 1) / 2) * gap, 0, z); root.add(c); return c; });
+const choices = (root, opts, z = 0.3, size = 0.075, gap = 0.4) => opts.map(([id, label, ok], i) => { const c = textCard('pilih_' + id, label, gap * 0.9); c.userData.ok = ok; c.position.set((i - (opts.length - 1) / 2) * gap, 0, z); root.add(c); return c; });
 const tapChoice = (S, cs, x, y) => S.hitTest(x, y, cs.filter(c => c.visible));
 
 // ------------------------------------------------------------ L1 Perhubungan ruang dan masa: melting ice lolly
@@ -113,13 +113,13 @@ function L5(S, play) {
     const t = textSprite(`${k}: aduk ${n} kali/minit`, { h: 0.024 }); t.position.set(0, 0.13, 0); b.add(t); root.add(b); return b;
   });
   const go = emojiCard('mula', '⏱️', 'Jalankan eksperimen', 0.1, { border: '#43a047' }); go.position.set(0.55, 0, 0.25); go.visible = false; root.add(go);
-  const concl = choices(root, [['diterima', 'Hipotesis diterima', true], ['ditolak', 'Hipotesis ditolak', false]], 0.32, 0.075); concl.forEach(c => c.visible = false);
+  const concl = choices(root, [['diterima', 'Hipotesis diterima', true], ['ditolak', 'Hipotesis ditolak', false]], 0.32, 0.075, 0.32); concl.forEach(c => c.position.x += 0.22); concl.forEach(c => c.visible = false);
   let stage = 0, t = 0, running = false;
   const tc = document.createElement('canvas'); tc.width = 380; tc.height = 190; const tg = tc.getContext('2d'); const tt = new THREE.CanvasTexture(tc); tt.colorSpace = THREE.SRGBColorSpace;
   const drawT = done => { tg.fillStyle = '#fff'; tg.fillRect(0, 0, 380, 190); tg.fillStyle = '#2b2340'; tg.font = 'bold 20px system-ui'; ['Bikar', 'Adukan', 'Masa (minit)'].forEach((h, i) => tg.fillText(h, 10 + i * 110, 28));
     tg.font = '22px system-ui'; Object.entries(RUNS).forEach(([k, [n, m]], r) => { tg.fillText(k, 20, 70 + r * 40); tg.fillText(n, 140, 70 + r * 40); if (done[k]) tg.fillText(m, 260, 70 + r * 40); }); tt.needsUpdate = true; };
   const doneT = {}; drawT(doneT);
-  const board = mesh(new THREE.PlaneGeometry(0.34, 0.17), new THREE.MeshBasicMaterial({ map: tt }), -0.45, 0.004, 0.26); board.rotation.x = -Math.PI / 2; board.userData.fx = true; board.visible = false; root.add(board);
+  const board = mesh(new THREE.PlaneGeometry(0.46, 0.23), new THREE.MeshBasicMaterial({ map: tt }), -0.48, 0.004, 0.22); board.rotation.x = -Math.PI / 2; board.userData.fx = true; board.visible = false; root.add(board);
   return {
     root, view: { w: 1.5, d: 0.9 },
     hit: (x, y) => tapChoice(S, [...hyp, go, ...concl], x, y)?.name ?? null,

@@ -13,6 +13,7 @@ shared/                  engine used by every game
   props.js               primitives props (M, mesh, group, leaf, magnifier, sink, beaker, labTable, stool, kid...) + dragger
                          + sorter(S, root, {zones, items}) = the card-into-zones level in ~10 lines (test: g.sort_all())
                          + cycleRing() ordered stages on a ring; diagramBoard()+labelPins() label a drawn diagram
+                         + sequence() ordered slots; textCard() word-wrapped SENTENCE answers (emojiCard is for words)
   tools/make_audio.py    python shared/tools/make_audio.py games/<id>  -> Malay mp3 narration for assets/steps.json
   tools/gametest.py      Game(__file__) test kit: open/drag/click/hand/hand_drag/hand_tap/check (see T1-U02 test)
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
