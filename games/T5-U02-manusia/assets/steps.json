@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U02-manusia after editing.",
+ "L1": { "q": "Apakah tulang utama dalam sistem rangka?",
+  "k": "Tulang-tulang dalam tubuh membentuk sistem rangka: tengkorak, tulang rusuk, tulang belakang, tulang tangan dan tulang kaki.",
+  "steps": [ { "g": "✌️", "t": "Letakkan label pada rangka.", "on": "label", "count": 5 } ] },
+ "L2": { "q": "Apakah fungsi setiap tulang?",
+  "k": "Tengkorak melindungi otak. Tulang rusuk melindungi jantung dan peparu. Tulang belakang menyokong tubuh. Tulang tangan dan kaki untuk sokongan dan pergerakan.",
+  "steps": [ { "g": "✌️", "t": "Padankan tulang dengan fungsinya.", "on": "function", "count": 4 } ] },
+ "L3": { "q": "Di manakah sendi dalam tubuh kita?",
+  "k": "Sendi ialah tempat pertemuan dua atau lebih tulang. Sendi terdapat pada leher, bahu, siku, pergelangan tangan, pinggul, lutut dan buku lali.",
+  "steps": [ { "g": "☝️", "t": "Tuding setiap titik biru untuk mencari tujuh sendi.", "on": "joint", "count": 7 } ] },
+ "L4": { "q": "Bagaimanakah darah mengalir dalam tubuh?",
+  "k": "Darah lebih oksigen: peparu, jantung, tubuh. Darah lebih karbon dioksida: tubuh, jantung, peparu.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa darah lebih oksigen dari peparu ke jantung, kemudian ke tubuh.", "on": "route", "count": 3 },
+   { "g": "✌️", "t": "Bawa darah lebih karbon dioksida dari tubuh ke jantung, kemudian ke peparu.", "on": "route", "count": 2 }
+  ] },
+ "L5": { "q": "Bagaimanakah kita memelihara sistem tubuh?",
+  "k": "Penjagaan semua sistem membantu tubuh berfungsi dengan baik.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap amalan pada sistem yang dijaganya.", "on": "care", "count": 8 } ] }
+}

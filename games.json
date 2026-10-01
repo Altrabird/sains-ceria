@@ -292,5 +292,12 @@
     "unit": 1,
     "title": "Eksperimen Buih Sabun",
     "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen gliserin"
+  },
+  {
+    "id": "T5-U02-manusia",
+    "year": 5,
+    "unit": 2,
+    "title": "Rangka dan Darah",
+    "desc": "Sistem rangka, sendi, laluan darah, penjagaan sistem tubuh"
   }
 ]
