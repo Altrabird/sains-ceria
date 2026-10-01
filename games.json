@@ -173,5 +173,12 @@
     "unit": 4,
     "title": "Tabiat Pemakanan Haiwan",
     "desc": "Beri makan, herbivor/karnivor/omnivor, kegigian, beruang kutub"
+  },
+  {
+    "id": "T3-U05-tumbuhan",
+    "year": 3,
+    "unit": 5,
+    "title": "Pembiakan Tumbuhan",
+    "desc": "Cara pembiakan, pelbagai cara, kepentingan, kultur tisu & tut"
   }
 ]

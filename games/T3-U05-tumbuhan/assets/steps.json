@@ -1,0 +1,22 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U05-tumbuhan after editing.",
+ "L1": { "q": "Bagaimanakah tumbuh-tumbuhan membiak?",
+  "k": "Tumbuh-tumbuhan membiak melalui biji benih, anak pokok, batang bawah tanah, daun, keratan batang dan spora. Tumbuh-tumbuhan perlu membiak supaya tidak pupus.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap pokok pada cara pembiakannya.", "on": "method", "count": 12 } ] },
+ "L2": { "q": "Bolehkah satu pokok membiak dengan pelbagai cara?",
+  "k": "Pokok kangkung membiak melalui biji benih dan keratan batang. Pokok ubi keledek membiak melalui keratan batang dan batang bawah tanah. Pucuk tumbuh daripada semua bahagian itu.",
+  "steps": [
+   { "g": "✌️", "t": "Tanam setiap bahagian di dalam pasunya.", "on": "plant", "count": 3 },
+   { "g": "☝️", "t": "Tuding hari seterusnya tiga kali dan perhatikan pertumbuhan pucuk.", "on": "day", "count": 3 }
+  ] },
+ "L3": { "q": "Mengapakah tumbuh-tumbuhan perlu membiak?",
+  "k": "Tumbuh-tumbuhan sentiasa membiak untuk menambahkan bilangannya dan mengekalkan spesiesnya, supaya sumber makanan, habitat, bekalan oksigen dan sumber kayu sentiasa ada.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap kad di bawah kepentingan pembiakan yang betul.", "on": "importance", "count": 8 } ] },
+ "L4": { "q": "Apakah teknologi yang membantu pembiakan tumbuhan?",
+  "k": "Kultur tisu menghasilkan pokok baharu daripada tisu pokok dalam nutrien, contohnya pisang dan orkid. Tut menambahkan bilangan pokok buah-buahan tanpa menanam biji benih, contohnya mangga dan limau kasturi.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan tisu pokok orkid ke dalam balang nutrien.", "on": "culture" },
+   { "g": "✌️", "t": "Buat tut pada dahan mangga: kupas, balut dengan tanah, kemudian bungkus dengan plastik.", "on": "tut", "count": 3 },
+   { "g": "☝️", "t": "Tuding dahan untuk memotong anak pokok yang berakar.", "on": "cut" }
+  ] }
+}
