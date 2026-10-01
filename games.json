@@ -411,5 +411,12 @@
     "unit": 8,
     "title": "Pengawetan Makanan",
     "desc": "Kerosakan makanan, kaedah pengawetan, projek cili kering"
+  },
+  {
+    "id": "T6-U09-bahan-buangan",
+    "year": 6,
+    "unit": 9,
+    "title": "Bahan Buangan",
+    "desc": "Terbiodegradasi, asingkan bahan buangan, 5R, bersihkan sungai"
   }
 ]

@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U09-bahan-buangan after editing.",
+ "L1": { "q": "Bahan buangan manakah yang terbiodegradasi?",
+  "k": "Bahan terbiodegradasi boleh diuraikan oleh mikroorganisma, seperti sisa makanan, kertas dan daun kering. Plastik, logam, kaca dan sisa toksik tidak terbiodegradasi.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap bahan buangan.", "on": "bio", "count": 10 } ] },
+ "L2": { "q": "Bagaimanakah kita mengasingkan bahan buangan?",
+  "k": "Bahan buangan diasingkan mengikut jenis: kaca, kertas, plastik, logam, sisa toksik dan sisa makanan.",
+  "steps": [ { "g": "✌️", "t": "Masukkan setiap bahan ke dalam tong yang betul.", "on": "bin", "count": 10 } ] },
+ "L3": { "q": "Apakah amalan 5R?",
+  "k": "Refuse, tolak barangan yang tidak diperlukan. Reduce, kurangkan penggunaan. Reuse, guna semula. Recycle, kitar semula. Repair, baiki barangan yang rosak.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap R dengan contohnya.", "on": "fiveR", "count": 5 } ] },
+ "L4": { "q": "Apakah kesan pembuangan sampah yang tidak terancang?",
+  "k": "Pembuangan tidak terancang mencemarkan air dan udara, mengancam hidupan akuatik dan manusia, serta menyumbat longkang hingga menyebabkan banjir kilat.",
+  "steps": [ { "g": "✌️", "t": "Angkat sampah dari sungai ke dalam tong sampah.", "on": "clean", "count": 6 } ] }
+}
