@@ -1,7 +1,7 @@
 // Sains Tahun 2 · Unit 1 Kemahiran Saintifik — classify, measure + record, handle/sketch/label a snail, investigation order.
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, table, emojiCard, beaker, magnifier, snail, sink, traceSheet, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
+import { M, mesh, group, table, emojiCard, beaker, magnifier, snail, sink, traceSheet, scale, ruler, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
 
 const zone = (name, label, color, x, z, w = 0.6, d = 0.3) => {
   const g = group(name, mesh(new THREE.BoxGeometry(w, 0.006, d), M(color, { transparent: true, opacity: 0.6 }), 0, 0.003, 0));
@@ -34,20 +34,6 @@ function L1(S, play) {
 }
 
 // ------------------------------------------------------------ L2 Mengukur + berkomunikasi
-function scale(name = 'alat_penimbang') {
-  const g = group(name, mesh(new THREE.BoxGeometry(0.16, 0.08, 0.12), M(0xe53935), 0, 0.04, 0), mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.01, 28), M(0xcfd8dc, { metalness: 0.6 }), 0, 0.085, 0),
-    mesh(new THREE.CircleGeometry(0.035, 28), M(0xffffff), 0, 0.045, 0.061));
-  const needle = mesh(new THREE.BoxGeometry(0.003, 0.03, 0.002), M(0x111111), 0, 0.045, 0.063); needle.geometry.translate(0, 0.014, 0); needle.name = 'jarum'; g.add(needle);
-  return g;
-}
-function ruler(name = 'pembaris') {
-  const c = document.createElement('canvas'); c.width = 1024; c.height = 96; const g = c.getContext('2d');
-  g.fillStyle = '#ffe082'; g.fillRect(0, 0, 1024, 96); g.fillStyle = '#333'; g.font = 'bold 22px system-ui';
-  for (let i = 0; i <= 50; i++) { const x = 12 + i * 20; g.fillRect(x, 0, 2, i % 5 ? 20 : 36); if (i % 5 === 0) g.fillText(i, x - 6, 62); }
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
-  const top = mesh(new THREE.PlaneGeometry(0.52, 0.05), new THREE.MeshBasicMaterial({ map: t }), 0, 0.005, 0); top.rotation.x = -Math.PI / 2;
-  return group(name, mesh(new THREE.BoxGeometry(0.52, 0.004, 0.05), M(0xffca28), 0, 0.002, 0), top);
-}
 const MEASURE = [['beg', '🎒', 'Beg sekolah', 'berat', 3], ['tembikai', '🍉', 'Tembikai', 'berat', 2], ['pensel', '✏️', 'Pensel', 'panjang', 15], ['buku', '📕', 'Buku', 'panjang', 25]];
 function L2(S, play) {
   const root = group('L2', table(1.5, 0.85, play));

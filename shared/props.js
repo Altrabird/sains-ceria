@@ -322,3 +322,19 @@ export function door() {
   const sign = textSprite('BILIK SAINS', { h: 0.04, bg: '#ffffff', fg: '#1f4fa8' }); sign.position.set(0, 0.36, 0.02);
   return group('pintu', wall, frame, hinge, sign);
 }
+
+// ------------------------------------------------------------ measuring: dial scale ('jarum' needle: rotation.z = -kg/5*PI) and a 50 cm ruler
+export function scale(name = 'alat_penimbang') {
+  const g = group(name, mesh(new THREE.BoxGeometry(0.16, 0.08, 0.12), M(0xe53935), 0, 0.04, 0), mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.01, 28), M(0xcfd8dc, { metalness: 0.6 }), 0, 0.085, 0),
+    mesh(new THREE.CircleGeometry(0.035, 28), M(0xffffff), 0, 0.045, 0.061));
+  const needle = mesh(new THREE.BoxGeometry(0.003, 0.03, 0.002), M(0x111111), 0, 0.045, 0.063); needle.geometry.translate(0, 0.014, 0); needle.name = 'jarum'; g.add(needle);
+  return g;
+}
+export function ruler(name = 'pembaris') {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 96; const g = c.getContext('2d');
+  g.fillStyle = '#ffe082'; g.fillRect(0, 0, 1024, 96); g.fillStyle = '#333'; g.font = 'bold 22px system-ui';
+  for (let i = 0; i <= 50; i++) { const x = 12 + i * 20; g.fillRect(x, 0, 2, i % 5 ? 20 : 36); if (i % 5 === 0) g.fillText(i, x - 6, 62); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const top = mesh(new THREE.PlaneGeometry(0.52, 0.05), new THREE.MeshBasicMaterial({ map: t }), 0, 0.005, 0); top.rotation.x = -Math.PI / 2;
+  return group(name, mesh(new THREE.BoxGeometry(0.52, 0.004, 0.05), M(0xffca28), 0, 0.002, 0), top);
+}
