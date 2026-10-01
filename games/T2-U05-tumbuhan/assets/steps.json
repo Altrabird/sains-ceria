@@ -1,0 +1,28 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U05-tumbuhan after editing.",
+ "L1": { "q": "Mengapakah tumbuh-tumbuhan penting kepada manusia dan haiwan?",
+  "k": "Tumbuh-tumbuhan ialah habitat untuk haiwan, sumber makanan, sumber udara untuk manusia dan haiwan bernafas, dan sumber ubat.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap kad di bawah kepentingan tumbuh-tumbuhan yang betul.", "on": "use", "count": 8 } ] },
+ "L2": { "q": "Apakah yang diperlukan oleh biji benih untuk bercambah?",
+  "k": "Biji benih memerlukan air, udara dan suhu yang sesuai untuk bercambah. Piring A tidak bercambah kerana suhu tidak sesuai, B kerana tiada air dan C kerana tiada udara.",
+  "steps": [
+   { "g": "✌️", "t": "Sediakan penyiasatan: masukkan piring A ke dalam peti ais, basahkan kapas A, C dan D, dan balut piring C dengan plastik.", "on": "setup", "ids": ["peti_ais", "air_a", "air_c", "air_d", "plastik"], "count": 5 },
+   { "g": "☝️", "t": "Tuding seminggu kemudian.", "on": "week" },
+   { "g": "✌️", "t": "Letakkan sebab pada setiap piring yang tidak bercambah.", "on": "reason", "ids": ["suhu", "air", "udara"], "count": 3 }
+  ] },
+ "L3": { "q": "Apakah urutan tumbesaran pokok tomato?",
+  "k": "Biji benih, biji benih bercambah, anak pokok, pokok berbunga dan pokok berbuah.",
+  "steps": [ { "g": "✌️", "t": "Susun peringkat tumbesaran pokok tomato daripada satu hingga lima.", "on": "grow", "count": 5 } ] },
+ "L4": { "q": "Apakah perubahan yang berlaku semasa tumbesaran tumbuhan?",
+  "k": "Tumbuh-tumbuhan mengalami pertambahan bilangan daun, saiz daun, ketinggian pokok dan lilitan batang.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding hari seterusnya sehingga hari ke-21 dan perhatikan jadual.", "on": "day", "count": 4 },
+   { "g": "✌️", "t": "Ukur lilitan batang dengan pita ukur.", "on": "measure" }
+  ] },
+ "L5": { "q": "Apakah yang berlaku jika tumbuhan tidak disiram?",
+  "k": "Air, udara dan cahaya matahari diperlukan untuk tumbesaran. Nutrien membantu tumbuh-tumbuhan hidup subur. Tumbuhan akan layu dan mati jika tidak mendapat keperluan asasnya.",
+  "steps": [
+   { "g": "✌️", "t": "Siram pokok A sahaja setiap hari selama tujuh hari.", "on": "water", "count": 7 },
+   { "g": "☝️", "t": "Tuding pokok yang membesar dengan baik.", "on": "compare" }
+  ] }
+}
