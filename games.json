@@ -110,5 +110,12 @@
     "unit": 5,
     "title": "Tumbuh-tumbuhan",
     "desc": "Kepentingan, percambahan, urutan tumbesaran, rekod, penyiasatan air"
+  },
+  {
+    "id": "T2-U06-terang-gelap",
+    "year": 2,
+    "unit": 6,
+    "title": "Terang dan Gelap",
+    "desc": "Sumber cahaya, terang & gelap, bayang-bayang, wayang kertas"
   }
 ]

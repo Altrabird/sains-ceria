@@ -1,0 +1,28 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U06-terang-gelap after editing.",
+ "L1": { "q": "Apakah sumber cahaya?",
+  "k": "Cahaya diperoleh daripada matahari, lampu dan api. Matahari ialah sumber cahaya semula jadi.",
+  "steps": [
+   { "g": "✌️", "t": "Kelaskan setiap objek: sumber cahaya atau bukan sumber cahaya.", "on": "source", "count": 6 },
+   { "g": "☝️", "t": "Tuding sumber cahaya yang semula jadi.", "on": "natural" }
+  ] },
+ "L2": { "q": "Mengapakah kita memerlukan cahaya?",
+  "k": "Dalam keadaan terang, mudah membaca, menulis dan melukis. Dalam keadaan gelap, sukar melakukan aktiviti, jadi sumber cahaya diperlukan.",
+  "steps": [
+   { "g": "✌️", "t": "Bilik gelap. Bawa lampu meja ke atas meja.", "on": "light" },
+   { "g": "☝️", "t": "Tuding buku untuk membaca.", "on": "read" }
+  ] },
+ "L3": { "q": "Bagaimanakah bayang-bayang terhasil?",
+  "k": "Bayang-bayang terhasil apabila cahaya dihalang oleh objek. Kertas tebal menghasilkan bayang-bayang jelas, kertas surih kurang jelas dan plastik jernih tiada bayang-bayang. Kejelasan bayang-bayang bergantung pada objek yang digunakan.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding lampu suluh untuk menghidupkannya.", "on": "torch" },
+   { "g": "✌️", "t": "Letakkan setiap objek di antara lampu suluh dan skrin. Perhatikan bayang-bayang.", "on": "shadow", "ids": ["bola", "kertas_tebal", "kertas_surih", "plastik_jernih"], "count": 4 }
+  ] },
+ "L4": { "q": "Bagaimanakah kita bermain wayang kertas?",
+  "k": "Surih dan gunting watak pada kertas, lekatkan watak pada lidi, letakkan watak di antara lampu suluh dan layar, kemudian mainkan watak. Contoh lain ialah wayang kulit dan bayang-bayang seni tangan.",
+  "steps": [
+   { "g": "☝️", "t": "Surih watak: ikut garisan titik dengan jari telunjuk.", "on": "trace" },
+   { "g": "✌️", "t": "Lekatkan watak pada lidi.", "on": "stick" },
+   { "g": "✌️", "t": "Pegang watak di antara lampu suluh dan layar.", "on": "play" }
+  ] }
+}
