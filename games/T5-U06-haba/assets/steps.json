@@ -1,0 +1,22 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U06-haba after editing.",
+ "L1": { "q": "Bagaimanakah cara menggunakan termometer?",
+  "k": "Termometer digunakan untuk mengukur suhu dalam unit darjah Celsius. Pastikan mata berada pada aras cecair untuk membaca suhu.",
+  "steps": [ { "g": "✌️", "t": "Susun langkah menggunakan termometer mengikut urutan.", "on": "step", "count": 5 } ] },
+ "L2": { "q": "Bagaimanakah suhu air berubah apabila dipanaskan dan dibiarkan?",
+  "k": "Air menerima haba dan suhunya meningkat, kemudian kekal pada 100 darjah Celsius apabila mendidih. Air panas kehilangan haba ke persekitaran sehingga mencapai suhu bilik.",
+  "steps": [
+   { "g": "☝️", "t": "Hidupkan penunu. Perhatikan suhu air sehingga air mendidih.", "on": "heat" },
+   { "g": "☝️", "t": "Matikan penunu dan biarkan air menyejuk.", "on": "cool" },
+   { "g": "☝️", "t": "Pilih takat didih air.", "on": "point" }
+  ] },
+ "L3": { "q": "Apakah yang berlaku kepada bahan apabila dipanaskan dan disejukkan?",
+  "k": "Pepejal, cecair dan gas mengembang apabila menerima haba dan mengecut apabila kehilangan haba.",
+  "steps": [
+   { "g": "☝️", "t": "Panaskan bebola logam, cecair dan gas.", "on": "expand", "count": 3 },
+   { "g": "☝️", "t": "Sejukkan ketiga-tiganya.", "on": "contract", "count": 3 }
+  ] },
+ "L4": { "q": "Di manakah kita melihat pengembangan dan pengecutan dalam kehidupan?",
+  "k": "Celah pada sambungan jambatan dan landasan membolehkan pengembangan ketika panas. Kabel elektrik dipasang kendur supaya tidak putus apabila mengecut ketika sejuk.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap contoh.", "on": "life", "count": 8 } ] }
+}

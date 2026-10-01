@@ -320,5 +320,12 @@
     "unit": 5,
     "title": "Litar Elektrik",
     "desc": "Sumber elektrik, simbol, litar bersiri dan selari, kecerahan mentol"
+  },
+  {
+    "id": "T5-U06-haba",
+    "year": 5,
+    "unit": 6,
+    "title": "Haba dan Suhu",
+    "desc": "Termometer, takat didih, pengembangan dan pengecutan"
   }
 ]
