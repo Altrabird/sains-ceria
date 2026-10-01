@@ -40,5 +40,12 @@
     "unit": 5,
     "title": "Haiwan",
     "desc": "Bahagian tubuh, kepentingannya, bulu halus, lakar & label"
+  },
+  {
+    "id": "T1-U06-tumbuhan",
+    "year": 1,
+    "unit": 6,
+    "title": "Tumbuhan",
+    "desc": "Bina pokok, bandingkan ciri, serupa, labelkan"
   }
 ]

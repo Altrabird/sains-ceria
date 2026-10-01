@@ -267,3 +267,30 @@ export function traceSheet(S, { name = 'kertas', w = 0.64, h = 0.44, pts, decora
   };
   return api;
 }
+
+// ------------------------------------------------------------ flowering plant built from parts (Tahun 1 U6)
+// Each part is a Group whose origin is the soil surface where the plant stands, so parts snap together at (0,0,0).
+// roots: 'tunjang' (tap root) | 'serabut' (fibrous); flower colour; woody stem = brown.
+export function plantParts({ flower = 0xe53935, roots = 'tunjang', woody = true } = {}) {
+  const rootM = M(0xd7b98e);
+  const akar = group('akar');
+  if (roots === 'tunjang') {
+    akar.add(mesh(new THREE.ConeGeometry(0.01, 0.13, 10), rootM, 0, -0.065, 0).rotateX(Math.PI));
+    for (let i = 0; i < 6; i++) { const r = mesh(new THREE.CylinderGeometry(0.002, 0.001, 0.05), rootM, 0, -0.03 - i * 0.015, 0); r.rotation.z = (i % 2 ? 1 : -1) * 1.0; r.rotation.y = i * 1.1; r.translateY(-0.022); akar.add(r); }
+  } else for (let i = 0; i < 14; i++) { const r = mesh(new THREE.CylinderGeometry(0.0022, 0.001, 0.08), rootM); r.rotation.set((Math.random() - 0.5) * 1.2, i * 0.45, (Math.random() - 0.5) * 1.2); r.translateY(-0.04); akar.add(r); }
+  const batang = group('batang', mesh(new THREE.CylinderGeometry(0.007, 0.01, 0.2, 10), M(woody ? 0x7a5230 : 0x6aa84f), 0, 0.1, 0));
+  const daun = group('daun');
+  for (let i = 0; i < 4; i++) {
+    const l = leaf(''); l.scale.setScalar(0.55); l.position.set(0.05 * (i % 2 ? 1 : -1), 0.07 + i * 0.03, 0); l.rotation.set(0, i % 2 ? 0.3 : Math.PI - 0.3, (i % 2 ? 1 : -1) * 0.35); daun.add(l);
+  }
+  const bunga = group('bunga');
+  for (let i = 0; i < 5; i++) { const p = mesh(new THREE.SphereGeometry(0.02, 12, 8).scale(1.4, 0.25, 0.9).translate(0.024, 0, 0), M(flower)); p.rotation.set(0, i * Math.PI * 2 / 5, 0.5); bunga.add(p); }
+  bunga.add(mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.04), M(0xffd54f), 0, 0.02, 0).rotateZ(0.3));
+  bunga.position.y = 0.2;
+  return { akar, batang, daun, bunga };
+}
+// clear pot with soil you can see the roots through; top of soil at y = 0.13 (put plant parts there)
+export function glassPot(name = 'pasu') {
+  return group(name, mesh(new THREE.CylinderGeometry(0.09, 0.075, 0.14, 24, 1, true), M(0xdff3ff, { transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false }), 0, 0.07, 0),
+    mesh(new THREE.CylinderGeometry(0.087, 0.075, 0.13, 24), M(0x6d4c2f, { transparent: true, opacity: 0.45, depthWrite: false }), 0, 0.065, 0));
+}

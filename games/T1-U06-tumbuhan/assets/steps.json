@@ -1,0 +1,24 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U06-tumbuhan after editing.",
+ "L1": { "q": "Apakah bahagian tumbuhan dan kepentingannya?",
+  "k": "Akar menyokong pokok dan menyerap air. Batang mengangkut makanan, air dan nutrien. Daun membuat makanan. Bunga bertukar menjadi buah dan biji benih.",
+  "steps": [
+   { "g": "✌️", "t": "Bina pokok di dalam pasu, dari bawah ke atas: akar, batang, daun dan bunga.", "on": "build", "ids": ["akar", "batang", "daun", "bunga"], "count": 4 },
+   { "g": "☝️", "t": "Tuding penyiram untuk menyiram pokok. Perhatikan apa yang berlaku.", "on": "water" }
+  ] },
+ "L2": { "q": "Bagaimanakah ciri bahagian tumbuhan berbeza?",
+  "k": "Teratai berbunga, paku pakis tidak berbunga. Durian berbatang kayu, betik tidak berkayu. Ros mempunyai urat daun jejala dan akar tunjang. Pandan mempunyai urat daun selari dan akar serabut.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan setiap spesimen di petak ciri yang betul.", "on": "compare", "ids": ["teratai", "paku_pakis", "batang_durian", "batang_betik", "daun_ros", "daun_pandan", "akar_tunjang", "akar_serabut"], "count": 8 }
+  ] },
+ "L3": { "q": "Apakah ciri yang serupa pada pokok bunga raya dan pokok bunga ros?",
+  "k": "Ada tumbuhan yang berlainan mempunyai ciri bahagian yang serupa. Pokok bunga raya dan pokok bunga ros berbunga, mempunyai urat daun jejala, batang berkayu dan akar tunjang.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan ciri yang ada pada kedua-dua pokok di kawasan serupa.", "on": "same", "ids": ["berbunga", "jejala", "berkayu", "tunjang"], "count": 4 }
+  ] },
+ "L4": { "q": "Bolehkah anda melabelkan bahagian tumbuhan?",
+  "k": "Bunga, daun, batang dan akar ialah bahagian tumbuhan. Setiap bahagian mempunyai kepentingannya.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan label bunga, daun, batang dan akar pada titik merah jambu yang betul.", "on": "label", "ids": ["bunga", "daun", "batang", "akar"], "count": 4 }
+  ] }
+}
