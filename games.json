@@ -61,5 +61,12 @@
     "unit": 8,
     "title": "Penyerapan",
     "desc": "Titis air, ujian adil serapan, kepentingan, reka mop mini"
+  },
+  {
+    "id": "T1-U09-bumi",
+    "year": 1,
+    "unit": 9,
+    "title": "Bumi",
+    "desc": "Bentuk muka bumi, jenis tanah, balang tanah, penapis air"
   }
 ]

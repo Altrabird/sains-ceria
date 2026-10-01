@@ -1,0 +1,27 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U09-bumi after editing.",
+ "L1": { "q": "Apakah bentuk muka bumi yang ada di sekeliling kita?",
+  "k": "Ada lapan bentuk muka bumi: gunung, bukit, lembah, sungai, pantai, laut, tasik dan kolam.",
+  "steps": [
+   { "g": "✌️", "t": "Pacakkan bendera nama pada setiap bentuk muka bumi.", "on": "landform", "ids": ["gunung", "bukit", "lembah", "sungai", "pantai", "laut", "tasik", "kolam"], "count": 8 }
+  ] },
+ "L2": { "q": "Apakah kandungan setiap jenis tanah?",
+  "k": "Tanah kebun mengandungi ranting kayu, daun kering, batu, butir pasir dan haiwan kecil. Tanah liat mempunyai butir-butir tanah yang sangat halus. Pasir mengandungi batu dan butir pasir.",
+  "steps": [
+   { "g": "✌️", "t": "Gerakkan kanta pembesar di atas setiap timbunan tanah.", "on": "inspect", "ids": ["kebun", "liat", "pasir"], "count": 3 },
+   { "g": "✌️", "t": "Letakkan kad nama pada jenis tanah yang betul.", "on": "name", "ids": ["kebun", "liat", "pasir"], "count": 3 }
+  ] },
+ "L3": { "q": "Bagaimanakah kita membandingkan kandungan tanah?",
+  "k": "Masukkan tanah dan air ke dalam balang, tutup dan goncangkan, biarkan selama 30 minit, kemudian perhatikan. Tanah kebun mempunyai bahan terapung, tanah liat menjadikan air keruh dan pasir mendap dengan cepat.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan setiap jenis tanah ke dalam balang yang berlabel sama.", "on": "fill", "ids": ["kebun", "liat", "pasir"], "count": 3 },
+   { "g": "👋", "t": "Goncangkan ketiga-tiga balang: tuding setiap balang atau lambai tangan.", "on": "shake", "ids": ["kebun", "liat", "pasir"], "count": 3 },
+   { "g": "☝️", "t": "Selepas 30 minit, tuding balang yang paling banyak bahan terapung.", "on": "compare" }
+  ] },
+ "L4": { "q": "Apakah kegunaan batu-batu kecil dan pasir?",
+  "k": "Batu-batu kecil dan pasir digunakan untuk membuat penapis air ringkas yang menjadikan air keruh lebih jernih.",
+  "steps": [
+   { "g": "✌️", "t": "Bina penapis air dari bawah ke atas: kapas, pasir, kemudian batu-batu kecil.", "on": "layer", "ids": ["kapas", "pasir", "batu_kecil"], "count": 3 },
+   { "g": "☝️", "t": "Tuding air keruh untuk menuangnya ke dalam penapis.", "on": "filter" }
+  ] }
+}
