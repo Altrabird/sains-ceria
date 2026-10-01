@@ -432,5 +432,12 @@
     "unit": 11,
     "title": "Galaksi",
     "desc": "Bentuk galaksi, Sistem Suria dalam Bima Sakti, perbandingan saiz"
+  },
+  {
+    "id": "T6-U12-kestabilan-kekuatan",
+    "year": 6,
+    "unit": 12,
+    "title": "Kestabilan dan Kekuatan",
+    "desc": "Meja goncang, kekuatan penyedut minuman, bentuk struktur, bangku botol"
   }
 ]

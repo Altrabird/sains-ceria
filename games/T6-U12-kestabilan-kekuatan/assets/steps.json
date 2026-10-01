@@ -1,0 +1,23 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U12-kestabilan-kekuatan after editing.",
+ "L1": { "q": "Apakah faktor yang mempengaruhi kestabilan?",
+  "k": "Semakin rendah objek atau binaan, semakin stabil. Semakin besar luas tapak, semakin stabil.",
+  "steps": [
+   { "g": "👋", "t": "Goncang kadbod dan perhatikan objek rendah dan tinggi.", "on": "shake", "ids": ["tinggi"] },
+   { "g": "☝️", "t": "Pilih kesimpulan tentang ketinggian.", "on": "conclude", "ids": ["tinggi"] },
+   { "g": "👋", "t": "Goncang semula dan perhatikan tapak besar dan tapak kecil.", "on": "shake", "ids": ["tapak"] },
+   { "g": "☝️", "t": "Pilih kesimpulan tentang luas tapak.", "on": "conclude", "ids": ["tapak"] }
+  ] },
+ "L2": { "q": "Adakah bahan yang berbeza mempunyai kekuatan yang berbeza?",
+  "k": "Bahan yang berbeza mempunyai kekuatan yang berbeza. Penyedut besi paling kuat, diikuti penyedut plastik dan penyedut kertas.",
+  "steps": [
+   { "g": "☝️", "t": "Tambah pemberat pada setiap penyedut sehingga bentuknya berubah.", "on": "test", "count": 3 },
+   { "g": "☝️", "t": "Pilih penyedut yang paling kuat.", "on": "conclude" }
+  ] },
+ "L3": { "q": "Bentuk struktur apakah yang menjadikan binaan kuat?",
+  "k": "Kekuda ialah rangka segi tiga, lengkungan ialah struktur melengkung, dan kubah ialah struktur berbentuk hemisfera. Semuanya kuat menyokong beban.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap struktur dengan penerangannya.", "on": "shape", "count": 4 } ] },
+ "L4": { "q": "Bagaimanakah kita membina model bangku botol?",
+  "k": "Binaan yang kuat dan stabil tidak mudah rosak, menjimatkan kos baik pulih, selamat digunakan dan tahan lama.",
+  "steps": [ { "g": "✌️", "t": "Susun langkah membina bangku botol.", "on": "build", "count": 5 } ] }
+}
