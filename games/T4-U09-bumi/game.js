@@ -32,7 +32,7 @@ function L1(S, play) {
       S.evt('drop', b.name); S.info(`⬇️ Bola dari sebelah <b>${side}</b> jatuh ke arah <b>pusat bumi</b>. Graviti bumi menarik semua objek ke arah pusat bumi.`, 7);
     },
   });
-  return { root, view: { w: 1.2, d: 0.85 }, ...dr, update(dt) { G.rotation.y += dt * 0.3; } };
+  return { root, view: { w: 1.25, d: 1.15 }, ...dr, update(dt) { G.rotation.y += dt * 0.3; } };
 }
 
 // ------------------------------------------------------------ L2 Dua pergerakan bumi
