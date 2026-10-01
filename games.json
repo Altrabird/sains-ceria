@@ -229,5 +229,12 @@
     "unit": 2,
     "title": "Badan Kita Bekerja",
     "desc": "Pernafasan, kadar pernafasan, udara bersih, perkumuhan, gerak balas"
+  },
+  {
+    "id": "T4-U03-haiwan",
+    "year": 4,
+    "unit": 3,
+    "title": "Pernafasan dan Kelas Haiwan",
+    "desc": "Organ pernafasan, katak, vertebrata, lima kelas, mamalia istimewa"
   }
 ]
