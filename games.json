@@ -124,5 +124,12 @@
     "unit": 7,
     "title": "Elektrik",
     "desc": "Komponen, litar lengkap, baiki litar, konduktor & penebat, buzzer"
+  },
+  {
+    "id": "T2-U08-campuran",
+    "year": 2,
+    "unit": 8,
+    "title": "Campuran",
+    "desc": "Asingkan campuran, larut atau tidak, larut lebih cepat"
   }
 ]

@@ -1,0 +1,16 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U08-campuran after editing.",
+ "L1": { "q": "Bagaimanakah kita mengasingkan campuran?",
+  "k": "Campuran mengandungi dua atau lebih bahan yang dicampurkan. Campuran boleh diasingkan dengan cara menyisih, mengayak, menggunakan magnet, mengapung dan menuras.",
+  "steps": [ { "g": "✌️", "t": "Bawa kaedah yang betul kepada setiap campuran.", "on": "separate", "count": 5 } ] },
+ "L2": { "q": "Bahan manakah yang larut di dalam air?",
+  "k": "Gula dan garam larut di dalam air; gula tidak hilang, ia larut. Biji jagung, kacang hijau dan beras tidak larut kerana masih kelihatan selepas diaduk.",
+  "steps": [ { "g": "☝️", "t": "Masukkan setiap bahan ke dalam gelasnya, kemudian tuding gelas untuk mengaduk.", "on": "dissolve", "count": 5 } ] },
+ "L3": { "q": "Bagaimanakah gula boleh larut lebih cepat?",
+  "k": "Gula larut lebih cepat di dalam air panas, apabila diaduk, dan apabila saiz bahan lebih kecil seperti gula pasir.",
+  "steps": [
+   { "g": "☝️", "t": "Perlumbaan pertama: air panas lawan air sejuk. Tuding gelas yang lebih cepat.", "on": "faster", "ids": ["suhu"] },
+   { "g": "☝️", "t": "Perlumbaan kedua: diaduk lawan tidak diaduk.", "on": "faster", "ids": ["aduk"] },
+   { "g": "☝️", "t": "Perlumbaan ketiga: gula pasir lawan gula kiub.", "on": "faster", "ids": ["saiz"] }
+  ] }
+}
