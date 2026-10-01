@@ -467,3 +467,23 @@ export function labelPins(S, root, holder, labels, { row = 0.3, size = 0.07, onL
     },
   });
 }
+
+// ------------------------------------------------------------ sequence: put items in order into numbered slots ('urutan_1'..)
+// items: [{ obj, label }] in the CORRECT order (obj is any Group, named = event id). Emits evt(type, obj.name) per correct drop.
+export function sequence(S, root, items, { type = 'order', gap = 0.24, slotZ = -0.2, rowZ = 0.25, slotW = 0.18, hint = n => `🤔 Langkah ${n + 1}: apakah yang ${n ? 'berlaku seterusnya' : 'pertama'}?`, ok = it => `✅ ${it.label}.`, onDone } = {}) {
+  const n = items.length, x = i => (i - (n - 1) / 2) * gap;
+  const slots = items.map((_, i) => { const m = mesh(new THREE.BoxGeometry(slotW, 0.004, 0.13), M(0xffd84d, { transparent: true, opacity: 0.6 }), x(i), 0.002, slotZ); m.name = 'urutan_' + (i + 1); root.add(m);
+    const t = textSprite(String(i + 1), { h: 0.03 }); t.position.set(x(i) - slotW / 2 - 0.015, 0.02, slotZ); root.add(t); return m; });
+  const mix = items.map((_, i) => i).sort((a, b) => ((a * 3 + 2) % n) - ((b * 3 + 2) % n));
+  items.forEach((it, i) => { it.obj.position.set(x(mix[i]), it.obj.position.y, rowZ); root.add(home(it.obj)); if (it.label) { const t = textSprite(it.label, { h: 0.026 }); t.position.set(0, 0.0, 0.08); it.obj.add(t); } });
+  let next = 0;
+  return dragger(S, () => items.map(i => i.obj).filter(o => o.userData.seq === undefined), {
+    onDrop(o) {
+      const s = slots.find(s => flat(s.position, o.position) < slotW * 0.6);
+      if (!s) return goHome(S, o);
+      if (s !== slots[next] || o !== items[next].obj) { S.info(hint(next)); return goHome(S, o); }
+      o.userData.seq = next; moveTo(S, o, s.position.clone().setY(o.userData.home.y)); S.evt(type, o.name);
+      S.info(ok(items[next])); next++; if (next === n) onDone?.();
+    },
+  });
+}

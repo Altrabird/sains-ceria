@@ -1,0 +1,28 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Bagaimanakah aiskrim berubah mengikut masa?",
+  "k": "Perhubungan ruang dan masa memerihalkan perubahan parameter mengikut urutan masa. Apabila masa bertambah, bentuk aiskrim menjadi tidak sekata dan saiznya mengecil.",
+  "steps": [ { "g": "✌️", "t": "Susun aiskrim mengikut masa: mula, 10 minit dan 20 minit.", "on": "time", "count": 3 } ] },
+ "L2": { "q": "Apakah yang ditunjukkan oleh data tempat makan burung?",
+  "k": "Mentafsir data ialah memberikan penerangan yang rasional tentang objek, peristiwa atau pola daripada data. Tempat A paling banyak didatangi burung dan tempat B paling sedikit.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding tempat makan yang paling banyak didatangi burung.", "on": "most" },
+   { "g": "☝️", "t": "Tuding tempat makan yang paling sedikit didatangi burung.", "on": "least" }
+  ] },
+ "L3": { "q": "Tisu manakah yang paling banyak menyerap air?",
+  "k": "Mendefinisi secara operasi ialah memberikan definisi dengan menyatakan perkara yang dilakukan dan diperhatikan. Keupayaan menyerap air paling tinggi apabila isi padu air yang tinggal paling sedikit.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding rendam satu minit.", "on": "soak" },
+   { "g": "☝️", "t": "Tuding tisu yang paling tinggi keupayaan menyerap air.", "on": "define" }
+  ] },
+ "L4": { "q": "Apakah pemboleh ubah dalam penyiasatan tumbesaran pokok?",
+  "k": "Pemboleh ubah dimanipulasi diubah, pemboleh ubah bergerak balas diperhatikan atau diukur, dan pemboleh ubah malar dikekalkan sama. Penyiasatan adil mengubah satu pemboleh ubah sahaja.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap pemboleh ubah dalam kumpulan yang betul.", "on": "variable", "count": 5 } ] },
+ "L5": { "q": "Adakah bilangan adukan mempengaruhi masa untuk gula melarut sempurna?",
+  "k": "Mengeksperimen ialah merancang dan menjalankan penyiasatan untuk menguji hipotesis. Semakin bertambah bilangan adukan, semakin berkurang masa untuk gula melarut sempurna. Hipotesis diterima.",
+  "steps": [
+   { "g": "☝️", "t": "Pilih hipotesis yang betul.", "on": "hypothesis" },
+   { "g": "☝️", "t": "Jalankan eksperimen dan perhatikan data.", "on": "run" },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] }
+}

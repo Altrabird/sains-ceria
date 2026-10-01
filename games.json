@@ -215,5 +215,12 @@
     "unit": 10,
     "title": "Takal",
     "desc": "Bahagian takal, tarik ke bawah beban naik, kegunaan, reka cipta"
+  },
+  {
+    "id": "T4-U01-kemahiran-saintifik",
+    "year": 4,
+    "unit": 1,
+    "title": "Saintis Penyiasat",
+    "desc": "Ruang & masa, tafsir data, definisi operasi, pemboleh ubah, eksperimen"
   }
 ]
