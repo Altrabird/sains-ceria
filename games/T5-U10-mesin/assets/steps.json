@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U10-mesin after editing.",
+ "L1": { "q": "Apakah mesin ringkas dalam alat harian?",
+  "k": "Pengokot menggunakan tuas dan baji. Pengasah pensel menggunakan roda dan gandar serta baji. Pemotong kuku menggunakan tuas dan baji. Jam tangan menggunakan gear, skru serta roda dan gandar.",
+  "steps": [ { "g": "✌️", "t": "Letakkan mesin ringkas pada setiap bahagian alat.", "on": "part", "count": 9 } ] },
+ "L2": { "q": "Apakah ciri alat yang lestari?",
+  "k": "Alat yang lestari dibuat daripada bahan yang sesuai, tahan lama, mudah diselenggara, kos rendah, mesra alam dan selamat digunakan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap ciri.", "on": "trait", "count": 10 } ] },
+ "L3": { "q": "Bagaimanakah kita menambah baik tong sampah?",
+  "k": "Tong sampah beroda lebih mudah digerakkan. Pembahagian ruang membantu pengasingan bahan kitar semula dan sisa untuk dijadikan kompos.",
+  "steps": [
+   { "g": "✌️", "t": "Pasang roda dan bahagikan ruang tong sampah.", "on": "improve", "count": 2 },
+   { "g": "✌️", "t": "Masukkan setiap sampah ke ruang yang betul.", "on": "waste", "count": 6 }
+  ] },
+ "L4": { "q": "Apakah langkah mereka cipta?",
+  "k": "Lakar reka bentuk, label bahan dan bahagian, terangkan ciri lestari, dan bentangkan hasil.",
+  "steps": [ { "g": "✌️", "t": "Susun langkah mereka cipta mengikut urutan.", "on": "invent", "count": 4 } ] }
+}

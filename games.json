@@ -348,5 +348,12 @@
     "unit": 9,
     "title": "Fasa Bulan dan Buruj",
     "desc": "Simulasi peredaran Bulan, urutan fasa Bulan, buruj"
+  },
+  {
+    "id": "T5-U10-mesin",
+    "year": 5,
+    "unit": 10,
+    "title": "Mesin dan Reka Cipta",
+    "desc": "Gabungan mesin ringkas, alat lestari, tong sampah lestari, langkah mereka cipta"
   }
 ]
