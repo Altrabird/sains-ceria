@@ -80,14 +80,14 @@ function L2(S, play) {
 function L3(S, play) {
   const root = group('L3', table(1.4, 0.85, play));
   const Y = 0.1, tc = torch(); tc.position.set(-0.5, Y, -0.05); root.add(tc);
-  const sc = screen('skrin', 0.34, 0.3); sc.rotation.y = 1.15; sc.position.set(0.45, 0, -0.12); root.add(sc);  /* faced to the camera so the shadow is visible */
+  const sc = screen('skrin', 0.34, 0.3); sc.rotation.y = 1.15; sc.position.set(0.4, 0, -0.18); root.add(sc);  /* faced to the camera so the shadow is visible */
   const cyl = group('silinder', mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.08, 20), M(0x42a5f5), 0, 0, 0)); cyl.position.set(0, Y, -0.05); cyl.userData.carryY = Y - 0.06; root.add(cyl);
   const sh = mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.DoubleSide })); sh.rotation.y = -Math.PI / 2; sh.position.set(-0.007, Y + 0.02, 0); sh.userData.fx = true; sc.add(sh);
   const circ = mesh(new THREE.CircleGeometry(0.5, 28), new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.DoubleSide })); circ.rotation.y = -Math.PI / 2; circ.position.copy(sh.position); circ.visible = false; circ.userData.fx = true; sc.add(circ);
   const rot = emojiCard('pusing', '🔄', 'Pusing silinder', 0.08, { border: '#3a7bd5' }); rot.position.set(0.0, 0, 0.3); root.add(rot);
   let endOn = false; const seen = new Set();
   const update = () => {
-    const d = Math.max(0.05, cyl.position.x - tc.position.x), k = 0.16 / d;  // nearer the torch -> bigger shadow
+    const d = Math.max(0.05, cyl.position.x - tc.position.x), k = 0.9 + 3.2 * (1 - d / 0.9);  /* nearer the torch -> bigger shadow; never vanishes */
     sh.visible = !endOn; circ.visible = endOn;
     sh.scale.set(0.05 * k, 0.08 * k, 1); circ.scale.setScalar(0.05 * k);
     if (d < 0.25 && !seen.has('besar')) { seen.add('besar'); S.evt('size', 'besar'); S.info('🔦 Objek <b>lebih dekat</b> dengan lampu suluh — bayang-bayang <b>lebih besar</b>.'); }
