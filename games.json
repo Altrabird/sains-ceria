@@ -404,5 +404,12 @@
     "unit": 7,
     "title": "Kelajuan",
     "desc": "Perlumbaan, guli pada landasan, mengira kelajuan, jarak dan masa"
+  },
+  {
+    "id": "T6-U08-pengawetan-makanan",
+    "year": 6,
+    "unit": 8,
+    "title": "Pengawetan Makanan",
+    "desc": "Kerosakan makanan, kaedah pengawetan, projek cili kering"
   }
 ]

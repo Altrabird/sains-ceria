@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U08-pengawetan-makanan after editing.",
+ "L1": { "q": "Apakah tanda makanan rosak?",
+  "k": "Makanan rosak akibat tindakan mikroorganisma. Susu berbuih dan berketul, roti bertompok kehitaman, buah berkulat, daging kehitaman dan ikan melekit serta lembik.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap makanan dengan tanda kerosakannya.", "on": "spoil", "count": 5 } ] },
+ "L2": { "q": "Bagaimanakah kaedah pengawetan berfungsi?",
+  "k": "Pengawetan menghalang atau melambatkan pertumbuhan mikroorganisma dengan mengawal suhu, menyingkirkan air, menghalang udara atau mewujudkan keadaan berasid.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap kaedah pengawetan.", "on": "method", "count": 11 } ] },
+ "L3": { "q": "Kaedah apakah yang digunakan untuk mengawet makanan ini?",
+  "k": "Ikan kering melalui pengeringan, jem durian melalui pendidihan, telur masin melalui pemasinan, susu melalui pempasteuran, sardin melalui pengetinan dan epal melalui pelilinan.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap makanan dengan kaedah pengawetannya.", "on": "food", "count": 6 } ] },
+ "L4": { "q": "Bagaimanakah kita membuat cili kering?",
+  "k": "Pengawetan menjadikan makanan tahan lama, mengelakkan pembaziran, membekalkan makanan di luar musim, memudahkan eksport dan menghasilkan makanan sedia dimakan.",
+  "steps": [ { "g": "✌️", "t": "Susun langkah projek cili kering mengikut urutan.", "on": "project", "count": 6 } ] }
+}
