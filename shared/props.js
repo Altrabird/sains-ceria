@@ -367,3 +367,47 @@ export function sorter(S, root, { zones, items, type = 'sort', size = 0.12, row 
     },
   });
 }
+
+// ------------------------------------------------------------ electric circuit parts (Tahun 2 U7, later years)
+// Each part sits on a small base; terminals are at local x = ±len/2. Bulbs/buzzers expose userData.setOn(bool).
+let haloTex;
+function halo() {
+  haloTex ||= (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    r.addColorStop(0, 'rgba(255,240,180,1)'); r.addColorStop(0.4, 'rgba(255,200,90,0.55)'); r.addColorStop(1, 'rgba(255,180,60,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); })();
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); s.userData.fx = true; return s;
+}
+const terminal = x => mesh(new THREE.CylinderGeometry(0.007, 0.007, 0.012, 10), M(0xc9a227, { metalness: 0.8, roughness: 0.3 }), x, 0.016, 0);
+const partBase = (w, d = 0.05) => mesh(new THREE.BoxGeometry(w, 0.012, d), M(0x90a4ae), 0, 0.006, 0);
+export function battery(name = 'sel_kering', { dead = false } = {}) {
+  const g = group(name, partBase(0.13), terminal(-0.06), terminal(0.06),
+    mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.09, 20), M(dead ? 0x757575 : 0x212121), 0, 0.03, 0).rotateZ(Math.PI / 2),
+    mesh(new THREE.CylinderGeometry(0.0182, 0.0182, 0.03, 20), M(dead ? 0x9e9e9e : 0xf57c00), 0.03, 0.03, 0).rotateZ(Math.PI / 2),
+    mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.008, 12), M(0xbdbdbd, { metalness: 0.8 }), 0.049, 0.03, 0).rotateZ(Math.PI / 2));
+  const t = textSprite(dead ? 'Lemah' : '+', { h: 0.022, bg: dead ? '#ef9a9aee' : '#ffffffcc' }); t.position.set(0.03, 0.06, 0); g.add(t);
+  g.userData.dead = dead; return g;
+}
+export function bulb(name = 'mentol', { broken = false } = {}) {
+  const glass = mesh(new THREE.SphereGeometry(0.022, 18, 14), M(0xfffde7, { transparent: true, opacity: 0.55, roughness: 0.05, emissive: 0xffe08a, emissiveIntensity: 0 }), 0, 0.05, 0);
+  const fil = mesh(new THREE.TorusGeometry(0.006, 0.0012, 6, 12, broken ? Math.PI * 0.8 : Math.PI * 2), M(0x795548, { emissive: 0xffb040, emissiveIntensity: 0 }), 0, 0.05, 0);
+  const h = halo(); h.position.set(0, 0.05, 0); h.scale.setScalar(0.12); h.visible = false;
+  const g = group(name, partBase(0.08), terminal(-0.032), terminal(0.032), mesh(new THREE.CylinderGeometry(0.012, 0.014, 0.022, 14), M(0xb0bec5, { metalness: 0.7 }), 0, 0.023, 0), glass, fil, h);
+  g.userData.setOn = on => { glass.material.emissiveIntensity = on ? 2.2 : 0; fil.material.emissiveIntensity = on ? 3 : 0; glass.material.opacity = on ? 0.95 : 0.55; h.visible = on; };
+  g.userData.broken = broken; return g;
+}
+export function switchPart(name = 'suis') {
+  const lever = group('tuil', mesh(new THREE.BoxGeometry(0.07, 0.005, 0.012), M(0xcfd8dc, { metalness: 0.7 }), 0.035, 0, 0), mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.02), M(0x212121), 0.07, 0, 0));
+  lever.position.set(-0.035, 0.022, 0); lever.rotation.z = 0.6;
+  const g = group(name, partBase(0.1), terminal(-0.04), terminal(0.04), lever);
+  g.userData.closed = false;
+  g.userData.setClosed = c => { g.userData.closed = c; lever.rotation.z = c ? 0 : 0.6; };
+  return g;
+}
+export function buzzer(name = 'buzzer') {
+  const g = group(name, partBase(0.08), terminal(-0.032), terminal(0.032), mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.025, 20), M(0x212121), 0, 0.025, 0));
+  for (let i = 0; i < 5; i++) g.add(mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.002, 6), M(0x9e9e9e), Math.cos(i * 1.26) * 0.012, 0.038, Math.sin(i * 1.26) * 0.012));
+  const waves = emojiSprite('🔊', 0.06); waves.position.set(0, 0.08, 0); waves.visible = false; g.add(waves);
+  g.userData.setOn = on => { waves.visible = on; };
+  return g;
+}
+// red wire through 3D points (already in the parent's coordinates)
+export const wire = (pts, color = 0xd32f2f) => { const m = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.1), 64, 0.003, 6), M(color)); m.userData.fx = true; return m; };

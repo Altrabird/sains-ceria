@@ -1,0 +1,25 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U07-elektrik after editing.",
+ "L1": { "q": "Apakah fungsi setiap komponen elektrik?",
+  "k": "Sel kering membekalkan tenaga elektrik. Mentol mengeluarkan cahaya. Suis menyambungkan dan memutuskan litar elektrik. Wayar penyambung menyambungkan komponen elektrik.",
+  "steps": [ { "g": "✌️", "t": "Letakkan kad fungsi di hadapan komponen yang betul.", "on": "function", "count": 4 } ] },
+ "L2": { "q": "Bilakah mentol menyala?",
+  "k": "Apabila suis tertutup, litar lengkap dan mentol menyala. Apabila suis terbuka, litar tidak lengkap dan mentol tidak menyala. Arus elektrik mengalir dalam litar lengkap.",
+  "steps": [
+   { "g": "✌️", "t": "Pasang sel kering, mentol dan suis pada soketnya.", "on": "place", "count": 3 },
+   { "g": "☝️", "t": "Tuding suis untuk menutupnya.", "on": "close" },
+   { "g": "☝️", "t": "Tuding suis sekali lagi untuk membukanya.", "on": "open" }
+  ] },
+ "L3": { "q": "Mengapakah mentol tidak menyala?",
+  "k": "Mentol tidak menyala jika suis terbuka, sel kering kekurangan tenaga, mentol rosak, mentol dipasang tidak ketat atau wayar dipasang tidak kemas.",
+  "steps": [ { "g": "☝️", "t": "Cari dan baiki masalah dalam empat litar.", "on": "fix", "ids": ["suis", "sel", "mentol", "wayar"], "count": 4 } ] },
+ "L4": { "q": "Objek manakah yang membenarkan arus elektrik mengalir?",
+  "k": "Konduktor membenarkan arus elektrik mengalir, contohnya klip kertas, sudu logam, paku dan duit syiling. Penebat tidak membenarkan arus elektrik mengalir, contohnya getah pemadam, straw, rod kaca dan kayu aiskrim.",
+  "steps": [ { "g": "✌️", "t": "Uji kelapan-lapan objek dalam litar dan perhatikan nyalaan mentol.", "on": "test", "count": 8 } ] },
+ "L5": { "q": "Bolehkah mentol digantikan dengan buzzer?",
+  "k": "Mentol boleh digantikan dengan buzzer. Buzzer menghasilkan bunyi apabila litar lengkap.",
+  "steps": [
+   { "g": "✌️", "t": "Gantikan mentol dengan buzzer.", "on": "swap" },
+   { "g": "☝️", "t": "Tuding suis untuk menutup litar.", "on": "buzz" }
+  ] }
+}

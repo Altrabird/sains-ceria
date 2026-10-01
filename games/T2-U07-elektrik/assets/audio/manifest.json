@@ -1,0 +1,21 @@
+{
+"L1_q": "Soalan. Apakah fungsi setiap komponen elektrik?",
+"L1_s1": "Langkah 1. Letakkan kad fungsi di hadapan komponen yang betul.",
+"L1_k": "Tahniah! Kesimpulan. Sel kering membekalkan tenaga elektrik. Mentol mengeluarkan cahaya. Suis menyambungkan dan memutuskan litar elektrik. Wayar penyambung menyambungkan komponen elektrik.",
+"L2_q": "Soalan. Bilakah mentol menyala?",
+"L2_s1": "Langkah 1. Pasang sel kering, mentol dan suis pada soketnya.",
+"L2_s2": "Langkah 2. Tuding suis untuk menutupnya.",
+"L2_s3": "Langkah 3. Tuding suis sekali lagi untuk membukanya.",
+"L2_k": "Tahniah! Kesimpulan. Apabila suis tertutup, litar lengkap dan mentol menyala. Apabila suis terbuka, litar tidak lengkap dan mentol tidak menyala. Arus elektrik mengalir dalam litar lengkap.",
+"L3_q": "Soalan. Mengapakah mentol tidak menyala?",
+"L3_s1": "Langkah 1. Cari dan baiki masalah dalam empat litar.",
+"L3_k": "Tahniah! Kesimpulan. Mentol tidak menyala jika suis terbuka, sel kering kekurangan tenaga, mentol rosak, mentol dipasang tidak ketat atau wayar dipasang tidak kemas.",
+"L4_q": "Soalan. Objek manakah yang membenarkan arus elektrik mengalir?",
+"L4_s1": "Langkah 1. Uji kelapan-lapan objek dalam litar dan perhatikan nyalaan mentol.",
+"L4_k": "Tahniah! Kesimpulan. Konduktor membenarkan arus elektrik mengalir, contohnya klip kertas, sudu logam, paku dan duit syiling. Penebat tidak membenarkan arus elektrik mengalir, contohnya getah pemadam, straw, rod kaca dan kayu aiskrim.",
+"L5_q": "Soalan. Bolehkah mentol digantikan dengan buzzer?",
+"L5_s1": "Langkah 1. Gantikan mentol dengan buzzer.",
+"L5_s2": "Langkah 2. Tuding suis untuk menutup litar.",
+"L5_k": "Tahniah! Kesimpulan. Mentol boleh digantikan dengan buzzer. Buzzer menghasilkan bunyi apabila litar lengkap.",
+"_voice": "ms-MY-YasminNeural"
+}

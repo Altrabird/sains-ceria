@@ -117,5 +117,12 @@
     "unit": 6,
     "title": "Terang dan Gelap",
     "desc": "Sumber cahaya, terang & gelap, bayang-bayang, wayang kertas"
+  },
+  {
+    "id": "T2-U07-elektrik",
+    "year": 2,
+    "unit": 7,
+    "title": "Elektrik",
+    "desc": "Komponen, litar lengkap, baiki litar, konduktor & penebat, buzzer"
   }
 ]
