@@ -313,5 +313,12 @@
     "unit": 4,
     "title": "Kemandirian Tumbuhan",
     "desc": "Perlindungan tumbuhan, penyesuaian iklim, pencaran biji benih"
+  },
+  {
+    "id": "T5-U05-elektrik",
+    "year": 5,
+    "unit": 5,
+    "title": "Litar Elektrik",
+    "desc": "Sumber elektrik, simbol, litar bersiri dan selari, kecerahan mentol"
   }
 ]

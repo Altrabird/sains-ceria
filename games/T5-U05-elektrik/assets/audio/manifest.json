@@ -1,0 +1,23 @@
+{
+"L1_q": "Soalan. Apakah sumber tenaga elektrik?",
+"L1_s1": "Langkah 1. Padankan setiap sumber dengan penerangannya.",
+"L1_k": "Tahniah! Kesimpulan. Sumber tenaga elektrik termasuk stesen jana kuasa, sel suria, sel kering, dinamo, akumulator dan penjana.",
+"L2_q": "Soalan. Apakah simbol komponen litar?",
+"L2_s1": "Langkah 1. Letakkan nama komponen pada simbolnya.",
+"L2_k": "Tahniah! Kesimpulan. Simbol digunakan untuk mewakili komponen semasa melakar rajah litar.",
+"L3_q": "Soalan. Apakah perbezaan litar bersiri dan litar selari?",
+"L3_s1": "Langkah 1. Tutup suis litar bersiri.",
+"L3_s2": "Langkah 2. Tutup kedua-dua suis litar selari.",
+"L3_s3": "Langkah 3. Buka satu suis litar selari. Adakah mentol lain masih menyala?",
+"L3_s4": "Langkah 4. Pilih litar yang lebih cerah.",
+"L3_k": "Tahniah! Kesimpulan. Dalam litar bersiri, arus mempunyai satu laluan. Dalam litar selari, arus mempunyai lebih daripada satu laluan dan mentol menyala lebih cerah.",
+"L4_q": "Soalan. Apakah faktor yang mempengaruhi kecerahan mentol?",
+"L4_s1": "Langkah 1. Tambah sel kering kepada dua, kemudian tiga.",
+"L4_s2": "Langkah 2. Kembali kepada satu sel kering. Tambah mentol kepada dua, kemudian tiga.",
+"L4_s3": "Langkah 3. Pilih kesimpulan.",
+"L4_k": "Tahniah! Kesimpulan. Semakin bertambah bilangan sel kering, semakin cerah mentol. Dalam litar bersiri, semakin bertambah bilangan mentol, semakin malap mentol.",
+"L5_q": "Soalan. Bagaimanakah kita menggunakan elektrik dengan selamat dan jimat?",
+"L5_s1": "Langkah 1. Kelaskan setiap amalan.",
+"L5_k": "Tahniah! Kesimpulan. Padam lampu apabila tidak digunakan, pastikan tangan kering, dan sambungkan satu plag pada satu soket.",
+"_voice": "ms-MY-YasminNeural"
+}

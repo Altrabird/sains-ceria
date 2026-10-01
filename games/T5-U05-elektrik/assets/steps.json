@@ -1,0 +1,27 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U05-elektrik after editing.",
+ "L1": { "q": "Apakah sumber tenaga elektrik?",
+  "k": "Sumber tenaga elektrik termasuk stesen jana kuasa, sel suria, sel kering, dinamo, akumulator dan penjana.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap sumber dengan penerangannya.", "on": "source", "count": 6 } ] },
+ "L2": { "q": "Apakah simbol komponen litar?",
+  "k": "Simbol digunakan untuk mewakili komponen semasa melakar rajah litar.",
+  "steps": [ { "g": "✌️", "t": "Letakkan nama komponen pada simbolnya.", "on": "symbol", "count": 5 } ] },
+ "L3": { "q": "Apakah perbezaan litar bersiri dan litar selari?",
+  "k": "Dalam litar bersiri, arus mempunyai satu laluan. Dalam litar selari, arus mempunyai lebih daripada satu laluan dan mentol menyala lebih cerah.",
+  "steps": [
+   { "g": "☝️", "t": "Tutup suis litar bersiri.", "on": "circuit", "ids": ["siri"] },
+   { "g": "☝️", "t": "Tutup kedua-dua suis litar selari.", "on": "circuit", "ids": ["selari"] },
+   { "g": "☝️", "t": "Buka satu suis litar selari. Adakah mentol lain masih menyala?", "on": "branch" },
+   { "g": "☝️", "t": "Pilih litar yang lebih cerah.", "on": "compare" }
+  ] },
+ "L4": { "q": "Apakah faktor yang mempengaruhi kecerahan mentol?",
+  "k": "Semakin bertambah bilangan sel kering, semakin cerah mentol. Dalam litar bersiri, semakin bertambah bilangan mentol, semakin malap mentol.",
+  "steps": [
+   { "g": "☝️", "t": "Tambah sel kering kepada dua, kemudian tiga.", "on": "cells", "count": 2 },
+   { "g": "☝️", "t": "Kembali kepada satu sel kering. Tambah mentol kepada dua, kemudian tiga.", "on": "bulbs", "count": 2 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L5": { "q": "Bagaimanakah kita menggunakan elektrik dengan selamat dan jimat?",
+  "k": "Padam lampu apabila tidak digunakan, pastikan tangan kering, dan sambungkan satu plag pada satu soket.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap amalan.", "on": "safety", "count": 8 } ] }
+}
