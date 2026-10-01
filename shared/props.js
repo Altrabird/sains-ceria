@@ -51,6 +51,11 @@ export function goHome(S, o, lift = 0.05) {
 }
 export function moveTo(S, o, b, dur = 0.35) { const a = o.position.clone(); return S.tween(dur, t => o.position.lerpVectors(a, b, t)); }
 export const flat = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
+// drop test for TALL targets (funnels, shelves, heads): is the pointer within px of the point dy above obj, on screen?
+export function nearScreen(S, obj, x, y, dy = 0, px = 70) {
+  const p = obj.getWorldPosition(new THREE.Vector3()); p.y += dy;
+  const q = p.project(S.camera); return Math.hypot((q.x + 1) / 2 * innerWidth - x, (1 - q.y) / 2 * innerHeight - y) < px;
+}
 
 // generic hold/drag for a list of draggables; level supplies onDrop(o) and optional onDrag(o, dt)
 export function dragger(S, items, { onPick, onDrop, onDrag } = {}) {
@@ -70,7 +75,7 @@ export function dragger(S, items, { onPick, onDrop, onDrag } = {}) {
       held.position.set(p.x, (held.userData.carryY ?? 0) + LIFT, p.z);
       onDrag?.(held, dt, prev);
     },
-    drop() { if (!held) return; const o = held; held = null; onDrop(o); },
+    drop(x, y) { if (!held) return; const o = held; held = null; onDrop(o, x, y); },  // x, y = pointer px (see nearScreen)
   };
 }
 

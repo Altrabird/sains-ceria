@@ -171,7 +171,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   });
   cv.addEventListener('pointerup', e => {
     if (!down) return;
-    if (holding) level.drop?.(e.clientX, e.clientY);
+    if (holding) { level.drop?.(e.clientX, e.clientY); if (!down.moved) level.tap?.(e.clientX, e.clientY); }  // a click on a draggable is still a tap
     else { level.pen?.(e.clientX, e.clientY, false); if (!down.moved) level.tap?.(e.clientX, e.clientY); }
     holding = false; down = null;
   });

@@ -1,0 +1,35 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U07-magnet after editing.",
+ "L1": { "q": "Apakah bentuk magnet dan kegunaannya?",
+  "k": "Magnet mempunyai pelbagai bentuk dan dinamakan berdasarkan bentuknya. Magnet berguna dalam kehidupan seharian, contohnya pintu peti sejuk, tanda nama, kotak pensel dan pemutar skru bermagnet.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan kad nama di hadapan magnet yang betul.", "on": "shape", "ids": ["bar", "silinder", "ladam", "bentuk_u", "butang", "cincin"], "count": 6 },
+   { "g": "☝️", "t": "Tuding empat objek yang menggunakan magnet.", "on": "use", "ids": ["peti_sejuk", "tanda_nama", "kotak_pensel", "pemutar_skru"], "count": 4 }
+  ] },
+ "L2": { "q": "Apakah objek yang dapat ditarik oleh magnet?",
+  "k": "Magnet dapat menarik objek tertentu seperti paku, skru, klip kertas dan kunci besi. Pensel, guli, pemadam dan pembaris plastik tidak dapat ditarik.",
+  "steps": [
+   { "g": "✌️", "t": "Pegang magnet dan dekatkan kepada kelapan-lapan objek. Perhatikan tindakan magnet.", "on": "test", "ids": ["paku", "skru", "klip", "kunci", "pensel", "guli", "pemadam", "pembaris"], "count": 8 },
+   { "g": "✌️", "t": "Bawa magnet bersama objek yang ditarik ke kotak dapat ditarik.", "on": "collect" }
+  ] },
+ "L3": { "q": "Apakah yang berlaku apabila dua kutub magnet didekatkan?",
+  "k": "Setiap magnet mempunyai dua kutub, iaitu kutub utara dan kutub selatan. Kutub berlainan menarik. Kutub sama menolak.",
+  "steps": [
+   { "g": "✌️", "t": "Tolak magnet perlahan-lahan ke arah magnet yang satu lagi. Apakah yang berlaku?", "on": "pull" },
+   { "g": "☝️", "t": "Tuding magnet itu untuk menterbalikkannya.", "on": "flip" },
+   { "g": "✌️", "t": "Tolak magnet itu sekali lagi ke arah magnet yang satu lagi.", "on": "push" }
+  ] },
+ "L4": { "q": "Magnet manakah yang lebih kuat?",
+  "k": "Setiap magnet mempunyai kekuatan yang berbeza. Magnet yang lebih kuat menarik lebih banyak klip kertas. Untuk ujian adil, gunakan magnet yang sama bentuk dan saiz.",
+  "steps": [
+   { "g": "✌️", "t": "Celupkan magnet A dan magnet B ke dalam dulang klip kertas.", "on": "strength", "ids": ["magnet_a", "magnet_b"], "count": 2 },
+   { "g": "☝️", "t": "Lihat carta, kemudian tuding magnet yang lebih kuat.", "on": "choose" }
+  ] },
+ "L5": { "q": "Bagaimanakah kita mereka pin bermagnet?",
+  "k": "Dua keping magnet butang diletakkan dengan kutub berlainan berhadapan supaya kedua-dua magnet menarik melalui kain baju.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan magnet butang kedua di belakang kain. Adakah ia melekat?", "on": "try" },
+   { "g": "☝️", "t": "Tuding magnet butang untuk menterbalikkannya.", "on": "flip" },
+   { "g": "✌️", "t": "Letakkan magnet itu di belakang kain sekali lagi.", "on": "pin" }
+  ] }
+}

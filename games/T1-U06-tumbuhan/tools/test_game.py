@@ -13,8 +13,8 @@ with Game(__file__) as g:
     for p, dy in [("batang", 0.1), ("daun", 0.1), ("bunga", 0.02)]:
         g.drag(g.pos(p, dy), g.pos("pasu", 0.1))
     g.check("L1 plant built", g.guide() == "1/2", g.guide())
-    g.wait(500); g.hand_tap(g.pos("penyiram", 0.04)); g.wait(7000)
-    g.check("L1 watering -> flower becomes fruit, level done", g.done(), g.info())
+    g.wait(500); g.hand_tap(g.pos("penyiram", 0.04))
+    g.check("L1 watering -> flower becomes fruit, level done", g.until(), g.info())
     g.shot("L1")
 
     # ---- L2: fern into 'berbunga' refused; all eight specimens

@@ -80,6 +80,13 @@ class Game:
     def wait(self, ms):
         self.pg.wait_for_timeout(ms)
 
+    def until(self, js="window.levelDone === true", timeout=15000):
+        """poll a JS condition instead of a fixed wait (slow machines / parallel runs)"""
+        try:
+            self.pg.wait_for_function(js, timeout=timeout); return True
+        except Exception:
+            return False
+
     # ---- input
     def pos(self, name, dy=0):
         p = self.pg.evaluate("([n, d]) => window.screenOf(n, d)", [name, dy]); return p["x"], p["y"]

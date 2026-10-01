@@ -55,6 +55,8 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 ## Gotchas
 
 - Object names are test handles (getObjectByName = first match, depth-first): keep them unique per level (e.g. label_akar vs akar).
+- `.scale(x,y,z)` / `.translate()` exist on geometries, not meshes (mesh.scale is a Vector3): transform the geometry before mesh().
+- Drop on a TALL target (funnel, shelf, head)? the carried object moves on a low plane, so use nearScreen(S, obj, x, y, dy) in onDrop(o, x, y).
 - Raycast only meshes (stage.js hitTest does): three.js Lines hit with a 1 m slop and steal every grab.
 - Headless Chromium paints ~15 fps, so pointermoves arrive ~55 ms apart — speed-based rules need test moves that account for it.
 - Test fake camera: launch Chromium with --use-fake-device-for-media-stream --use-fake-ui-for-media-stream.
