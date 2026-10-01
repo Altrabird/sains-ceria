@@ -264,5 +264,12 @@
     "unit": 7,
     "title": "Tenaga",
     "desc": "Sumber tenaga, sembilan bentuk, perubahan bentuk, berhemat"
+  },
+  {
+    "id": "T4-U08-bahan",
+    "year": 4,
+    "unit": 8,
+    "title": "Bahan",
+    "desc": "Sumber bahan, makmal sifat, cahaya/haba/kenyal, pilih bahan, reka cipta"
   }
 ]

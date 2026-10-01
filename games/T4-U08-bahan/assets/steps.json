@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U08-bahan after editing.",
+ "L1": { "q": "Dari manakah bahan berasal?",
+  "k": "Bahan berasal daripada tumbuh-tumbuhan, haiwan, petroleum dan batuan. Getah, kayu dan kapas daripada tumbuhan; bulu, kulit dan sutera daripada haiwan; plastik dan kain sintetik daripada petroleum; logam, tanah liat dan pasir daripada batuan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap barang mengikut sumber asas bahannya.", "on": "source", "count": 10 } ] },
+ "L2": { "q": "Bagaimanakah kita menguji sifat bahan?",
+  "k": "Bahan diuji sama ada menyerap air atau kalis air, terapung atau tenggelam, dan mengalirkan arus elektrik atau tidak. Kain kapas menyerap air, plastik kalis air, kunci tenggelam dan merupakan konduktor elektrik.",
+  "steps": [ { "g": "✌️", "t": "Uji bahan di ketiga-tiga stesen. Lakukan sekurang-kurangnya lapan ujian.", "on": "test", "count": 8 } ] },
+ "L3": { "q": "Apakah sifat bahan terhadap cahaya, haba dan regangan?",
+  "k": "Sisip kaca memberi pandangan jelas, kertas surih kurang jelas dan kertas berwarna menyebabkan objek tidak kelihatan. Logam ialah konduktor haba dan kayu ialah penebat haba. Gelang getah, belon dan spring kenyal.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap bahan dengan sifatnya.", "on": "property", "count": 6 } ] },
+ "L4": { "q": "Bagaimanakah kita memilih bahan?",
+  "k": "Bahan dipilih mengikut sifat dan kegunaannya. Periuk logam mengalirkan haba, kain kapas menyerap air, gelang getah yang kenyal menggerakkan kereta mainan dan kaca membenarkan cahaya masuk.",
+  "steps": [ { "g": "☝️", "t": "Pilih bahan yang paling sesuai bagi setiap kegunaan.", "on": "choose", "count": 4 } ] },
+ "L5": { "q": "Apakah langkah mereka cipta objek?",
+  "k": "Kenal pasti masalah, cetuskan idea, lakarkan reka bentuk, sediakan alat dan bahan, kemudian bina objek.",
+  "steps": [ { "g": "✌️", "t": "Susun langkah mereka cipta mengikut urutan.", "on": "invent", "count": 5 } ] }
+}
