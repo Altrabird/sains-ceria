@@ -1,0 +1,19 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U07-pengaratan after editing.",
+ "L1": { "q": "Objek manakah yang boleh berkarat?",
+  "k": "Objek yang diperbuat daripada besi boleh berkarat. Objek berkarat mempunyai lapisan perang kemerahan, permukaan kasar dan rapuh.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap objek.", "on": "rust", "count": 8 } ] },
+ "L2": { "q": "Apakah faktor yang menyebabkan pengaratan?",
+  "k": "Kehadiran air dan udara menyebabkan pengaratan.",
+  "steps": [
+   { "g": "✌️", "t": "Sediakan tabung A, B dan C mengikut keadaannya.", "on": "setup", "count": 4 },
+   { "g": "☝️", "t": "Biarkan selama empat hari.", "on": "wait" },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L3": { "q": "Bagaimanakah kita mencegah pengaratan?",
+  "k": "Lapisan pelindung seperti cat, gris, salutan plastik dan saduran logam menghalang besi daripada bersentuhan dengan air dan udara.",
+  "steps": [
+   { "g": "✌️", "t": "Lindungi setiap objek dengan cara yang sesuai.", "on": "protect", "count": 4 },
+   { "g": "☝️", "t": "Uji perlindungan dengan hujan.", "on": "rain" }
+  ] }
+}

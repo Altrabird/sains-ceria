@@ -327,5 +327,12 @@
     "unit": 6,
     "title": "Haba dan Suhu",
     "desc": "Termometer, takat didih, pengembangan dan pengecutan"
+  },
+  {
+    "id": "T5-U07-pengaratan",
+    "year": 5,
+    "unit": 7,
+    "title": "Pengaratan",
+    "desc": "Objek berkarat, penyiasatan sabut keluli, mencegah pengaratan"
   }
 ]
