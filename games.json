@@ -166,5 +166,12 @@
     "unit": 3,
     "title": "Gigi dan Makanan",
     "desc": "Gigi, penjagaan gigi, piramid makanan, makanan seimbang, pencernaan"
+  },
+  {
+    "id": "T3-U04-haiwan",
+    "year": 3,
+    "unit": 4,
+    "title": "Tabiat Pemakanan Haiwan",
+    "desc": "Beri makan, herbivor/karnivor/omnivor, kegigian, beruang kutub"
   }
 ]

@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U04-haiwan after editing.",
+ "L1": { "q": "Apakah makanan arnab, harimau dan ayam?",
+  "k": "Arnab makan lobak merah dan sawi. Harimau makan daging. Ayam makan bijirin dan cacing.",
+  "steps": [ { "g": "✌️", "t": "Beri makan setiap haiwan. Cari semua makanan yang dimakannya.", "on": "feed", "ids": ["arnab_tumbuhan", "harimau_haiwan", "ayam_tumbuhan", "ayam_haiwan"], "count": 4 } ] },
+ "L2": { "q": "Bagaimanakah haiwan dikelaskan mengikut tabiat pemakanan?",
+  "k": "Herbivor makan tumbuh-tumbuhan sahaja. Karnivor makan haiwan lain sahaja. Omnivor makan tumbuh-tumbuhan dan haiwan lain.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap haiwan: herbivor, karnivor atau omnivor.", "on": "diet", "count": 9 } ] },
+ "L3": { "q": "Bagaimanakah gigi haiwan berkait dengan makanannya?",
+  "k": "Herbivor mempunyai gigi kacip yang kuat dan gigi geraham yang besar. Karnivor mempunyai gigi taring yang tajam untuk mengoyakkan daging. Omnivor mempunyai gigi kacip, taring dan geraham.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap kad dengan tengkorak yang mempunyai gigi yang sesuai.", "on": "teeth", "count": 3 } ] },
+ "L4": { "q": "Mengapakah tabiat pemakanan beruang kutub berubah?",
+  "k": "Haiwan boleh mengalami perubahan tabiat pemakanan apabila persekitaran berubah. Beruang secara semula jadi ialah omnivor. Beruang kutub ialah karnivor kerana hidup di kawasan kutub yang sejuk dan diliputi ais.",
+  "steps": [
+   { "g": "✌️", "t": "Beri makanan kepada beruang hutan dan beruang kutub.", "on": "food", "count": 4 },
+   { "g": "☝️", "t": "Tuding tabiat pemakanan beruang kutub.", "on": "change" }
+  ] }
+}
