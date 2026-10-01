@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U07-kelajuan after editing.",
+ "L1": { "q": "Bagaimanakah kita membandingkan kelajuan?",
+  "k": "Pada jarak yang sama, objek lebih laju mengambil masa lebih singkat. Dalam masa yang sama, objek lebih laju bergerak lebih jauh.",
+  "steps": [
+   { "g": "☝️", "t": "Mulakan perlumbaan jarak sama, kemudian tuding kereta yang lebih laju.", "on": "race", "ids": ["jarak"] },
+   { "g": "☝️", "t": "Mulakan perlumbaan masa sama, kemudian tuding kereta yang lebih laju.", "on": "race", "ids": ["masa"] }
+  ] },
+ "L2": { "q": "Adakah ketinggian landasan mempengaruhi masa guli bergerak?",
+  "k": "Semakin tinggi landasan, semakin singkat masa yang diambil oleh guli untuk sampai ke hujung landasan. Guli bergerak lebih laju.",
+  "steps": [
+   { "g": "👋", "t": "Uji landasan setinggi satu, dua dan tiga buku. Rekod masa.", "on": "trial", "count": 3 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L3": { "q": "Bagaimanakah kita mengira kelajuan, jarak dan masa?",
+  "k": "Kelajuan sama dengan jarak bahagi masa. Jarak sama dengan kelajuan darab masa. Masa sama dengan jarak bahagi kelajuan.",
+  "steps": [ { "g": "☝️", "t": "Jawab tiga soalan pengiraan.", "on": "calc", "count": 3 } ] },
+ "L4": { "q": "Apakah unit kelajuan?",
+  "k": "Sentimeter dan saat memberi cm/s. Meter dan saat memberi m/s. Kilometer dan jam memberi km/j.",
+  "steps": [ { "g": "✌️", "t": "Padankan unit jarak dan masa dengan unit kelajuan.", "on": "unit", "count": 3 } ] }
+}

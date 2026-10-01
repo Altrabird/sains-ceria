@@ -397,5 +397,12 @@
     "unit": 6,
     "title": "Daya dan Geseran",
     "desc": "Tarikan, tolakan, kesan daya, geseran, tekanan udara"
+  },
+  {
+    "id": "T6-U07-kelajuan",
+    "year": 6,
+    "unit": 7,
+    "title": "Kelajuan",
+    "desc": "Perlumbaan, guli pada landasan, mengira kelajuan, jarak dan masa"
   }
 ]
