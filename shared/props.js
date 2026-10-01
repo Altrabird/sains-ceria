@@ -505,7 +505,7 @@ export function textCard(name, text, w = 0.36, { border = '#7e57c2', bg = '#ffff
 // pairs: [{ id, target: [emoji, label], card: [emoji, label], ok?: html }]  targets in a back row ('sasaran_<id>'), cards shuffled in front ('kad_<id>')
 export function matcher(S, root, pairs, { type = 'match', gap = 0.26, size = 0.11, cardSize = 0.09, targetZ = -0.2, rowZ = 0.27, wrong = '🤔 Bukan pasangan itu. Cuba lagi.', onDone } = {}) {
   const n = pairs.length, x = i => (i - (n - 1) / 2) * gap;
-  const mk = (name, [e, l], sz, border) => (e ? emojiCard(name, e, l, sz, { border }) : emojiCard(name, '', l, sz * 0.7, { border }));
+  const mk = (name, [e, l], sz, border) => (e ? emojiCard(name, e, l, sz, { border }) : textCard(name, l, gap * 0.85, { border }));  // word-only -> readable text card
   const targets = pairs.map((p, i) => { const t = mk('sasaran_' + p.id, p.target, size, '#3a7bd5'); t.position.set(x(i), 0, targetZ); t.userData.id = p.id; root.add(t); return t; });
   const mix = pairs.map((_, i) => i).sort((a, b) => ((a * 3 + 1) % n) - ((b * 3 + 1) % n));
   const cards = pairs.map((p, i) => { const c = mk('kad_' + p.id, p.card, cardSize, '#ef6c00'); c.userData.id = p.id; c.position.set(x(mix[i]), 0, rowZ); root.add(home(c)); return c; });

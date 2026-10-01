@@ -33,7 +33,7 @@ function L1(S, play) {
       else S.info(`➡️ ${hit[0].toUpperCase() + hit.slice(1)}`);
     },
   });
-  return { root, view: { w: 1.2, d: 1.0 }, ...dr };
+  return { root, view: { w: 1.2, d: 1.35 }, ...dr };
 }
 
 // ------------------------------------------------------------ L2 Pertukaran gas + kandungan udara
