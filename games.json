@@ -271,5 +271,12 @@
     "unit": 8,
     "title": "Bahan",
     "desc": "Sumber bahan, makmal sifat, cahaya/haba/kenyal, pilih bahan, reka cipta"
+  },
+  {
+    "id": "T4-U09-bumi",
+    "year": 4,
+    "unit": 9,
+    "title": "Graviti, Siang dan Malam",
+    "desc": "Graviti, putaran & peredaran, siang & malam, bayang-bayang pensel"
   }
 ]

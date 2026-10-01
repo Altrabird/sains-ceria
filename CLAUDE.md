@@ -64,6 +64,7 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 - `.scale(x,y,z)` / `.translate()` exist on geometries, not meshes (mesh.scale is a Vector3): transform the geometry before mesh().
 - Drop on a TALL target (funnel, shelf, head)? the carried object moves on a low plane, so use nearScreen(S, obj, x, y, dy) in onDrop(o, x, y).
 - Keep anything the pupil must touch out of the top-left guide panel area (x < -0.5 at the front is under it on 16:9).
+- Tap targets must not overlap on screen: tilted cards in a FRONT row cover a back row. Hide or move one set (hitTest ignores only invisible meshes, not invisible parents).
 - Close drop targets: pick the NEAREST within range, never the first in the list (bit us twice).
 - Raycast only meshes (stage.js hitTest does): three.js Lines hit with a 1 m slop and steal every grab.
 - Headless Chromium paints ~15 fps, so pointermoves arrive ~55 ms apart — speed-based rules need test moves that account for it.
