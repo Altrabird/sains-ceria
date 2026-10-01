@@ -1,0 +1,23 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U08-asid-alkali after editing.",
+ "L1": { "q": "Bagaimanakah kita menguji sifat bahan?",
+  "k": "Kertas litmus ialah penunjuk untuk menguji sifat bahan. Bahan berasid menukar litmus biru kepada merah. Bahan beralkali menukar litmus merah kepada biru. Bahan neutral tidak menukar warna kertas litmus.",
+  "steps": [ { "g": "✌️", "t": "Celupkan kertas litmus ke dalam setiap bahan, kemudian tuding sifatnya.", "on": "classify", "count": 6 } ] },
+ "L2": { "q": "Bolehkah rasa menentukan sifat bahan?",
+  "k": "Bahan berasid kebanyakannya masam dan bahan beralkali kebanyakannya pahit, tetapi rasa dan sentuhan bukan penunjuk saintifik. Air kopi berasa pahit tetapi bersifat asid.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding rasa untuk mengetahui rasa air kopi.", "on": "taste" },
+   { "g": "☝️", "t": "Buat tekaan: berasid atau beralkali.", "on": "guess" },
+   { "g": "✌️", "t": "Uji air kopi dengan kertas litmus.", "on": "litmus" }
+  ] },
+ "L3": { "q": "Apakah yang boleh menggantikan kertas litmus?",
+  "k": "Ekstrak kubis ungu, ekstrak kunyit dan ekstrak bunga raya boleh menggantikan kertas litmus. Ekstrak kubis ungu menjadi merah jambu dalam asid, hijau dalam alkali dan kekal ungu dalam bahan neutral.",
+  "steps": [ { "g": "✌️", "t": "Titiskan ekstrak kubis ungu ke dalam ketiga-tiga bahan.", "on": "extract", "count": 3 } ] },
+ "L4": { "q": "Bagaimanakah bahan beralkali membantu petani?",
+  "k": "Bahan berasid dan beralkali digunakan dalam pertanian, perubatan, kesihatan dan perindustrian. Kapur bersifat alkali boleh mengurangkan keasidan tanah kebun.",
+  "steps": [
+   { "g": "✌️", "t": "Uji tanah kebun dengan kertas litmus.", "on": "test", "ids": ["berasid"] },
+   { "g": "✌️", "t": "Taburkan kapur di atas tanah kebun.", "on": "lime" },
+   { "g": "✌️", "t": "Uji tanah sekali lagi.", "on": "test", "ids": ["neutral"] }
+  ] }
+}

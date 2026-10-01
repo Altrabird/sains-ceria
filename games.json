@@ -194,5 +194,12 @@
     "unit": 7,
     "title": "Ketumpatan",
     "desc": "Timbul & tenggelam, garam & anggur, minyak & air, aplikasi"
+  },
+  {
+    "id": "T3-U08-asid-alkali",
+    "year": 3,
+    "unit": 8,
+    "title": "Asid dan Alkali",
+    "desc": "Kertas litmus, rasa bukan penunjuk, ekstrak kubis ungu, kapur"
   }
 ]
