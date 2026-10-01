@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U11-galaksi after editing.",
+ "L1": { "q": "Apakah bentuk galaksi?",
+  "k": "Galaksi ialah sistem yang terdiri daripada berjuta-juta bintang, gas, debu dan jirim lain. Contoh bentuknya ialah galaksi berpilin, galaksi elips dan galaksi tidak sekata.",
+  "steps": [ { "g": "✌️", "t": "Letakkan nama pada setiap galaksi.", "on": "shape", "count": 3 } ] },
+ "L2": { "q": "Di manakah Sistem Suria dalam galaksi Bima Sakti?",
+  "k": "Sistem Suria berada di pinggir satu daripada lengan berpilin galaksi Bima Sakti. Dari sisi, galaksi Bima Sakti kelihatan seperti cakera nipis yang membonjol di bahagian tengah.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding titik kuning tempat Sistem Suria berada.", "on": "find" },
+   { "g": "☝️", "t": "Lihat galaksi Bima Sakti dari sisi.", "on": "side" }
+  ] },
+ "L3": { "q": "Bagaimanakah saiz Bumi, Sistem Suria dan Bima Sakti dibandingkan?",
+  "k": "Bumi lebih kecil daripada Sistem Suria. Saiz Sistem Suria sangat kecil berbanding galaksi Bima Sakti. Alam semesta mengandungi berbilion-bilion galaksi.",
+  "steps": [ { "g": "✌️", "t": "Susun dari yang paling kecil hingga paling besar.", "on": "size", "count": 4 } ] },
+ "L4": { "q": "Apakah fakta tentang galaksi?",
+  "k": "Bima Sakti ialah galaksi pilin berpalang. Matahari ialah satu bintang dalam galaksi ini, dan Bumi ialah satu daripada lapan planet dalam Sistem Suria.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap istilah dengan faktanya.", "on": "fact", "count": 5 } ] }
+}

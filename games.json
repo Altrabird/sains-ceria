@@ -425,5 +425,12 @@
     "unit": 10,
     "title": "Gerhana",
     "desc": "Simulasi gerhana Bulan dan Matahari, umbra dan penumbra, pemerhatian selamat"
+  },
+  {
+    "id": "T6-U11-galaksi",
+    "year": 6,
+    "unit": 11,
+    "title": "Galaksi",
+    "desc": "Bentuk galaksi, Sistem Suria dalam Bima Sakti, perbandingan saiz"
   }
 ]
