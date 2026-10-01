@@ -1,0 +1,28 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U08-penyerapan after editing.",
+ "L1": { "q": "Objek manakah yang boleh menyerap air?",
+  "k": "Tisu dapur, kain lap, kertas dan sapu tangan boleh menyerap air. Gelas kaca, sudu logam, mainan plastik dan klip kertas tidak boleh menyerap air.",
+  "steps": [
+   { "g": "✌️", "t": "Pegang penitis dan titiskan air pada kelapan-lapan objek. Perhatikan sama ada air diserap.", "on": "drip", "ids": ["tisu_dapur", "kain_lap", "kertas", "sapu_tangan", "gelas_kaca", "sudu_logam", "mainan_plastik", "klip_kertas"], "count": 8 },
+   { "g": "☝️", "t": "Tuding semua objek yang boleh menyerap air.", "on": "absorb", "ids": ["tisu_dapur", "kain_lap", "kertas", "sapu_tangan"], "count": 4 }
+  ] },
+ "L2": { "q": "Bahan manakah yang paling banyak menyerap air?",
+  "k": "Lebih banyak air dikumpulkan, lebih banyak air diserap. Kertas tisu menyerap paling sedikit, diikuti kapas muka, dan kain lap menyerap paling banyak.",
+  "steps": [
+   { "g": "✌️", "t": "Rendam setiap bahan di dalam besen, kemudian perah di atas silinder penyukatnya.", "on": "squeeze", "ids": ["kain_lap", "tisu", "kapas"], "count": 3 },
+   { "g": "☝️", "t": "Tuding silinder daripada air paling sedikit hingga paling banyak.", "on": "rank", "ids": ["tisu", "kapas", "kain_lap"], "count": 3 }
+  ] },
+ "L3": { "q": "Apakah kepentingan penyerapan dalam kehidupan seharian?",
+  "k": "Tuala menyerap air untuk mengeringkan badan dan kain lap mengeringkan tumpahan air. Payung plastik dan kasut getah tidak menyerap air, jadi kita tidak basah.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa setiap barang kepada situasi yang sesuai.", "on": "use", "ids": ["tuala", "kain_lap", "payung", "kasut_getah"], "count": 4 }
+  ] },
+ "L4": { "q": "Bagaimanakah kita mereka mop mini?",
+  "k": "Mop mini dibuat daripada tali yang boleh menyerap air. Mop itu dapat mengeringkan tumpahan air.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa lima utas tali ke tempat ikatan.", "on": "thread", "count": 5 },
+   { "g": "✌️", "t": "Masukkan ikatan tali ke dalam pen kosong.", "on": "insert" },
+   { "g": "☝️", "t": "Tuding mop untuk mencerai-ceraikan benang.", "on": "spread" },
+   { "g": "✌️", "t": "Uji mop: gerakkan mop di atas tumpahan air.", "on": "mop" }
+  ] }
+}
