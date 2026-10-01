@@ -1,7 +1,7 @@
 // Sains Tahun 2 · Unit 4 Haiwan (SP 4.1.1 – 4.1.7) — how animals reproduce, how many young, life cycles, young vs parent, protecting eggs.
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, table, leaf, nest, bird, sorter, emojiCard, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
+import { M, mesh, group, table, leaf, nest, bird, sorter, emojiCard, cycleRing, home, goHome, moveTo, flat, nearScreen, dragger } from '../../shared/props.js';
 
 // ------------------------------------------------------------ L1 Cara membiak
 function L1(S, play) {
@@ -53,39 +53,14 @@ function butterfly(name = 'rama_rama') {
   for (const s of [-1, 1]) { const w1 = wing(s, 0.03, 0.03); w1.rotation.x = -Math.PI / 2 + s * 0.4; w1.position.x = 0.008; const w2 = wing(s, 0.03, 0.022); w2.rotation.x = -Math.PI / 2 + s * 0.4; w2.position.x = -0.016; g.add(w1, w2); }
   return g;
 }
-// ring of 4 slots; stages must go in order from slot 1 (telur)
-function cycleLevel(S, root, stages, type) {
-  const R = 0.2, C = new THREE.Vector3(-0.15, 0, -0.08);
-  const slots = stages.map((st, i) => {
-    const a = -Math.PI / 2 + i * Math.PI / 2, p = C.clone().add(new THREE.Vector3(Math.cos(a) * R * 1.4, 0, Math.sin(a) * R));
-    const m = mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.004, 24), M(0xffd84d, { transparent: true, opacity: 0.8 }), p.x, 0.002, p.z); m.name = 'kitar_' + (i + 1); root.add(m);
-    const n = textSprite(String(i + 1), { h: 0.028 }); n.position.set(p.x - 0.07, 0.02, p.z); root.add(n); return m;
-  });
-  for (let i = 0; i < 4; i++) {  // arrows between slots
-    const a = -Math.PI / 2 + (i + 0.5) * Math.PI / 2, p = C.clone().add(new THREE.Vector3(Math.cos(a) * R * 1.25, 0, Math.sin(a) * R * 0.9));
-    const ar = textSprite(['↘', '↙', '↖', '↗'][i], { h: 0.045, bg: '#ffffff00', fg: '#e53935' }); ar.position.set(p.x, 0.03, p.z); root.add(ar);
-  }
-  const mix = [2, 0, 3, 1];
-  const pieces = stages.map(([id, label, make], i) => { const o = make(); o.name = id; o.scale.multiplyScalar(1.6); o.position.set(0.42, 0, -0.32 + mix[i] * 0.2); o.userData.label = label; const t = textSprite(label, { h: 0.026 }); t.position.set(0, 0.09, 0); o.add(t); root.add(home(o)); return o; });
-  let next = 0;
-  return dragger(S, () => pieces.filter(p => p.userData.done === undefined), {
-    onDrop(o) {
-      const s = slots.find(s => flat(s.position, o.position) < 0.08);
-      if (!s) return goHome(S, o);
-      if (s !== slots[next] || o.name !== stages[next][0]) { S.info(`🤔 Peringkat ${next + 1}: ${next ? 'apakah yang berlaku selepas ' + stages[next - 1][1].toLowerCase() + '?' : 'kitar hidup bermula dengan telur.'}`); return goHome(S, o); }
-      o.userData.done = next++; moveTo(S, o, s.position.clone()); S.evt(type, o.name);
-      S.info(next < 4 ? `✅ ${o.userData.label}.` : `🔄 Kitar hidup lengkap — ${stages.map(s => s[1].toLowerCase()).join(' → ')} → telur semula!`);
-    },
-  });
-}
 function L3(S, play) {
   const root = group('L3', table(1.5, 0.85, play));
-  const dr = cycleLevel(S, root, [['telur_katak', 'Telur', frogEggs], ['berudu', 'Berudu', tadpole], ['anak_katak', 'Anak katak', () => frog('anak_katak', 0.6, true)], ['katak', 'Katak dewasa', () => frog('katak', 1)]], 'frog');
+  const dr = cycleRing(S, root, [['telur_katak', 'Telur', frogEggs], ['berudu', 'Berudu', tadpole], ['anak_katak', 'Anak katak', () => frog('anak_katak', 0.6, true)], ['katak', 'Katak dewasa', () => frog('katak', 1)]], 'frog');
   return { root, view: { w: 1.5, d: 0.85 }, ...dr };
 }
 function L4(S, play) {
   const root = group('L4', table(1.5, 0.85, play));
-  const dr = cycleLevel(S, root, [['telur_rama', 'Telur', eggsOnLeaf], ['larva', 'Larva (beluncas)', larva], ['pupa', 'Pupa', pupa], ['rama_rama', 'Rama-rama', butterfly]], 'butterfly');
+  const dr = cycleRing(S, root, [['telur_rama', 'Telur', eggsOnLeaf], ['larva', 'Larva (beluncas)', larva], ['pupa', 'Pupa', pupa], ['rama_rama', 'Rama-rama', butterfly]], 'butterfly');
   return { root, view: { w: 1.5, d: 0.85 }, ...dr };
 }
 

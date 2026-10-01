@@ -131,5 +131,12 @@
     "unit": 8,
     "title": "Campuran",
     "desc": "Asingkan campuran, larut atau tidak, larut lebih cepat"
+  },
+  {
+    "id": "T2-U09-bumi",
+    "year": 2,
+    "unit": 9,
+    "title": "Air dan Udara",
+    "desc": "Sumber air, aliran, kitar air, longkang, udara, angin, roket angin"
   }
 ]

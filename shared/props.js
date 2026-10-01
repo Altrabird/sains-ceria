@@ -411,3 +411,29 @@ export function buzzer(name = 'buzzer') {
 }
 // red wire through 3D points (already in the parent's coordinates)
 export const wire = (pts, color = 0xd32f2f) => { const m = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.1), 64, 0.003, 6), M(color)); m.userData.fx = true; return m; };
+
+// ------------------------------------------------------------ cycle ring: stages [[id, label, make]] placed in order on 4 slots ('kitar_1'..4)
+export function cycleRing(S, root, stages, type, { start = 'telur' } = {}) {
+  const R = 0.2, C = new THREE.Vector3(-0.15, 0, -0.08);
+  const slots = stages.map((st, i) => {
+    const a = -Math.PI / 2 + i * Math.PI / 2, p = C.clone().add(new THREE.Vector3(Math.cos(a) * R * 1.4, 0, Math.sin(a) * R));
+    const m = mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.004, 24), M(0xffd84d, { transparent: true, opacity: 0.8 }), p.x, 0.002, p.z); m.name = 'kitar_' + (i + 1); root.add(m);
+    const n = textSprite(String(i + 1), { h: 0.028 }); n.position.set(p.x - 0.07, 0.02, p.z); root.add(n); return m;
+  });
+  for (let i = 0; i < 4; i++) {  // arrows between slots
+    const a = -Math.PI / 2 + (i + 0.5) * Math.PI / 2, p = C.clone().add(new THREE.Vector3(Math.cos(a) * R * 1.25, 0, Math.sin(a) * R * 0.9));
+    const ar = textSprite(['↘', '↙', '↖', '↗'][i], { h: 0.045, bg: '#ffffff00', fg: '#e53935' }); ar.position.set(p.x, 0.03, p.z); root.add(ar);
+  }
+  const mix = [2, 0, 3, 1];
+  const pieces = stages.map(([id, label, make], i) => { const o = make(); o.name = id; o.scale.multiplyScalar(1.6); o.position.set(0.42, 0, -0.32 + mix[i] * 0.2); o.userData.label = label; const t = textSprite(label, { h: 0.026 }); t.position.set(0, 0.09, 0); o.add(t); root.add(home(o)); return o; });
+  let next = 0;
+  return dragger(S, () => pieces.filter(p => p.userData.done === undefined), {
+    onDrop(o) {
+      const s = slots.find(s => flat(s.position, o.position) < 0.08);
+      if (!s) return goHome(S, o);
+      if (s !== slots[next] || o.name !== stages[next][0]) { S.info(`🤔 Peringkat ${next + 1}: ${next ? 'apakah yang berlaku selepas ' + stages[next - 1][1].toLowerCase() + '?' : `kitar bermula dengan ${start}.`}`); return goHome(S, o); }
+      o.userData.done = next++; moveTo(S, o, s.position.clone()); S.evt(type, o.name);
+      S.info(next < 4 ? `✅ ${o.userData.label}.` : `🔄 Kitar lengkap — ${stages.map(s => s[1].toLowerCase()).join(' → ')} → ${stages[0][1].toLowerCase()} semula!`);
+    },
+  });
+}
