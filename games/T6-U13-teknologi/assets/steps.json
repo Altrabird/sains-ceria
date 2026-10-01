@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U13-teknologi after editing.",
+ "L1": { "q": "Bagaimanakah teknologi mengatasi had keupayaan manusia?",
+  "k": "Mikroskop untuk melihat objek sangat seni, teleskop untuk melihat objek jauh, stetoskop untuk mendengar bunyi perlahan dan telefon untuk berkomunikasi dari jauh.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap had keupayaan dengan alatnya.", "on": "tool", "count": 4 } ] },
+ "L2": { "q": "Bagaimanakah teknologi membantu dalam pelbagai bidang?",
+  "k": "Dron membantu pertanian, mesin sinar-X dan MRI membantu perubatan, kapal terbang dan kereta api laju menjimatkan masa perjalanan, internet menyampaikan maklumat dengan cepat dan kaedah pasang siap mempercepat pembinaan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap teknologi mengikut bidang.", "on": "field", "count": 8 } ] },
+ "L3": { "q": "Apakah kebaikan dan keburukan teknologi?",
+  "k": "Teknologi memudahkan kehidupan, tetapi boleh mencemarkan alam, menyebabkan ketagihan ubat dan menceroboh data peribadi jika tidak digunakan dengan bijak.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap kesan teknologi.", "on": "effect", "count": 10 } ] },
+ "L4": { "q": "Bagaimanakah dron membantu petani?",
+  "k": "Dron membantu kerja membaja dan meracun rumpai serta menjimatkan masa dan tenaga. Bateri dron mesti dilupuskan dengan betul.",
+  "steps": [ { "g": "✌️", "t": "Terbangkan dron di atas keenam-enam petak tanaman.", "on": "spray", "count": 6 } ] }
+}

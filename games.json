@@ -439,5 +439,12 @@
     "unit": 12,
     "title": "Kestabilan dan Kekuatan",
     "desc": "Meja goncang, kekuatan penyedut minuman, bentuk struktur, bangku botol"
+  },
+  {
+    "id": "T6-U13-teknologi",
+    "year": 6,
+    "unit": 13,
+    "title": "Teknologi",
+    "desc": "Alat mengatasi had manusia, teknologi dalam pelbagai bidang, misi dron"
   }
 ]
