@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U02-manusia after editing.",
+ "L1": { "q": "Apakah fungsi organ pembiakan manusia?",
+  "k": "Testis menghasilkan sperma dan zakar menyalurkan sperma. Ovari menghasilkan ovum, tiub Fallopio tempat persenyawaan, uterus tempat embrio berkembang dan faraj saluran yang menerima sperma.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap organ dengan fungsinya.", "on": "organ", "count": 6 } ] },
+ "L2": { "q": "Bagaimanakah bayi terbentuk?",
+  "k": "Sperma bercantum dengan ovum di tiub Fallopio membentuk zigot. Zigot membahagi menjadi embrio, berkembang di dalam uterus menjadi fetus, dan bayi dilahirkan selepas kira-kira sembilan bulan.",
+  "steps": [ { "g": "✌️", "t": "Susun peringkat persenyawaan hingga kelahiran.", "on": "stage", "count": 5 } ] },
+ "L3": { "q": "Bagaimanakah isyarat bergerak dalam sistem saraf?",
+  "k": "Saraf periferi menghantar isyarat dari bahagian tubuh ke sistem saraf pusat, iaitu otak dan saraf tunjang. Otak menghantar isyarat arahan kembali ke bahagian tubuh.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa isyarat dari tangan ke saraf tunjang, kemudian ke otak.", "on": "signal", "count": 3 },
+   { "g": "✌️", "t": "Bawa isyarat arahan dari saraf tunjang kembali ke tangan.", "on": "signal", "count": 2 }
+  ] },
+ "L4": { "q": "Apakah jenis tindakan manusia?",
+  "k": "Tindakan terkawal seperti menari dan makan. Tindakan luar kawal seperti denyutan jantung. Tindakan refleks seperti menarik kaki apabila terpijak benda tajam.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap tindakan.", "on": "action", "count": 9 } ] },
+ "L5": { "q": "Bagaimanakah kita menjaga sistem saraf?",
+  "k": "Makan makanan seimbang, tidur mencukupi, elakkan minuman beralkohol, pakai topi keledar dan amalkan postur yang betul.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap amalan.", "on": "care", "count": 8 } ] }
+}
