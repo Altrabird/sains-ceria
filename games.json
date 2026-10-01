@@ -334,5 +334,12 @@
     "unit": 7,
     "title": "Pengaratan",
     "desc": "Objek berkarat, penyiasatan sabut keluli, mencegah pengaratan"
+  },
+  {
+    "id": "T5-U08-jirim",
+    "year": 5,
+    "unit": 8,
+    "title": "Jirim dan Zarah",
+    "desc": "Tiga keadaan jirim, simulasi zarah, perubahan keadaan, kitaran air"
   }
 ]

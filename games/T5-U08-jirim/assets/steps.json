@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U08-jirim after editing.",
+ "L1": { "q": "Apakah tiga keadaan jirim?",
+  "k": "Jirim ialah bahan yang mempunyai jisim dan memenuhi ruang. Jirim wujud sebagai pepejal, cecair dan gas.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap bahan mengikut keadaan jirim.", "on": "state", "count": 9 } ] },
+ "L2": { "q": "Bagaimanakah zarah berubah apabila jirim menerima atau kehilangan haba?",
+  "k": "Peleburan: pepejal menjadi cecair. Pendidihan: cecair menjadi gas. Kondensasi: gas menjadi cecair. Pembekuan: cecair menjadi pepejal.",
+  "steps": [
+   { "g": "☝️", "t": "Panaskan pepejal sehingga menjadi cecair, kemudian gas.", "on": "change", "ids": ["peleburan", "pendidihan"], "count": 2 },
+   { "g": "☝️", "t": "Sejukkan gas sehingga menjadi cecair, kemudian pepejal.", "on": "change", "ids": ["kondensasi", "pembekuan"], "count": 2 }
+  ] },
+ "L3": { "q": "Apakah contoh perubahan keadaan jirim di sekeliling kita?",
+  "k": "Ais mencair ialah peleburan. Air menjadi ais ialah pembekuan. Pakaian basah mengering ialah penyejatan. Titisan air di luar gelas berisi ais ialah kondensasi.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh dengan prosesnya.", "on": "example", "count": 5 } ] },
+ "L4": { "q": "Bagaimanakah kitaran air berlaku?",
+  "k": "Penyejatan, kondensasi, hujan dan aliran air ke sungai dan laut. Kitaran air membekalkan air secara berterusan kepada hidupan.",
+  "steps": [ { "g": "☝️", "t": "Tuding Matahari, awan, awan sekali lagi, kemudian sungai.", "on": "cycle", "count": 4 } ] }
+}
