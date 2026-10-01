@@ -12,5 +12,12 @@
     "unit": 1,
     "title": "Saintis Cilik",
     "desc": "Kemahiran saintifik — deria, spesimen, lakaran, bersih & simpan"
+  },
+  {
+    "id": "T1-U02-peraturan-bilik-sains",
+    "year": 1,
+    "unit": 2,
+    "title": "Peraturan Bilik Sains",
+    "desc": "Beratur, cari pelanggar peraturan, kemaskan bilik sains"
   }
 ]

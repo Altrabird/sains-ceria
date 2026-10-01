@@ -1,39 +1,11 @@
 // Sains Tahun 1 · Unit 1 Kemahiran Saintifik — four levels, props built from three.js primitives (no GLBs needed).
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
+import { M, mesh, group, leafOutline, leaf, magnifier, table, sink, beaker, home, goHome, moveTo, flat, dragger } from '../../shared/props.js';
 
 const CAREFUL = 2.0;  // m/s: carrying a fish faster than this and it slips back into tank A (raise if real hands jitter)
-const LIFT = 0.06;     // held objects float this high over the table
 
-// ------------------------------------------------------------ props
-const M = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.6, ...o });
-const mesh = (geo, mat, x = 0, y = 0, z = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); return m; };
-const group = (name, ...kids) => { const g = new THREE.Group(); g.name = name; g.add(...kids); return g; };
-
-// leaf outline (also the tracing path in L3): base at u=0, tip at u=1, length L, half-width W
-function leafOutline(n = 40, L = 0.16, W = 0.05) {
-  const up = [], lo = [];
-  for (let i = 0; i <= n; i++) {
-    const u = i / n, y = W * Math.sin(Math.PI * u) ** 0.8 * (1 - 0.35 * u);
-    up.push([u * L - L / 2, y]); lo.push([u * L - L / 2, -y]);
-  }
-  return up.concat(lo.reverse().slice(1));
-}
-function leaf(name = 'daun') {
-  const shape = new THREE.Shape(leafOutline().map(([x, y]) => new THREE.Vector2(x, y)));
-  const blade = mesh(new THREE.ShapeGeometry(shape), M(0x3fa34d, { side: THREE.DoubleSide }));
-  blade.rotation.x = -Math.PI / 2;
-  const vein = M(0x24702f), g = group(name, blade);
-  g.add(mesh(new THREE.BoxGeometry(0.17, 0.002, 0.003), vein, 0, 0.002, 0));
-  for (let i = 1; i <= 5; i++) for (const side of [1, -1]) {  // side veins: from the midrib out and toward the tip
-    const x0 = -0.08 + i * 0.024, half = 0.05 * Math.sin(Math.PI * (x0 / 0.16 + 0.5)) ** 0.8 * 0.8;
-    const dx = 0.022, dz = -side * half, len = Math.hypot(dx, dz);
-    const v = mesh(new THREE.BoxGeometry(len, 0.002, 0.002), vein, x0 + dx / 2, 0.002, dz / 2);
-    v.rotation.y = -Math.atan2(dz, dx); g.add(v);
-  }
-  g.add(mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.04), vein, -0.1, 0.002, 0).rotateZ(Math.PI / 2));
-  g.position.y = 0.004; return g;
-}
+// ------------------------------------------------------------ props (shared ones live in shared/props.js)
 function alarmClock() {
   const body = mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.03, 32), M(0xd8343a), 0, 0.055, 0); body.rotation.x = Math.PI / 2;
   const face = mesh(new THREE.CylinderGeometry(0.038, 0.038, 0.004, 32), M(0xffffff), 0, 0.055, 0.016); face.rotation.x = Math.PI / 2;
@@ -61,14 +33,6 @@ function iceCream() {
   const scoop = mesh(new THREE.SphereGeometry(0.034, 20, 14), M(0xf6a5c8), 0, 0.1, 0);
   return group('aiskrim', cone, scoop);
 }
-function magnifier(name = 'kanta') {
-  const ring = mesh(new THREE.TorusGeometry(0.045, 0.007, 10, 32), M(0x2a5bd7, { metalness: 0.3 }));
-  const glass = mesh(new THREE.CylinderGeometry(0.044, 0.044, 0.003, 32), M(0xd8f0ff, { transparent: true, opacity: 0.35, roughness: 0 }));
-  glass.rotation.x = Math.PI / 2;
-  const handle = mesh(new THREE.CylinderGeometry(0.009, 0.011, 0.08), M(0x7a4a22), 0, -0.085, 0);
-  const lens = group('', ring, glass, handle); lens.rotation.x = -Math.PI / 2; lens.position.y = 0.012;
-  return group(name, lens);
-}
 function tank(name, x) {
   const W = 0.36, H = 0.22, D = 0.22;
   const glass = mesh(new THREE.BoxGeometry(W, H, D), M(0xcfefff, { transparent: true, opacity: 0.18, roughness: 0, depthWrite: false }), 0, H / 2, 0);
@@ -91,38 +55,6 @@ function net() {
   bag.rotation.x = Math.PI;
   const handle = mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.3), M(0x2f7d3a), 0, 0.08, 0.17); handle.rotation.x = 1.1;
   return group('penyauk', rim, bag, handle);
-}
-const table = (w, d, play) => mesh(new THREE.BoxGeometry(w, 0.02, d), M(0xf3e6d3, play ? { transparent: true, opacity: 0.5 } : {}), 0, -0.011, 0);
-
-// a draggable thing remembers where it lives
-const home = o => { o.userData.home = o.position.clone(); return o; };
-function goHome(S, o, lift = 0.05) {
-  const a = o.position.clone(), b = o.userData.home;
-  return S.tween(0.45, t => { o.position.lerpVectors(a, b, t); o.position.y += Math.sin(t * Math.PI) * lift; });
-}
-function moveTo(S, o, b, dur = 0.35) { const a = o.position.clone(); return S.tween(dur, t => o.position.lerpVectors(a, b, t)); }
-const flat = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
-
-// generic hold/drag for a list of draggables; level supplies onDrop(o) and optional onDrag(o, dt)
-function dragger(S, items, { onPick, onDrop, onDrag } = {}) {
-  let held = null, lastT = 0;
-  return {
-    get held() { return held; },
-    pick(x, y) {
-      const o = S.hitTest(x, y, items()) || S.nearest(x, y, items());
-      if (!o || onPick?.(o) === false) return false;
-      held = o; lastT = performance.now(); return true;
-    },
-    drag(x, y) {
-      if (!held) return;
-      const p = S.onPlane(x, y, held.userData.carryY ?? 0); if (!p) return;
-      const now = performance.now(), dt = Math.max(0.001, (now - lastT) / 1000); lastT = now;
-      const prev = held.position.clone();
-      held.position.set(p.x, (held.userData.carryY ?? 0) + LIFT, p.z);
-      onDrag?.(held, dt, prev);
-    },
-    drop() { if (!held) return; const o = held; held = null; onDrop(o); },
-  };
 }
 
 // ------------------------------------------------------------ L1 Memerhati: object -> sense organ
@@ -297,17 +229,8 @@ function L3(S, play) {
 // ------------------------------------------------------------ L4 Bersihkan + Simpan
 function L4(S, play) {
   const root = group('L4', table(1.5, 0.8, play));
-  // sink with tap
-  const basin = group('sinki', mesh(new THREE.BoxGeometry(0.42, 0.06, 0.3), M(0xb9c3cc, { metalness: 0.5, roughness: 0.3 }), 0, 0.03, 0),
-    mesh(new THREE.BoxGeometry(0.38, 0.02, 0.26), M(0x8e9aa6, { metalness: 0.5, roughness: 0.3 }), 0, 0.055, 0));
-  basin.position.set(-0.35, 0, 0); root.add(basin);
-  const faucet = group('paip', mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.2), M(0xcfd6dc, { metalness: 0.8, roughness: 0.2 }), 0, 0.1, 0),
-    mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.11), M(0xcfd6dc, { metalness: 0.8, roughness: 0.2 }), 0, 0.2, 0.05).rotateX(Math.PI / 2),
-    mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.015, 6), M(0x3a7bd5), 0, 0.215, 0));
-  faucet.add(mesh(new THREE.CylinderGeometry(0.011, 0.009, 0.03), M(0xcfd6dc, { metalness: 0.8, roughness: 0.2 }), 0, 0.19, 0.1));  // nozzle
-  faucet.position.set(-0.35, 0.02, -0.13); root.add(faucet);
-  const stream = mesh(new THREE.CylinderGeometry(0.008, 0.012, 0.14, 10), M(0x7cc6ff, { transparent: true, opacity: 0.6 }), -0.35, 0.13, -0.025);
-  stream.visible = false; stream.userData.fx = true; root.add(stream);
+  const sk = sink(); sk.position.set(-0.35, 0, 0); root.add(sk);
+  const faucet = sk.getObjectByName('paip'), stream = sk.getObjectByName('aliran');
   // dirty petri dish in the sink
   const dirtMat = M(0x7a5a2e, { transparent: true, opacity: 1 });
   const dish = group('piring', mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.014, 32), M(0xe6f6ff, { transparent: true, opacity: 0.6, roughness: 0.05 }), 0, 0.007, 0),
@@ -320,10 +243,8 @@ function L4(S, play) {
   soap.position.set(-0.12, 0, -0.12); root.add(soap);
   // tools waiting to be stored + a drawer with 3 slots
   const lens = magnifier(); lens.position.set(0.0, 0, 0.0);
-  const beaker = group('bikar', mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.09, 24, 1, true), M(0xdff3ff, { transparent: true, opacity: 0.45, side: THREE.DoubleSide, roughness: 0.05 }), 0, 0.045, 0),
-    mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.003, 24), M(0xdff3ff, { transparent: true, opacity: 0.45 }), 0, 0.002, 0));
-  beaker.position.set(0.12, 0, 0.0);
-  for (const o of [lens, beaker]) root.add(home(o));
+  const bk = beaker(); bk.position.set(0.12, 0, 0.0);
+  for (const o of [lens, bk]) root.add(home(o));
   const drawer = new THREE.Group(); drawer.name = 'laci';
   const wood = M(0xb07a45), dark = M(0x8a5a2e);
   drawer.add(mesh(new THREE.BoxGeometry(0.46, 0.012, 0.3), wood, 0, 0.006, 0));
@@ -336,7 +257,7 @@ function L4(S, play) {
   const slots = [-0.153, 0, 0.153].map(x => drawer.position.clone().add(new THREE.Vector3(x, 0.012, 0)));
   const lbl = textSprite('Laci', { h: 0.035 }); lbl.position.set(0.48, 0.16, -0.24); root.add(lbl);
   let water = false, scrub = 0, clean = false, closed = false; const stored = new Set();
-  const tools = [lens, beaker, dish];
+  const tools = [lens, bk, dish];
   const d = dragger(S, () => [sponge, ...tools.filter(o => !stored.has(o.name) && (o !== dish || clean))], {
     onPick(o) { if (closed) return false; },
     onDrag(o, dt, prev) {

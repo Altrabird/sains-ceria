@@ -10,7 +10,9 @@ index.html, games.json   hub page; games.json lists every game (build fails if i
 shared/                  engine used by every game
   stage.js + stage.css   game shell: menu, 3D stage over selfie camera, guide panel, ONE input layer (mouse/touch + hands
                          -> pick/drag/drop/tap/pen). A game = boot({levels, steps, build}) — see games/T1-U01-*/game.js
+  props.js               primitives props (M, mesh, group, leaf, magnifier, sink, beaker, labTable, stool, kid...) + dragger
   tools/make_audio.py    python shared/tools/make_audio.py games/<id>  -> Malay mp3 narration for assets/steps.json
+  tools/gametest.py      Game(__file__) test kit: open/drag/click/hand/hand_drag/hand_tap/check (see T1-U02 test)
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
   guide.js               StepTracker (self-ticking steps) + GuidePanel + Malay mp3 narration (assets/audio/ of the page)
   blender/lib.py         bpy helpers (mat, box, cyl, ...) for asset build scripts
@@ -42,10 +44,10 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 2. Assets: three.js primitives in code first; Blender (shared/blender/lib.py, headless) only when a prop needs it.
 3. Copy the T1-U01 template; reuse shared/stage.js. Something two games need -> move it into shared/ (not before).
    2–4 levels per unit, each 2–4 guided steps; enforce step order in game logic (StepTracker ignores out-of-order events).
-4. All pupil-facing text in Bahasa Melayu (Malaysia). Narration = pre-recorded ms-MY mp3s (see T2-amali tools/make_audio.py), never Indonesian.
+4. All pupil-facing text in Bahasa Melayu (Malaysia). Narration = pre-recorded ms-MY mp3s (shared/tools/make_audio.py), never Indonesian.
 5. Done = all of:
    - works with mouse/touch only AND with hand gestures
-   - one headless check (playwright, like games/T2-amali/tools/test_ar.py) that loads it with no JS errors and completes the steps
+   - tools/test_game.py on shared/tools/gametest.py (copy T1-U02's) that plays every level with no JS errors and completes the steps
    - listed in games.json; `python tools/build.py web` passes
    - `python tools/build.py apk <id>` builds
    - commit

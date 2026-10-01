@@ -1,0 +1,22 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U02-peraturan-bilik-sains after editing.",
+ "L1": { "q": "Apakah yang perlu kita lakukan sebelum masuk ke Bilik Sains?",
+  "k": "Beratur sebelum masuk ke Bilik Sains dan minta kebenaran guru sebelum masuk.",
+  "steps": [
+   { "g": "✌️", "t": "Pegang setiap murid dan suruh mereka beratur di atas tanda kuning.", "on": "queue", "ids": ["murid1", "murid2", "murid3"], "count": 3 },
+   { "g": "☝️", "t": "Tuding Cikgu untuk minta kebenaran masuk.", "on": "ask" }
+  ] },
+ "L2": { "q": "Apakah perkara yang dilarang di dalam Bilik Sains?",
+  "k": "Dilarang bergurau, bermain dan berlari di dalam Bilik Sains. Dilarang makan dan minum di dalam Bilik Sains.",
+  "steps": [
+   { "g": "☝️", "t": "Cari dan tuding empat murid yang melanggar peraturan.", "on": "spot", "ids": ["berlari", "makan", "minum", "bermain"], "count": 4 },
+   { "g": "☝️", "t": "Tuding murid yang mematuhi peraturan.", "on": "good" }
+  ] },
+ "L3": { "q": "Mengapakah kita perlu mematuhi peraturan Bilik Sains?",
+  "k": "Bilik Sains lebih bersih dan kemas, dan pembelajaran dapat dilakukan dengan berkesan. Sampah di dalam singki menyebabkan singki tersumbat.",
+  "steps": [
+   { "g": "✌️", "t": "Keluarkan sampah dari singki dan buang ke dalam tong sampah.", "on": "litter", "ids": ["tisu", "daun", "kulit_oren"], "count": 3 },
+   { "g": "✌️", "t": "Simpan bikar dan buku di atas rak.", "on": "tidy", "ids": ["bikar", "buku"], "count": 2 },
+   { "g": "☝️", "t": "Tuding kerusi untuk menolaknya ke bawah meja.", "on": "stool" }
+  ] }
+}
