@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U09-sistem-suria after editing.",
+ "L1": { "q": "Apakah urutan planet dari Matahari?",
+  "k": "Matahari ialah pusat Sistem Suria. Urutan planet dari Matahari ialah Utarid, Zuhrah, Bumi, Marikh, Musytari, Zuhal, Uranus dan Neptun. Asteroid terletak di antara Marikh dengan Musytari.",
+  "steps": [ { "g": "✌️", "t": "Letakkan lapan planet pada orbitnya mengikut urutan dari Matahari.", "on": "order", "count": 8 } ] },
+ "L2": { "q": "Apakah ahli lain Sistem Suria?",
+  "k": "Ahli Sistem Suria ialah Matahari, planet, satelit semula jadi, asteroid, meteoroid dan komet. Bulan ialah satelit semula jadi bagi Bumi.",
+  "steps": [ { "g": "☝️", "t": "Cari dan tuding Matahari, Bulan, asteroid, komet dan meteoroid.", "on": "member", "ids": ["matahari", "bulan", "asteroid", "komet", "meteoroid"], "count": 5 } ] },
+ "L3": { "q": "Mengapakah suhu planet berbeza?",
+  "k": "Matahari ialah sumber haba dalam Sistem Suria. Planet yang dekat dengan Matahari lebih panas daripada planet yang jauh. Namun, Zuhrah paling panas kerana atmosferanya tebal untuk memerangkap haba.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding planet yang paling panas.", "on": "hot" },
+   { "g": "☝️", "t": "Tuding planet yang paling sejuk.", "on": "cold" }
+  ] },
+ "L4": { "q": "Planet manakah yang mengambil masa lebih lama untuk mengelilingi Matahari?",
+  "k": "Orbit ialah laluan bayangan planet berbentuk elips yang mengelilingi Matahari. Semakin jauh planet dari Matahari, semakin lama masa peredarannya. Bumi mengambil masa satu tahun untuk satu peredaran lengkap.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding mula untuk melihat Bumi dan Marikh beredar.", "on": "start" },
+   { "g": "☝️", "t": "Tuding planet yang mengambil masa lebih lama.", "on": "period" }
+  ] }
+}

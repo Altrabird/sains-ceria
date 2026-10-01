@@ -201,5 +201,12 @@
     "unit": 8,
     "title": "Asid dan Alkali",
     "desc": "Kertas litmus, rasa bukan penunjuk, ekstrak kubis ungu, kapur"
+  },
+  {
+    "id": "T3-U09-sistem-suria",
+    "year": 3,
+    "unit": 9,
+    "title": "Sistem Suria",
+    "desc": "Urutan planet, ahli lain, suhu planet, orbit"
   }
 ]

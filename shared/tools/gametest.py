@@ -111,6 +111,7 @@ class Game:
         self.hand("two", a, 0.5)
         for i in range(1, steps + 1):
             self.hand("two", (a[0] + (b[0] - a[0]) * i / steps, a[1] + (b[1] - a[1]) * i / steps), 0.04)
+        self.hand("two", b, 0.3)  # pause at the target like a child does: the smoothed cursor catches up
         self.hand("open", b, 0.4); self.pg.wait_for_timeout(600)
 
     def sort_cards(self):
