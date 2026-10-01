@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U07-ketumpatan after editing.",
+ "L1": { "q": "Mengapakah sesetengah objek timbul dan sesetengahnya tenggelam?",
+  "k": "Objek yang timbul berada di permukaan air dan kurang tumpat daripada air, contohnya ranting dan span. Objek yang tenggelam berada di dasar air dan lebih tumpat daripada air, contohnya batu dan sabun.",
+  "steps": [ { "g": "✌️", "t": "Masukkan keenam-enam objek ke dalam akuarium dan perhatikan.", "on": "drop", "count": 6 } ] },
+ "L2": { "q": "Bolehkah buah anggur yang tenggelam ditimbulkan?",
+  "k": "Air boleh menjadi lebih tumpat dengan menambahkan garam atau gula ke dalamnya. Buah anggur yang asalnya tenggelam boleh ditimbulkan.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan buah anggur ke dalam bikar berisi air.", "on": "sink" },
+   { "g": "☝️", "t": "Tuding garam berulang kali untuk melarutkannya. Perhatikan anggur.", "on": "float" }
+  ] },
+ "L3": { "q": "Adakah minyak lebih tumpat daripada air?",
+  "k": "Ketumpatan setiap objek dan cecair adalah berbeza. Minyak kurang tumpat daripada air, jadi minyak sentiasa berada di atas air.",
+  "steps": [ { "g": "✌️", "t": "Tuang minyak dan air ke dalam bikar dalam apa-apa urutan.", "on": "pour", "ids": ["minyak", "air"], "count": 2 } ] },
+ "L4": { "q": "Bagaimanakah konsep ketumpatan digunakan dalam kehidupan?",
+  "k": "Jaket keselamatan dan pelampung kurang tumpat daripada air, jadi ia timbul dan membantu perenang dan sangkar ternakan ikan. Sauh besi lebih tumpat, jadi ia tenggelam dan menahan bot.",
+  "steps": [ { "g": "✌️", "t": "Bawa jaket keselamatan, sauh dan pelampung ke tempat yang memerlukannya.", "on": "apply", "count": 3 } ] }
+}
