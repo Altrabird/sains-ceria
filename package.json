@@ -1,0 +1,15 @@
+{
+  "name": "sains-games",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node shared/hands.test.mjs && node games/T2-amali/guide.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2"
+  }
+}

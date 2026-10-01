@@ -1,6 +1,7 @@
-tools/_tracking/
-tools/_ar_test/
+tools/_*/
+games/*/tools/_*/
+games/*/build/
 __pycache__/
 *.blend1
-tools/_hands/
-tools/_guide/
+node_modules/
+dist/
