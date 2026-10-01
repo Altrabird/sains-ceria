@@ -490,9 +490,9 @@ export function sequence(S, root, items, { type = 'order', gap = 0.24, slotZ = -
 
 // a wide flat-ish card for SENTENCE answers (word-wrapped, readable); w = width in metres
 export function textCard(name, text, w = 0.36, { border = '#7e57c2', bg = '#ffffff' } = {}) {
-  const W = 720, pad = 28, c = document.createElement('canvas'), g = c.getContext('2d'); let f = 46, lines;
+  const W = 720, pad = 28, c = document.createElement('canvas'), g = c.getContext('2d'); let f = 96, lines;  // largest font that fits in 3 lines
   const wrap = () => { g.font = `bold ${f}px system-ui, sans-serif`; lines = []; let cur = ''; for (const word of text.split(' ')) { const t = cur ? cur + ' ' + word : word; if (g.measureText(t).width > W - pad * 2 && cur) { lines.push(cur); cur = word; } else cur = t; } lines.push(cur); };
-  do wrap(); while (lines.length > 4 && --f > 24);
+  do wrap(); while ((lines.length > 3 || lines.some(l => g.measureText(l).width > W - pad * 2)) && (f -= 2) > 24);
   const H = Math.round(lines.length * f * 1.25 + pad * 2); c.width = W; c.height = H; g.font = `bold ${f}px system-ui, sans-serif`;
   g.fillStyle = bg; g.beginPath(); g.roundRect(4, 4, W - 8, H - 8, 30); g.fill(); g.lineWidth = 8; g.strokeStyle = border; g.stroke();
   g.fillStyle = '#2b2340'; g.textAlign = 'center'; g.textBaseline = 'middle'; lines.forEach((l, i) => g.fillText(l, W / 2, pad + f * 0.65 + i * f * 1.25));
