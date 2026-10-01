@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U10-mesin after editing.",
+ "L1": { "q": "Apakah bahagian takal tetap?",
+  "k": "Takal ialah mesin ringkas yang memudahkan kerja mengangkat beban. Takal tetap mempunyai satu roda beralur yang membolehkan tali melaluinya. Bahagiannya ialah alur, gandar, roda, tali dan beban.",
+  "steps": [ { "g": "✌️", "t": "Labelkan lima bahagian takal tetap pada rajah.", "on": "label", "count": 5 } ] },
+ "L2": { "q": "Bagaimanakah takal tetap berfungsi?",
+  "k": "Apabila tali ditarik ke bawah, beban akan diangkat ke atas melalui takal tetap.",
+  "steps": [ { "g": "✌️", "t": "Pegang hujung tali yang merah dan tarik ke bawah sehingga beban sampai ke rak.", "on": "lift" } ] },
+ "L3": { "q": "Apakah kegunaan takal dalam kehidupan?",
+  "k": "Takal digunakan untuk menaikkan bendera, menimba air dari perigi, menarik pukat, mengangkat bahan binaan dan memunggah kontena dari kapal ke lori di pelabuhan.",
+  "steps": [ { "g": "✌️", "t": "Tarik tali setiap takal untuk melihat kegunaannya.", "on": "use", "count": 4 } ] },
+ "L4": { "q": "Bagaimanakah kita mereka cipta model takal?",
+  "k": "Kenal pasti masalah, jana idea, lakar idea, sediakan alat dan bahan, kemudian bina model takal. Gantung dan uji takal yang telah siap.",
+  "steps": [
+   { "g": "✌️", "t": "Susun langkah mereka cipta mengikut urutan.", "on": "design", "count": 5 },
+   { "g": "✌️", "t": "Uji model takal: tarik tali ke bawah.", "on": "test" }
+  ] }
+}

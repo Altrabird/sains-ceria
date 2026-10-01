@@ -208,5 +208,12 @@
     "unit": 9,
     "title": "Sistem Suria",
     "desc": "Urutan planet, ahli lain, suhu planet, orbit"
+  },
+  {
+    "id": "T3-U10-mesin",
+    "year": 3,
+    "unit": 10,
+    "title": "Takal",
+    "desc": "Bahagian takal, tarik ke bawah beban naik, kegunaan, reka cipta"
   }
 ]
