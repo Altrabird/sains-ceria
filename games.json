@@ -376,5 +376,12 @@
     "unit": 3,
     "title": "Mikroorganisma",
     "desc": "Mikroskop, yis bernafas, kulapuk roti, kegunaan dan keburukan"
+  },
+  {
+    "id": "T6-U04-interaksi-hidupan",
+    "year": 6,
+    "unit": 4,
+    "title": "Interaksi Hidupan",
+    "desc": "Mangsa-pemangsa, persaingan, simbiosis, persaingan ruang tumbuhan"
   }
 ]

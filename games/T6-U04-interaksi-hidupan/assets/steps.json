@@ -1,0 +1,19 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U04-interaksi-hidupan after editing.",
+ "L1": { "q": "Apakah pemangsa dan mangsa?",
+  "k": "Pemangsa memburu haiwan lain untuk dimakan. Mangsa ialah haiwan yang diburu atau dimakan. Contoh: citah ialah pemangsa, rusa ialah mangsa.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap haiwan.", "on": "role", "count": 8 } ] },
+ "L2": { "q": "Apakah persaingan intraspesies dan interspesies?",
+  "k": "Persaingan intraspesies berlaku antara haiwan yang sama spesies. Persaingan interspesies berlaku antara haiwan yang berlainan spesies. Mereka bersaing untuk makanan, air, tempat tinggal dan pasangan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap persaingan.", "on": "compete", "count": 6 } ] },
+ "L3": { "q": "Apakah jenis simbiosis?",
+  "k": "Mutualisme: kedua-dua pihak mendapat manfaat. Parasitisme: parasit mendapat manfaat dan perumah mengalami kerugian. Komensalisme: satu pihak mendapat manfaat dan pihak lain tidak terjejas.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap pasangan hidupan.", "on": "symbiosis", "count": 8 } ] },
+ "L4": { "q": "Adakah ruang mempengaruhi pertumbuhan tumbuhan?",
+  "k": "Tumbuhan bersaing untuk air, cahaya matahari, nutrien dan ruang yang terhad.",
+  "steps": [
+   { "g": "✌️", "t": "Siram kedua-dua pasu dengan jumlah air yang sama.", "on": "water", "count": 2 },
+   { "g": "☝️", "t": "Biarkan selama tiga minggu.", "on": "grow" },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] }
+}
