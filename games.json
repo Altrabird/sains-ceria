@@ -68,5 +68,12 @@
     "unit": 9,
     "title": "Bumi",
     "desc": "Bentuk muka bumi, jenis tanah, balang tanah, penapis air"
+  },
+  {
+    "id": "T1-U10-asas-binaan",
+    "year": 1,
+    "unit": 10,
+    "title": "Asas Binaan",
+    "desc": "Bentuk asas, bongkah, bina robot, bentuk ikut kegunaan"
   }
 ]

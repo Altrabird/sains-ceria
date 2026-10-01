@@ -1,0 +1,25 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U10-asas-binaan after editing.",
+ "L1": { "q": "Apakah empat bentuk asas?",
+  "k": "Empat bentuk asas ialah segi tiga, segi empat sama, segi empat tepat dan bulatan.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan setiap kepingan ke dalam lubang yang sama bentuk.", "on": "fit", "ids": ["segi_tiga", "segi_empat_sama", "segi_empat_tepat", "bulatan"], "count": 4 }
+  ] },
+ "L2": { "q": "Apakah tujuh bongkah bentuk asas?",
+  "k": "Tujuh bongkah bentuk asas ialah kubus, kuboid, piramid, prisma, kon, silinder dan sfera.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan kad nama di hadapan bongkah yang betul.", "on": "solid", "ids": ["kubus", "kuboid", "piramid", "prisma", "kon", "silinder", "sfera"], "count": 7 }
+  ] },
+ "L3": { "q": "Bagaimanakah kita membina robot daripada bongkah bentuk asas?",
+  "k": "Kita melakar reka bentuk, membentuk bongkah, mencantumkan bongkah menjadi robot, kemudian menamakan bongkah yang digunakan.",
+  "steps": [
+   { "g": "✌️", "t": "Ikut lakaran: letakkan setiap bongkah di tempatnya pada robot.", "on": "build", "ids": ["topi", "kepala", "badan", "tangan_kiri", "tangan_kanan", "kaki_kiri", "kaki_kanan"], "count": 7 },
+   { "g": "☝️", "t": "Tuding robot untuk menghidupkannya dan menamakan bongkah yang digunakan.", "on": "robot" }
+  ] },
+ "L4": { "q": "Mengapakah objek dibuat dalam bentuk tertentu?",
+  "k": "Objek dibuat menggunakan bongkah bentuk asas mengikut kegunaannya. Bola berbentuk sfera mudah bergolek apabila disepak. Jam meja berbentuk kuboid terletak dengan baik di atas meja.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding untuk menyepak bola sfera dan bola kubus.", "on": "kick", "ids": ["bola_sfera", "bola_kubus"], "count": 2 },
+   { "g": "✌️", "t": "Letakkan kedua-dua jam di atas rak.", "on": "shelf", "ids": ["jam_kuboid", "jam_sfera"], "count": 2 }
+  ] }
+}
