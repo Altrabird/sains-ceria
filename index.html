@@ -74,7 +74,10 @@
     <div class="txt"><span class="bubble" id="hello">Hai! Jom belajar Sains sambil bermain 👋</span>
       <h1>Sains Tahun 1–6</h1>
       <p>Gerakkan tangan di depan kamera untuk bermain — atau guna tetikus dan sentuhan. Kumpul bintang bagi setiap tahap!</p>
-      <div class="row"><a id="cont" class="btn green big" href="#" hidden></a><span class="stat"><span class="stars">★</span><span id="stars"></span></span></div></div>
+      <div class="row"><a id="cont" class="btn green big" href="#" hidden></a><span class="stat"><span class="stars">★</span><span id="stars"></span></span>
+        <a id="apk" class="btn blue" href="https://github.com/Altrabird/sains-ceria/releases/latest/download/Sains-Ceria.apk" download>
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52M7 15.25a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 7 15.25m10 0A1.25 1.25 0 1 1 18.25 14 1.25 1.25 0 0 1 17 15.25"/></svg>
+          Muat turun aplikasi Android</a></div></div>
   </section>
   <div id="list"></div>
   <footer>Developed by <b>Harsidi bin Junick</b></footer>
@@ -93,6 +96,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const lg = last && games.find(g => g.id === last.id);
 if (lg) { const c = $('cont'); c.hidden = false; c.href = `${url(lg)}?play=${last.level}`; c.innerHTML = `<img src="${icon(lg)}" alt="">Sambung: ${esc(lg.title)} · ${last.level}`;
   $('hello').textContent = 'Selamat kembali! Teruskan pengembaraan anda ⭐'; }
+if (window.Capacitor) $('apk').hidden = true;  // already inside the Android app
 const total = games.reduce((a, g) => a + (g.levels || 0), 0), got = games.reduce((a, g) => a + nDone(g), 0);
 $('stars').textContent = `${got} / ${total} bintang`;
 

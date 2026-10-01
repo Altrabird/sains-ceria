@@ -10,6 +10,7 @@ GID = "T6-U07-kelajuan"  # L4 = 3 quick matcher drags
 with Game(os.path.join(ROOT, "games", GID, "tools", "test_hub.py")) as g:
     hub = g.url + "../../index.html"
     g.pg.goto(hub); g.pg.wait_for_selector("a.card")
+    g.check("Android download button", g.pg.is_visible("#apk") and g.pg.get_attribute("#apk", "href").endswith("/releases/latest/download/Sains-Ceria.apk"))
     g.check("six year rows", g.pg.locator("h2").count() == 6)
     g.check("every game has a tile", g.pg.locator("a.card").count() == len(GAMES), g.pg.locator("a.card").count())
     g.pg.fill("#search", "gerhana"); g.check("search finds gerhana", g.pg.locator("a.card").count() == 1 and "Gerhana" in g.pg.inner_text("#list"), g.pg.inner_text("#list")[:80])
