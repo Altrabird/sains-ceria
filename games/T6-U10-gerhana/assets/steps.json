@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U10-gerhana after editing.",
+ "L1": { "q": "Bagaimanakah gerhana berlaku?",
+  "k": "Gerhana Bulan berlaku apabila Bumi berada di antara Matahari dan Bulan. Gerhana Matahari berlaku apabila Bulan berada di antara Matahari dan Bumi. Ketiga-tiganya berada dalam satu garis lurus.",
+  "steps": [ { "g": "✌️", "t": "Gerakkan Bulan ke dua titik kuning untuk menghasilkan gerhana Bulan dan gerhana Matahari.", "on": "eclipse", "count": 2 } ] },
+ "L2": { "q": "Apakah kedudukan objek dan fasa Bulan semasa gerhana?",
+  "k": "Gerhana Bulan: Matahari, Bumi, Bulan, semasa bulan purnama. Gerhana Matahari: Matahari, Bulan, Bumi, semasa bulan baharu. Orbit Bulan condong, jadi gerhana tidak berlaku setiap bulan.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap gerhana dengan kedudukan dan fasanya.", "on": "position", "count": 5 } ] },
+ "L3": { "q": "Apakah umbra dan penumbra?",
+  "k": "Cahaya bergerak lurus dan tidak menembusi objek legap. Umbra ialah bahagian bayang-bayang yang sangat gelap. Penumbra ialah bahagian yang separa gelap.",
+  "steps": [ { "g": "✌️", "t": "Letakkan label pada rajah bayang-bayang.", "on": "shadow", "count": 4 } ] },
+ "L4": { "q": "Bagaimanakah kita memerhati gerhana Matahari dengan selamat?",
+  "k": "Jangan melihat Matahari atau gerhana Matahari terus dengan mata kasar. Gunakan penuras yang sesuai seperti cermin mata khas gerhana.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap cara memerhati.", "on": "safe", "count": 8 } ] }
+}

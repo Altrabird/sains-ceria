@@ -418,5 +418,12 @@
     "unit": 9,
     "title": "Bahan Buangan",
     "desc": "Terbiodegradasi, asingkan bahan buangan, 5R, bersihkan sungai"
+  },
+  {
+    "id": "T6-U10-gerhana",
+    "year": 6,
+    "unit": 10,
+    "title": "Gerhana",
+    "desc": "Simulasi gerhana Bulan dan Matahari, umbra dan penumbra, pemerhatian selamat"
   }
 ]
