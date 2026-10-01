@@ -1,0 +1,30 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Bagaimanakah kita mengelaskan haiwan?",
+  "k": "Mengelas ialah mengasingkan dan mengumpulkan objek mengikut ciri sepunya dan berbeza. Itik, penguin dan helang berkepak. Kambing, tenuk dan harimau tidak berkepak.",
+  "steps": [
+   { "g": "✌️", "t": "Kelaskan setiap haiwan: berkepak atau tidak berkepak.", "on": "classify", "ids": ["itik", "penguin", "helang", "kambing", "tenuk", "harimau"], "count": 6 }
+  ] },
+ "L2": { "q": "Alat apakah yang kita gunakan untuk mengukur berat dan panjang?",
+  "k": "Kita mengukur berat dengan alat penimbang dalam unit kilogram, dan panjang dengan pembaris dalam unit sentimeter. Ukuran dicatat dan disampaikan melalui jadual.",
+  "steps": [
+   { "g": "✌️", "t": "Ukur berat beg dan tembikai, dan panjang pensel dan buku, dengan alat yang betul.", "on": "measure", "ids": ["beg", "tembikai", "pensel", "buku"], "count": 4 },
+   { "g": "☝️", "t": "Tuding jadual untuk mencatat ukuran.", "on": "record" }
+  ] },
+ "L3": { "q": "Bagaimanakah kita mengendalikan spesimen siput kebun?",
+  "k": "Kendalikan spesimen dengan betul dan cermat, lakarkan dan labelkan spesimen, kemudian lepaskan siput kebun ke tempat asalnya selepas penyiasatan.",
+  "steps": [
+   { "g": "✌️", "t": "Pakai sarung tangan: bawa sarung tangan kepada tangan anda.", "on": "gloves" },
+   { "g": "✌️", "t": "Pindahkan siput dari kebun ke dulang dengan cermat.", "on": "handle" },
+   { "g": "☝️", "t": "Lakarkan siput: ikut garisan titik dengan jari telunjuk.", "on": "sketch" },
+   { "g": "✌️", "t": "Labelkan cangkerang dan sesungut.", "on": "label", "ids": ["cangkerang", "sesungut"], "count": 2 },
+   { "g": "✌️", "t": "Lepaskan siput kembali ke kebun.", "on": "release" }
+  ] },
+ "L4": { "q": "Apakah urutan penyiasatan yang betul?",
+  "k": "Letakkan bunga raya di atas dulang, perhatikan, lakarkan, kemudian bersihkan peralatan. Cuci tangan dan peralatan, kemudian simpan dengan betul dan selamat.",
+  "steps": [
+   { "g": "✌️", "t": "Susun kad langkah penyiasatan mengikut urutan satu hingga empat.", "on": "order", "ids": ["letak", "perhati", "lakar", "bersih"], "count": 4 },
+   { "g": "☝️", "t": "Tuding paip untuk mencuci tangan dan peralatan.", "on": "wash" },
+   { "g": "✌️", "t": "Simpan kelalang kon, bikar dan kanta pembesar di atas rak.", "on": "store", "ids": ["kelalang_kon", "bikar", "kanta"], "count": 3 }
+  ] }
+}

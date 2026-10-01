@@ -75,5 +75,12 @@
     "unit": 10,
     "title": "Asas Binaan",
     "desc": "Bentuk asas, bongkah, bina robot, bentuk ikut kegunaan"
+  },
+  {
+    "id": "T2-U01-kemahiran-saintifik",
+    "year": 2,
+    "unit": 1,
+    "title": "Saintis Muda",
+    "desc": "Mengelas, mengukur, siput kebun, urutan penyiasatan"
   }
 ]

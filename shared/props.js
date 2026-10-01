@@ -299,3 +299,14 @@ export function glassPot(name = 'pasu') {
   return group(name, mesh(new THREE.CylinderGeometry(0.09, 0.075, 0.14, 24, 1, true), M(0xdff3ff, { transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false }), 0, 0.07, 0),
     mesh(new THREE.CylinderGeometry(0.087, 0.075, 0.13, 24), M(0x6d4c2f, { transparent: true, opacity: 0.45, depthWrite: false }), 0, 0.065, 0));
 }
+
+// garden snail facing +x (~0.12 m long); 'sesungut' group holds the tentacles
+export function snail(name = 'siput') {
+  const foot = mesh(new THREE.CapsuleGeometry(0.014, 0.08, 6, 12).rotateZ(Math.PI / 2).scale(1, 0.6, 1), M(0xbcaaa4), 0.01, 0.009, 0);
+  const shell = group('cangkerang');
+  for (let i = 0; i < 4; i++) shell.add(mesh(new THREE.TorusGeometry(0.03 - i * 0.007, 0.012 - i * 0.002, 10, 24), M(i % 2 ? 0x8d5524 : 0xa86a32), 0, 0, 0.004 * i));
+  shell.position.set(-0.005, 0.042, 0);
+  const tent = group('sesungut', ...[-1, 1].map(s => group('', mesh(new THREE.CylinderGeometry(0.0018, 0.0022, 0.03), M(0xa1887f), 0, 0.015, 0), mesh(new THREE.SphereGeometry(0.003), M(0x3e2723), 0, 0.031, 0)).rotateZ(-0.4).translateZ(s * 0.006)));
+  tent.position.set(0.055, 0.012, 0);
+  return group(name, foot, shell, tent);
+}
