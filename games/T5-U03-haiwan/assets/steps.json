@@ -1,0 +1,21 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U03-haiwan after editing.",
+ "L1": { "q": "Bagaimanakah haiwan melindungi diri daripada musuh?",
+  "k": "Haiwan mempunyai ciri khas seperti cangkerang keras, sengat berbisa dan sisik keras, serta tingkah laku khas seperti cicak memutuskan ekor dan sotong menyemburkan dakwat.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap haiwan dengan cara ia melindungi diri.", "on": "defence", "count": 8 } ] },
+ "L2": { "q": "Bagaimanakah haiwan berlindung daripada cuaca melampau?",
+  "k": "Dalam cuaca sejuk, haiwan mempunyai bulu tebal atau lapisan lemak. Sesetengah haiwan berhijrah. Dalam cuaca panas, haiwan berendam dalam air atau mempunyai cuping telinga besar.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap haiwan mengikut cuaca.", "on": "weather", "count": 8 } ] },
+ "L3": { "q": "Bagaimanakah haiwan melindungi telur dan anaknya?",
+  "k": "Melindungi telur dan anak memastikan spesies dapat terus hidup dan tidak pupus.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap haiwan dengan cara ia melindungi telur atau anaknya.", "on": "young", "count": 7 } ] },
+ "L4": { "q": "Bagaimanakah rantai makanan bermula?",
+  "k": "Rantai makanan bermula dengan pengeluar, iaitu tumbuhan hijau. Anak panah bermaksud dimakan oleh dan menunjukkan perpindahan tenaga.",
+  "steps": [ { "g": "✌️", "t": "Susun rantai makanan mengikut urutan.", "on": "chain", "count": 4 } ] },
+ "L5": { "q": "Apakah siratan makanan dalam habitat kolam?",
+  "k": "Siratan makanan ialah gabungan beberapa rantai makanan dalam suatu habitat.",
+  "steps": [ { "g": "☝️", "t": "Tuding mangsa, kemudian tuding haiwan yang memakannya. Lukis tujuh anak panah.", "on": "link", "count": 7 } ] },
+ "L6": { "q": "Apakah fungsi ciri khas model haiwan imaginasi?",
+  "k": "Ciri khas haiwan membantu kemandirian spesies dan keseimbangan alam.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap ciri Muri-muri dengan fungsinya.", "on": "model", "count": 4 } ] }
+}

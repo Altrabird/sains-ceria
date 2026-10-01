@@ -299,5 +299,12 @@
     "unit": 2,
     "title": "Rangka dan Darah",
     "desc": "Sistem rangka, sendi, laluan darah, penjagaan sistem tubuh"
+  },
+  {
+    "id": "T5-U03-haiwan",
+    "year": 5,
+    "unit": 3,
+    "title": "Kemandirian Haiwan",
+    "desc": "Ciri khas haiwan, cuaca melampau, rantai dan siratan makanan"
   }
 ]
