@@ -1,0 +1,25 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T2-U02-peraturan-bilik-sains after editing.",
+ "L1": { "q": "Di manakah kita membuang sisa di dalam Bilik Sains?",
+  "k": "Sisa pepejal dan sampah dibuang ke dalam bakul sampah. Sisa cecair dibuang ke dalam singki. Singki boleh tersumbat jika sisa pepejal dibuang ke dalamnya.",
+  "steps": [
+   { "g": "✌️", "t": "Buang setiap sisa di tempat yang betul: bakul sampah atau singki.", "on": "waste", "ids": ["kertas", "kulit_pisang", "tisu", "air_sabun", "air_berwarna"], "count": 5 }
+  ] },
+ "L2": { "q": "Apakah yang boleh dibawa ke dalam Bilik Sains?",
+  "k": "Bawa buku dan alat tulis yang dibenarkan sahaja ke dalam Bilik Sains. Tinggalkan beg di luar kerana beg boleh mengganggu pergerakan.",
+  "steps": [
+   { "g": "✌️", "t": "Tinggalkan beg di rak luar, dan bawa barang yang dibenarkan masuk melalui pintu.", "on": "carry", "ids": ["beg", "buku", "pensel", "buku_nota"], "count": 4 }
+  ] },
+ "L3": { "q": "Apakah yang perlu dilakukan jika berlaku kemalangan di dalam Bilik Sains?",
+  "k": "Beritahu guru jika murid tercedera atau alat dan radas rosak atau pecah. Jangan sentuh kaca pecah.",
+  "steps": [
+   { "g": "☝️", "t": "Bikar pecah! Tuding Cikgu untuk memberitahunya.", "on": "tell", "ids": ["pecah"] },
+   { "g": "☝️", "t": "Kawan anda tercedera! Tuding Cikgu sekali lagi.", "on": "tell", "ids": ["cedera"] }
+  ] },
+ "L4": { "q": "Apakah yang kita lakukan dengan alat dan radas selepas digunakan?",
+  "k": "Bersihkan semua alat dan radas selepas digunakan, dan simpan semula di tempat asal dengan kemas. Bilik Sains sentiasa bersih, kemas, tersusun dan selamat.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa setiap alat ke singki untuk dibersihkan.", "on": "wash", "ids": ["bikar", "kelalang_kon", "tabung_uji"], "count": 3 },
+   { "g": "✌️", "t": "Simpan setiap alat di tempat asalnya di dalam almari.", "on": "store", "ids": ["bikar", "kelalang_kon", "tabung_uji"], "count": 3 }
+  ] }
+}

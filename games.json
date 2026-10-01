@@ -82,5 +82,12 @@
     "unit": 1,
     "title": "Saintis Muda",
     "desc": "Mengelas, mengukur, siput kebun, urutan penyiasatan"
+  },
+  {
+    "id": "T2-U02-peraturan-bilik-sains",
+    "year": 2,
+    "unit": 2,
+    "title": "Jaga Bilik Sains",
+    "desc": "Buang sisa, beg di luar, maklumkan guru, simpan di tempat asal"
   }
 ]

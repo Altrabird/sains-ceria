@@ -1,7 +1,7 @@
 // Sains Tahun 1 · Unit 2 Peraturan Bilik Sains (SP 2.1.1) — queue + permission, spot the rule-breakers, tidy up.
 import * as THREE from 'three';
 import { boot, textSprite, emojiSprite } from '../../shared/stage.js';
-import { M, mesh, group, table, sink, beaker, labTable, stool, kid, home, goHome, moveTo, flat, dragger } from '../../shared/props.js';
+import { M, mesh, group, table, sink, beaker, labTable, stool, kid, door, home, goHome, moveTo, flat, dragger } from '../../shared/props.js';
 
 const face = (o, x, z) => o.rotation.y = Math.atan2(x - o.position.x, z - o.position.z);  // turn a figure to look at (x, z)
 function bubble(S, root, text, at, secs = 3) {
@@ -10,16 +10,6 @@ function bubble(S, root, text, at, secs = 3) {
 }
 
 // ------------------------------------------------------------ L1 Sebelum masuk: queue, then ask the teacher
-function door() {
-  const frame = group('', ...[[-0.11, 0.15, 0.02, 0.3], [0.11, 0.15, 0.02, 0.3], [0, 0.3, 0.24, 0.02]].map(([x, y, w, h]) => mesh(new THREE.BoxGeometry(w, h, 0.03), M(0x8a5a2e), x, y, 0)));
-  const panel = mesh(new THREE.BoxGeometry(0.2, 0.29, 0.015), M(0xc98a4b), 0.1, 0.145, 0);
-  panel.add(mesh(new THREE.BoxGeometry(0.05, 0.08, 0.017), M(0xbfe3ff), 0.04, 0.06, 0), mesh(new THREE.SphereGeometry(0.008), M(0xffd24a, { metalness: 0.7 }), 0.07, -0.01, 0.012));
-  const hinge = group('pintu_engsel', panel); hinge.position.x = -0.1;
-  const wall = mesh(new THREE.BoxGeometry(0.7, 0.32, 0.02), M(0xe9dcc8), 0, 0.16, -0.012);
-  wall.add(mesh(new THREE.BoxGeometry(0.22, 0.3, 0.03), M(0x2a2a2a), 0, -0.01, 0));  // the doorway (dark behind the door)
-  const sign = textSprite('BILIK SAINS', { h: 0.04, bg: '#ffffff', fg: '#1f4fa8' }); sign.position.set(0, 0.36, 0.02);
-  return group('pintu', wall, frame, hinge, sign);
-}
 function L1(S, play) {
   const root = group('L1', table(1.4, 0.8, play));
   const d = door(); d.position.set(0.3, 0, -0.3); root.add(d);
