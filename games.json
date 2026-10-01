@@ -180,5 +180,12 @@
     "unit": 5,
     "title": "Pembiakan Tumbuhan",
     "desc": "Cara pembiakan, pelbagai cara, kepentingan, kultur tisu & tut"
+  },
+  {
+    "id": "T3-U06-pengukuran",
+    "year": 3,
+    "unit": 6,
+    "title": "Luas dan Isi Padu",
+    "desc": "Unit luas, kira petak, anggar luas daun, kubus, meniskus, sesaran air"
   }
 ]

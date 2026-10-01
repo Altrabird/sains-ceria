@@ -1,0 +1,33 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U06-pengukuran after editing.",
+ "L1": { "q": "Apakah unit yang sesuai untuk mengukur luas?",
+  "k": "Luas ialah besarnya sesuatu kawasan atau permukaan. Luas buku diukur dalam sentimeter persegi, luas tikar dalam meter persegi dan luas negeri Sabah dalam kilometer persegi.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap kad di bawah unit luas yang sesuai.", "on": "unit", "count": 6 } ] },
+ "L2": { "q": "Bagaimanakah kita mengukur luas permukaan sekata?",
+  "k": "Luas permukaan sekata diukur dengan kertas petak. Satu petak ialah satu sentimeter persegi. Segi empat tiga sentimeter kali dua sentimeter ialah enam petak, iaitu enam sentimeter persegi.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding setiap petak di dalam segi empat merah untuk mengiranya.", "on": "count", "count": 6 },
+   { "g": "☝️", "t": "Tuding luas yang betul.", "on": "area" }
+  ] },
+ "L3": { "q": "Bagaimanakah kita menganggar luas daun?",
+  "k": "Tekap daun pada kertas graf, tandakan petak yang penuh dan yang separuh penuh atau lebih, kemudian kira semua tanda untuk menganggar luas. Petak kurang separuh tidak dikira.",
+  "steps": [ { "g": "☝️", "t": "Tuding setiap petak yang penuh atau separuh penuh atau lebih.", "on": "estimate" } ] },
+ "L4": { "q": "Berapakah isi padu kotak lohong?",
+  "k": "Isi padu ialah besarnya ruang yang dipenuhi oleh pepejal, cecair atau gas. Isi padu kotak lohong sama dengan jumlah kubus satu sentimeter padu yang memenuhinya: lapan sentimeter padu.",
+  "steps": [
+   { "g": "✌️", "t": "Isi kotak lohong dengan kubus satu sentimeter padu.", "on": "cube", "count": 8 },
+   { "g": "☝️", "t": "Tuding isi padu kotak.", "on": "volume" }
+  ] },
+ "L5": { "q": "Bagaimanakah kita membaca isi padu cecair dengan betul?",
+  "k": "Isi padu cecair diukur dengan silinder penyukat atau bikar. Meniskus ialah permukaan cecair yang berkeluk. Kedudukan mata mesti berada pada aras meniskus.",
+  "steps": [
+   { "g": "✌️", "t": "Gerakkan mata ke aras meniskus.", "on": "eye" },
+   { "g": "☝️", "t": "Tuding bacaan yang betul.", "on": "read" }
+  ] },
+ "L6": { "q": "Bagaimanakah kita mengukur isi padu batu?",
+  "k": "Gunakan kaedah sesaran air. Isi padu air yang tersesar sama dengan isi padu objek. Isi padu batu sama dengan bacaan akhir tolak bacaan awal: tiga puluh tolak dua puluh, iaitu sepuluh mililiter.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan batu ke dalam silinder penyukat.", "on": "drop" },
+   { "g": "☝️", "t": "Tuding isi padu batu.", "on": "displace" }
+  ] }
+}
