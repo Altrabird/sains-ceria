@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U07-tenaga after editing.",
+ "L1": { "q": "Sumber tenaga manakah yang boleh dibaharui?",
+  "k": "Tenaga ialah keupayaan untuk melakukan kerja dan Matahari ialah sumber tenaga utama. Matahari, air, angin, ombak dan biojisim boleh dibaharui. Petroleum, gas asli, arang batu dan nuklear tidak boleh dibaharui.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap sumber tenaga.", "on": "source", "count": 9 } ] },
+ "L2": { "q": "Apakah sembilan bentuk tenaga?",
+  "k": "Sembilan bentuk tenaga ialah suria, haba, cahaya, bunyi, elektrik, kimia, kinetik, keupayaan dan nuklear.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap bentuk tenaga dengan contohnya.", "on": "form", "count": 9 } ] },
+ "L3": { "q": "Bagaimanakah tenaga berubah bentuk?",
+  "k": "Tenaga tidak boleh dicipta atau dimusnahkan, tenaga hanya boleh berubah bentuk. Lampu suluh: kimia, elektrik, cahaya. Penerjun: keupayaan, kinetik, bunyi. Fotosintesis: cahaya kepada kimia.",
+  "steps": [ { "g": "☝️", "t": "Bina rantai perubahan tenaga bagi lima alat dan peristiwa.", "on": "chain", "count": 5 } ] },
+ "L4": { "q": "Bagaimanakah kita menggunakan tenaga secara berhemat?",
+  "k": "Elakkan pembaziran tenaga, kurangkan penggunaan penyaman udara dengan membuka tingkap, dan berjalan kaki, berbasikal atau gunakan pengangkutan awam. Ini menjimatkan perbelanjaan, mengurangkan pencemaran dan memastikan sumber tenaga mencukupi.",
+  "steps": [ { "g": "☝️", "t": "Cari dan tuding empat pembaziran tenaga.", "on": "save", "count": 4 } ] }
+}

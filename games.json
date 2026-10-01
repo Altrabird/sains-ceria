@@ -257,5 +257,12 @@
     "unit": 6,
     "title": "Bunyi",
     "desc": "Getaran, semua arah, gema, berfaedah & memudaratkan, kurangkan bising"
+  },
+  {
+    "id": "T4-U07-tenaga",
+    "year": 4,
+    "unit": 7,
+    "title": "Tenaga",
+    "desc": "Sumber tenaga, sembilan bentuk, perubahan bentuk, berhemat"
   }
 ]
