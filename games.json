@@ -306,5 +306,12 @@
     "unit": 3,
     "title": "Kemandirian Haiwan",
     "desc": "Ciri khas haiwan, cuaca melampau, rantai dan siratan makanan"
+  },
+  {
+    "id": "T5-U04-tumbuhan",
+    "year": 5,
+    "unit": 4,
+    "title": "Kemandirian Tumbuhan",
+    "desc": "Perlindungan tumbuhan, penyesuaian iklim, pencaran biji benih"
   }
 ]

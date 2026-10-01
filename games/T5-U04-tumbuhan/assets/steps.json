@@ -1,0 +1,15 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T5-U04-tumbuhan after editing.",
+ "L1": { "q": "Bagaimanakah tumbuhan melindungi diri daripada musuh?",
+  "k": "Tumbuhan melindungi diri dengan duri tajam, getah, bulu halus, racun dan bau busuk.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap tumbuhan mengikut ciri khasnya.", "on": "protect", "count": 10 } ] },
+ "L2": { "q": "Bagaimanakah tumbuhan menyesuaikan diri dengan iklim?",
+  "k": "Pokok kelapa mempunyai batang mudah lentur untuk angin kencang. Kaktus, tomato, kunyit, keladi dan pokok getah mengurangkan kehilangan air. Pokok pain mempunyai daun jarum dan kulit batang tebal untuk iklim sejuk.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap tumbuhan dengan cirinya.", "on": "climate", "count": 7 } ] },
+ "L3": { "q": "Bagaimanakah biji benih dan buah dipencarkan?",
+  "k": "Biji benih dan buah dipencarkan melalui angin, air, haiwan dan manusia, serta mekanisme letupan.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap buah atau biji benih mengikut cara pencarannya.", "on": "disperse", "count": 8 } ] },
+ "L4": { "q": "Mengapakah biji benih perlu dipencarkan?",
+  "k": "Pencaran biji benih mengelakkan kepupusan dan memastikan sumber makanan berterusan.",
+  "steps": [ { "g": "👋", "t": "Lambai untuk meniup angin, letakkan kelapa ke dalam air dan tuding lenggai keembung.", "on": "disperse", "count": 3 } ] }
+}
