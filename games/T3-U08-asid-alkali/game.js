@@ -17,7 +17,7 @@ function litmusPair(name = 'kertas_litmus') {
 }
 function sample(id, label, liquid, kind) {
   const b = beaker(id); b.scale.setScalar(1.6); b.add(mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.05, 20), M(liquid, { transparent: true, opacity: 0.75 }), 0, 0.027, 0));
-  const t = textSprite(label, { h: 0.016 }); t.position.set(0, 0.0, 0.05); b.add(t);  // in front of the beaker (scaled 1.6x) b.userData = { label, kind }; return b;
+  const t = textSprite(label, { h: 0.016 }); t.position.set(0, 0.0, 0.05); b.add(t); /* in front of the beaker (scaled 1.6x) */ b.userData = { label, kind }; return b;
 }
 const SAMPLES = [['limau_nipis', 'Limau nipis', 0xdce775, 'asid'], ['asam_jawa', 'Asam jawa', 0x8d6e63, 'asid'], ['sabun', 'Air sabun', 0xe1f5fe, 'alkali'],
   ['kapur_sirih', 'Kapur sirih', 0xf5f5f5, 'alkali'], ['air_garam', 'Air garam', 0xe3f2fd, 'neutral'], ['air_gula', 'Air gula', 0xfffde7, 'neutral']];
