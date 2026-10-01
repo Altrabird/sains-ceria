@@ -1,0 +1,28 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T3-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Bagaimanakah objek yang sama boleh dikelaskan dengan cara berbeza?",
+  "k": "Mengelas ialah mengasingkan dan mengumpulkan objek mengikut persamaan dan perbezaan ciri. Objek boleh dikelaskan mengikut bentuk, kemudian dikelaskan semula mengikut warna.",
+  "steps": [
+   { "g": "✌️", "t": "Kelaskan objek mengikut ciri bentuk.", "on": "shape", "count": 4 },
+   { "g": "✌️", "t": "Kelaskan semula objek yang sama mengikut ciri warna.", "on": "colour", "count": 4 }
+  ] },
+ "L2": { "q": "Bagaimanakah kita mengukur panjang dan masa dengan betul?",
+  "k": "Mengukur menggunakan alat dan unit piawai yang sesuai: panjang dengan pembaris dalam sentimeter, masa dengan jam randik dalam saat. Letakkan hujung objek pada senggat sifar dan lihat skala tegak dari atas.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan hujung pensel pada senggat sifar.", "on": "align" },
+   { "g": "☝️", "t": "Baca panjang pensel dan tuding jawapan yang betul.", "on": "read" },
+   { "g": "☝️", "t": "Ukur masa kereta mainan: tuding jam randik untuk mula, dan sekali lagi untuk berhenti.", "on": "time" }
+  ] },
+ "L3": { "q": "Apakah inferens yang munasabah?",
+  "k": "Inferens ialah penerangan atau kesimpulan awal yang munasabah tentang pemerhatian. Satu pemerhatian boleh mempunyai lebih daripada satu inferens, dan inferens perlu disemak lagi.",
+  "steps": [ { "g": "☝️", "t": "Bagi setiap pemerhatian, tuding inferens yang munasabah.", "on": "infer", "count": 3 } ] },
+ "L4": { "q": "Bagaimanakah kita membuat ramalan?",
+  "k": "Meramal ialah membuat jangkaan berdasarkan pemerhatian, pengalaman lalu, data atau pola. Ramalan berasaskan bukti, bukan tekaan semata-mata.",
+  "steps": [ { "g": "☝️", "t": "Lihat pola dan tuding ramalan yang betul.", "on": "predict", "count": 3 } ] },
+ "L5": { "q": "Bagaimanakah kita menyampaikan maklumat dengan jelas?",
+  "k": "Berkomunikasi ialah merekod dan menyampaikan maklumat melalui perkataan, jadual, graf, rajah atau model. Tembikai paling digemari, iaitu 6 orang murid.",
+  "steps": [
+   { "g": "☝️", "t": "Bina graf bar: tuding petak supaya tinggi setiap bar sama dengan jadual.", "on": "bar", "count": 3 },
+   { "g": "☝️", "t": "Tuding bar buah yang paling digemari.", "on": "report" }
+  ] }
+}

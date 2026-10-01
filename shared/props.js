@@ -189,11 +189,11 @@ export function house(name = 'rumah') {
 export const nest = (name = 'sarang') => group(name, mesh(new THREE.TorusGeometry(0.04, 0.016, 8, 20), M(0x8a6a3a, { roughness: 1 }), 0, 0.016, 0).rotateX(Math.PI / 2),
   mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.01, 16), M(0x6b4f2a), 0, 0.006, 0));
 // an upright card with a big emoji + label, readable from the front-above camera; size = card height (m)
-export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e0457b' } = {}) {
+export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e0457b', tint = '#000' } = {}) {  // tint colours plain glyphs like ● ▲
   const c = document.createElement('canvas'); c.width = 256; c.height = label && emoji ? 300 : label ? 140 : 256;  // no emoji = a word card
   const g = c.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, 248, c.height - 8, 28); g.fill();
   g.lineWidth = 8; g.strokeStyle = border; g.stroke();
-  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillText(emoji, 128, 128);
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillStyle = tint; g.fillText(emoji, 128, 128);
   if (label && !emoji) { g.fillStyle = '#2b2340'; let f = 52; const ws = label.split(' '), lines = ws.length > 2 ? [ws.slice(0, Math.ceil(ws.length / 2)).join(' '), ws.slice(Math.ceil(ws.length / 2)).join(' ')] : [label];
     do g.font = `bold ${f}px system-ui, sans-serif`; while (Math.max(...lines.map(l => g.measureText(l).width)) > 228 && --f > 18);
     lines.forEach((l, i) => g.fillText(l, 128, 70 + (i - (lines.length - 1) / 2) * f * 1.1));
@@ -350,7 +350,7 @@ export function sorter(S, root, { zones, items, type = 'sort', size = 0.12, row 
   });
   const order = items.map((_, i) => i).sort((a, b) => ((a * 7 + 3) % items.length) - ((b * 7 + 3) % items.length));  // fixed shuffle
   const cards = items.map((it, i) => {
-    const c = emojiCard(it.id, it.emoji, it.label, size, { border: '#3a7bd5' }); c.userData.it = it;
+    const c = emojiCard(it.id, it.emoji, it.label, size, { border: '#3a7bd5', tint: it.tint }); c.userData.it = it;
     c.position.set((order[i] - (items.length - 1) / 2) * gap, 0, row); root.add(home(c)); return c;
   });
   const done = new Set();

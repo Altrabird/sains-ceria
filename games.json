@@ -145,5 +145,12 @@
     "unit": 10,
     "title": "Set Binaan",
     "desc": "Komponen, pasang ikut manual, cipta, buka dan simpan"
+  },
+  {
+    "id": "T3-U01-kemahiran-saintifik",
+    "year": 3,
+    "unit": 1,
+    "title": "Kemahiran Proses Sains",
+    "desc": "Mengelas, mengukur, inferens, meramal, graf"
   }
 ]
