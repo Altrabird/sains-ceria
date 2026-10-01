@@ -1,0 +1,16 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U03-mikroorganisma after editing.",
+ "L1": { "q": "Apakah kumpulan mikroorganisma?",
+  "k": "Mikroorganisma terdiri daripada fungi, bakteria, alga, protozoa dan virus. Kebanyakannya dapat diperhatikan dengan mikroskop.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap sampel di bawah mikroskop dan pilih kumpulannya.", "on": "identify", "count": 5 } ] },
+ "L2": { "q": "Apakah proses hidup dan faktor pertumbuhan mikroorganisma?",
+  "k": "Mikroorganisma bernafas, bergerak dan bertumbuh. Mikroorganisma memerlukan air, udara, nutrien, suhu dan keasidan yang sesuai untuk bertumbuh.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan yis, gula dan air suam ke dalam botol. Perhatikan belon.", "on": "respire" },
+   { "g": "✌️", "t": "Titiskan air pada satu roti, kemudian biarkan lima hari.", "on": "grow" },
+   { "g": "☝️", "t": "Pilih faktor yang menyebabkan kulapuk tumbuh.", "on": "factor" }
+  ] },
+ "L3": { "q": "Apakah kegunaan dan keburukan mikroorganisma?",
+  "k": "Mikroorganisma digunakan untuk membuat roti, yogurt, tempe, antibiotik, vaksin dan baja organik. Mikroorganisma juga merosakkan makanan, mereputkan gigi dan menyebabkan penyakit.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap contoh.", "on": "use", "count": 11 } ] }
+}
