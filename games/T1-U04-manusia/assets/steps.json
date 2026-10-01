@@ -1,0 +1,25 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T1-U04-manusia after editing.",
+ "L1": { "q": "Apakah ciri yang dapat dikenal pasti oleh setiap bahagian tubuh?",
+  "k": "Mata mengenal pasti warna, saiz dan bentuk. Telinga mengenal pasti bunyi. Hidung mengenal pasti bau. Lidah mengenal pasti rasa. Kulit mengenal pasti kasar, licin, lembut dan keras.",
+  "steps": [
+   { "g": "✌️", "t": "Letakkan setiap kad ciri pada bahagian tubuh yang betul.", "on": "ciri", "ids": ["warna", "bunyi", "bau", "rasa", "tekstur"], "count": 5 }
+  ] },
+ "L2": { "q": "Bagaimanakah kita mengenal pasti buah yang manis dan masam?",
+  "k": "Objek boleh dikenal pasti dengan menggunakan satu atau lebih deria. Ciku dan epal manis. Oren dan kedondong masam.",
+  "steps": [
+   { "g": "✌️", "t": "Bawa buah ke mata, hidung dan lidah untuk mencatat warna, bau dan rasa.", "on": "observe", "ids": ["warna", "bau", "rasa"], "count": 3 },
+   { "g": "✌️", "t": "Rasa setiap buah, kemudian letakkan di bakul manis atau masam.", "on": "sort", "ids": ["ciku", "epal", "oren", "kedondong"], "count": 4 }
+  ] },
+ "L3": { "q": "Bagaimanakah kita mencari lampu suluh di dalam gelap?",
+  "k": "Apabila sesuatu deria tidak berfungsi dengan baik, kita masih boleh menggunakan deria lain, seperti deria sentuhan.",
+  "steps": [
+   { "g": "☝️", "t": "Dalam gelap, gerakkan jari di atas objek untuk merasa sekurang-kurangnya tiga objek.", "on": "feel", "count": 3 },
+   { "g": "☝️", "t": "Jumpa lampu suluh? Tuding dan tahan untuk menghidupkannya.", "on": "torch" }
+  ] },
+ "L4": { "q": "Bagaimanakah kita membantu deria yang kurang berfungsi?",
+  "k": "Cermin mata membantu mata melihat dengan jelas. Alat bantu pendengaran membantu deria pendengaran.",
+  "steps": [
+   { "g": "✌️", "t": "Berikan cermin mata dan alat bantu pendengaran kepada orang yang memerlukannya.", "on": "aid", "ids": ["cermin_mata", "alat_pendengaran"], "count": 2 }
+  ] }
+}

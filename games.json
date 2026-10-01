@@ -26,5 +26,12 @@
     "unit": 3,
     "title": "Benda Hidup",
     "desc": "Hidup atau bukan hidup, ciri benda hidup, saiz, keperluan asas"
+  },
+  {
+    "id": "T1-U04-manusia",
+    "year": 1,
+    "unit": 4,
+    "title": "Deria Kita",
+    "desc": "Deria dan ciri, kenal pasti buah, deria lain dalam gelap, alat bantu deria"
   }
 ]

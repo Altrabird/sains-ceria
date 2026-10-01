@@ -1,6 +1,7 @@
 // Props built from three.js primitives + the drag helper, shared by unit games (no GLBs needed).
 // Units: metres, table top at y = 0, +z toward the pupil. Every factory returns a named Group (names = test handles).
 import * as THREE from 'three';
+import { textSprite, emojiSprite } from './stage.js';
 
 export const LIFT = 0.06;  // held objects float this high over the table
 
@@ -188,11 +189,33 @@ export function emojiCard(name, emoji, label = '', size = 0.12, { border = '#e04
   const g = c.getContext('2d'); g.fillStyle = '#fff'; g.beginPath(); g.roundRect(4, 4, 248, c.height - 8, 28); g.fill();
   g.lineWidth = 8; g.strokeStyle = border; g.stroke();
   g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '170px "Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillText(emoji, 128, 128);
-  if (label) { g.fillStyle = '#2b2340'; g.font = 'bold 40px system-ui, sans-serif'; g.fillText(label, 128, 268); }
+  if (label) { g.fillStyle = '#2b2340'; let f = 44; do g.font = `bold ${f}px system-ui, sans-serif`; while (g.measureText(label).width > 236 && --f > 18); g.fillText(label, 128, 268); }  // shrink to fit
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
   const w = size * c.width / c.height;
   const card = mesh(new THREE.PlaneGeometry(w, size), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide, transparent: true }), 0, size / 2 + 0.005, 0);
   card.rotation.x = -0.35;
   const g2 = group(name, card, mesh(new THREE.BoxGeometry(w * 0.6, 0.01, 0.03), M(0x8a8a8a), 0, 0.005, 0));
   g2.userData.cardW = w; return g2;
+}
+
+// ------------------------------------------------------------ the five senses (Tahun 1 U1, U4)
+export const SENSES = {
+  mata: ['👁️', 'Penglihatan', 'Mata'], telinga: ['👂', 'Pendengaran', 'Telinga'], hidung: ['👃', 'Bau', 'Hidung'],
+  lidah: ['👅', 'Rasa', 'Lidah'], kulit: ['✋', 'Sentuhan', 'Kulit'],
+};
+// round yellow pad with the organ emoji floating above and a label; name = 'pad_<key>'
+export function sensePad(k, label = SENSES[k][1]) {
+  const p = group('pad_' + k, mesh(new THREE.CylinderGeometry(0.085, 0.09, 0.012, 40), M(0xffd84d)));
+  const e = emojiSprite(SENSES[k][0], 0.11); e.position.y = 0.09; e.userData.fx = true; p.add(e);
+  const l = textSprite(label, { h: 0.035 }); l.position.set(0, 0.02, 0.105); p.add(l);
+  p.userData.sense = k; return p;
+}
+export function fruit(kind) {
+  const F = { ciku: [0x8b5a2b, 0.032, [1, 1.1, 1]], epal: [0xd32f2f, 0.035, [1, 0.9, 1]], oren: [0xff8f00, 0.036, [1, 0.95, 1]], kedondong: [0x9ccc65, 0.03, [1, 1.35, 1]] }[kind];
+  const body = mesh(new THREE.SphereGeometry(F[1], 20, 14), M(F[0], { roughness: kind === 'oren' ? 0.9 : 0.5 }), 0, F[1] * F[2][1], 0);
+  body.scale.set(...F[2]);
+  const stem = mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.014), M(0x5d4037), 0, F[1] * F[2][1] * 2 + 0.004, 0);
+  const g = group(kind, body, stem);
+  if (kind !== 'ciku') g.add(mesh(new THREE.SphereGeometry(0.01, 8, 6).scale(1.4, 0.2, 0.7), M(0x43a047), 0.01, F[1] * F[2][1] * 2 + 0.006, 0));
+  return g;
 }
