@@ -1,0 +1,27 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U05-cahaya after editing.",
+ "L1": { "q": "Bagaimanakah cahaya bergerak?",
+  "k": "Cahaya bergerak daripada sumber cahaya dalam garis lurus. Cahaya sampai ke skrin hanya apabila celah pada kadbod sebaris.",
+  "steps": [ { "g": "✌️", "t": "Gerakkan kadbod bercelah supaya cahaya sampai ke skrin.", "on": "straight" } ] },
+ "L2": { "q": "Mengapakah kejelasan bayang-bayang berbeza?",
+  "k": "Bayang-bayang terbentuk apabila cahaya yang bergerak lurus dihalang oleh objek. Objek lut sinar tiada bayang-bayang, lut cahaya menghasilkan bayang-bayang tidak jelas dan legap menghasilkan bayang-bayang jelas.",
+  "steps": [ { "g": "✌️", "t": "Letakkan setiap kupu-kupu di hadapan lampu suluh dan pilih jenis objeknya.", "on": "clarity", "count": 3 } ] },
+ "L3": { "q": "Apakah yang mempengaruhi saiz dan bentuk bayang-bayang?",
+  "k": "Semakin bertambah jarak objek dengan sumber cahaya, semakin berkurang saiz bayang-bayang. Jika orientasi objek berubah, bentuk bayang-bayang juga berubah.",
+  "steps": [
+   { "g": "✌️", "t": "Gerakkan silinder dekat dengan lampu suluh, kemudian jauh darinya.", "on": "size", "ids": ["besar", "kecil"], "count": 2 },
+   { "g": "☝️", "t": "Tuding pusing silinder untuk mengubah orientasinya.", "on": "shape" }
+  ] },
+ "L4": { "q": "Bagaimanakah cahaya dipantulkan?",
+  "k": "Apabila cahaya terkena permukaan rata dan licin seperti cermin, cahaya dipantulkan. Periskop menggunakan dua cermin untuk memantulkan cahaya.",
+  "steps": [ { "g": "☝️", "t": "Tuding cermin untuk memusingnya sehingga cahaya sampai ke sasaran.", "on": "hit" } ] },
+ "L5": { "q": "Apakah kegunaan pantulan cahaya?",
+  "k": "Cermin sisi, cermin cembung, cermin pergigian dan periskop menggunakan pantulan cahaya. Cermin muka memantulkan cahaya dari muka ke mata kita.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap alat dengan kegunaannya.", "on": "use", "count": 4 } ] },
+ "L6": { "q": "Apakah pembiasan cahaya?",
+  "k": "Apabila cahaya bergerak melalui dua medium berbeza, arah pergerakan cahaya berubah. Ini dinamakan pembiasan cahaya. Pelangi terbentuk apabila cahaya matahari dibiaskan oleh titisan air.",
+  "steps": [
+   { "g": "✌️", "t": "Masukkan pensel ke dalam gelas berisi air.", "on": "refract" },
+   { "g": "✌️", "t": "Masukkan cermin ke dalam besen air di bawah cahaya matahari.", "on": "rainbow" }
+  ] }
+}
