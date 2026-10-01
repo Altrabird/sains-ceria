@@ -58,7 +58,7 @@ Every amali shows a step card: the soalan inkuiri, then steps with their gesture
 when the pupil actually does them (bulb lit, card placed in order…), ending with the kesimpulan + stars. 🔊 turns on
 narration: pre-recorded **Malaysian Malay** mp3s (`assets/audio/`, Microsoft neural voice ms-MY-Yasmin) — same accent on
 every device, offline. Never falls back to an Indonesian voice. After editing `assets/steps.json` run
-`python tools/make_audio.py` (only changed lines are re-recorded; `--voice ms-MY-OsmanNeural` for a male voice). Edit steps in `assets/steps.json`
+`python ../../shared/tools/make_audio.py .` (only changed lines are re-recorded; `--voice ms-MY-OsmanNeural` for a male voice). Edit steps in `assets/steps.json`
 (q/k come from Rekod Amali data.js); `node guide.test.mjs` checks every step names a real kit item.
 
 ## What the AR prototype already does

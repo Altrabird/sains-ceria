@@ -1,11 +1,11 @@
 """Pre-record the guided-step narration in Malaysian Malay (Microsoft neural voice ms-MY-YasminNeural) so every
 device plays the same Malaysian accent, offline. Only re-records lines whose text changed.
-Usage: python tools/make_audio.py [--voice ms-MY-OsmanNeural]   (needs: pip install edge-tts, internet once)
-Output: assets/audio/<AMxx>_<q|s1..|k>.mp3 + assets/audio/manifest.json {key: spoken text}"""
+Usage: python shared/tools/make_audio.py games/<id> [--voice ms-MY-OsmanNeural]   (needs: pip install edge-tts, internet once)
+Output: games/<id>/assets/audio/<level>_<q|s1..|k>.mp3 + assets/audio/manifest.json {key: spoken text}"""
 import asyncio, json, os, re, sys
 import edge_tts
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+ROOT = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else sys.exit(__doc__)
 OUT = os.path.join(ROOT, "assets", "audio")
 VOICE = sys.argv[sys.argv.index("--voice") + 1] if "--voice" in sys.argv else "ms-MY-YasminNeural"
 EMOJI = re.compile(r"[\U0001F000-\U0001FFFF☀-➿️]")
@@ -16,10 +16,10 @@ def spoken(text):
 
 
 def lines():
-    # MUST match the text shared/guide.js asks for (guide.test.mjs checks the keys exist)
+    # MUST match the text shared/guide.js asks for
     steps = json.load(open(os.path.join(ROOT, "assets", "steps.json"), encoding="utf-8"))
     for am, s in steps.items():
-        if not am.startswith("AM"):
+        if am.startswith("_"):
             continue
         yield f"{am}_q", "Soalan. " + s["q"]
         for i, st in enumerate(s["steps"], 1):

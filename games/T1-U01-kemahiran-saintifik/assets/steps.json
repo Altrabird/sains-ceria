@@ -1,0 +1,30 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). on = event type(s) from game.js; ids = which ids count; count = how many DIFFERENT ids; match = event fields. g = gesture icon. Run python shared/tools/make_audio.py games/T1-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Deria apakah yang kita gunakan untuk memerhati?",
+  "k": "Kita memerhati menggunakan lima deria: penglihatan, pendengaran, sentuhan, bau dan rasa. Kanta pembesar membantu pemerhatian.",
+  "steps": [
+   { "g": "✌️", "t": "Pegang setiap objek dan letakkan pada deria yang betul.", "on": "match", "ids": ["daun", "jam", "ais", "bunga", "aiskrim"], "count": 5 },
+   { "g": "✌️", "t": "Pegang kanta pembesar dan letakkan di atas daun. Apakah yang anda nampak?", "on": "magnify" }
+  ] },
+ "L2": { "q": "Bagaimanakah cara memindahkan ikan dengan betul?",
+  "k": "Spesimen ialah bahan atau objek yang hendak dikaji. Kendalikan spesimen dengan cermat menggunakan alat yang betul, iaitu penyauk.",
+  "steps": [
+   { "g": "✌️", "t": "Pegang penyauk.", "on": "grab", "ids": ["penyauk"] },
+   { "g": "✌️", "t": "Masukkan penyauk ke dalam akuarium A dan tangkap seekor ikan.", "on": "catch" },
+   { "g": "✌️", "t": "Pindahkan ketiga-tiga ikan ke akuarium B — perlahan-lahan!", "on": "release", "ids": ["ikan1", "ikan2", "ikan3"], "count": 3 }
+  ] },
+ "L3": { "q": "Bagaimanakah kita menyampaikan maklumat kepada orang lain?",
+  "k": "Kita melakar spesimen dengan tepat. Kita berkomunikasi secara lisan, lakaran dan tulisan.",
+  "steps": [
+   { "g": "☝️", "t": "Lakar daun: ikut garisan titik dengan jari telunjuk.", "on": "sketch" },
+   { "g": "☝️", "t": "Tuding setiap kad untuk melihat tiga cara berkomunikasi.", "on": "comm", "ids": ["lisan", "lakaran", "tulisan"], "count": 3 }
+  ] },
+ "L4": { "q": "Bagaimanakah kita menjaga peralatan sains?",
+  "k": "Bersihkan peralatan sains dengan cara yang betul, kemudian simpan dengan betul dan selamat.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding paip untuk membuka air.", "on": "water", "match": { "on": true } },
+   { "g": "✌️", "t": "Pegang span dan sental piring petri sehingga bersih.", "on": "clean" },
+   { "g": "✌️", "t": "Simpan kanta pembesar, piring petri dan bikar di dalam laci.", "on": "store", "ids": ["kanta", "piring", "bikar"], "count": 3 },
+   { "g": "☝️", "t": "Tuding laci untuk menutupnya.", "on": "close" }
+  ] }
+}

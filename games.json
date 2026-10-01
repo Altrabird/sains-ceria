@@ -1,3 +1,16 @@
 [
-  { "id": "T2-amali", "year": 2, "unit": null, "title": "AR Amali", "desc": "12 amali Rekod Amali Tahun 2 — kad AR + gerak tangan" }
+  {
+    "id": "T2-amali",
+    "year": 2,
+    "unit": null,
+    "title": "AR Amali",
+    "desc": "12 amali Rekod Amali Tahun 2 — kad AR + gerak tangan"
+  },
+  {
+    "id": "T1-U01-kemahiran-saintifik",
+    "year": 1,
+    "unit": 1,
+    "title": "Saintis Cilik",
+    "desc": "Kemahiran saintifik — deria, spesimen, lakaran, bersih & simpan"
+  }
 ]

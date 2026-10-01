@@ -23,7 +23,7 @@ export class StepTracker {
 }
 
 // ---- browser only
-// Narration = pre-recorded Malaysian Malay mp3s (tools/make_audio.py, voice ms-MY-Yasmin). Fallback: a device voice
+// Narration = pre-recorded Malaysian Malay mp3s (shared/tools/make_audio.py, voice ms-MY-Yasmin). Fallback: a device voice
 // ONLY if it is Malay (ms-*); never an Indonesian voice.
 const AUDIO_BASE = new URL('assets/audio/', globalThis.location?.href ?? import.meta.url).href;  // relative to the game page
 let audioKeys = null, player = null, queue = [];
