@@ -2,7 +2,7 @@
 
   python tools/build.py web             -> dist/web/   (hub + shared + every game; upload this folder to the VPS)
   python tools/build.py apk T2-amali    -> games/T2-amali/build/T2-amali.apk  (Capacitor, debug-signed)
-  python tools/build.py apk-hub         -> dist/Sains-Tahun-1-6.apk  (ONE app: the hub + every game, offline)
+  python tools/build.py apk-hub         -> dist/Sains-Ceria.apk  (ONE app: the hub + every game, offline)
 
 Dev-only files (tools/, blender/, viewer/, tests, .py) never ship."""
 import json, os, shutil, subprocess, sys
@@ -74,7 +74,7 @@ def apk_hub():
     out = os.path.join(ROOT, "dist", "apk")
     stage(out, games())
     stage_hub(out)  # the hub is the app's start page; every game's 🏠 goes back to it
-    gradle("my.sains.hub", "Sains Tahun 1-6", os.path.join(ROOT, "dist", "Sains-Tahun-1-6.apk"))
+    gradle("my.sains.hub", "Sains Ceria", os.path.join(ROOT, "dist", "Sains-Ceria.apk"))
 
 
 if __name__ == "__main__":

@@ -67,7 +67,4 @@ with Game(os.path.join(ROOT, "games", GID, "tools", "test_hub.py")) as g:
     g.check("continue button", g.pg.is_visible("#cont") and g.pg.get_attribute("#cont", "href").endswith("?play=L4") and "1 / " in g.pg.inner_text("#stars"), g.pg.inner_text("#cont"))
     g.shot("hub")
 
-    g.pg.on("dialog", lambda d: d.accept())
-    with g.pg.expect_navigation(): g.pg.click("#reset")
-    g.pg.wait_for_selector("a.card")
-    t = g.pg.inner_text(f"a.card[href='games/{GID}/index.html']"); g.check("reset clears progress", not g.pg.is_visible("#cont") and "0/4" in t, [g.pg.is_visible("#cont"), t])
+    g.check("footer credits the developer", "Developed by Harsidi bin Junick" in g.pg.inner_text("footer"))

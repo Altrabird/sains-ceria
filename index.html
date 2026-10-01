@@ -20,7 +20,7 @@
   .search input:focus { outline:none; border-color:var(--blue); }
   .search::before { content:''; position:absolute; left:14px; top:50%; width:16px; height:16px; margin-top:-9px; border:3px solid var(--muted); border-radius:50%; }
   .search::after { content:''; position:absolute; left:30px; top:50%; width:8px; height:3px; margin-top:6px; background:var(--muted); border-radius:2px; transform:rotate(45deg); }
-  main { max-width:1180px; margin:0 auto; padding:20px 20px 64px; }
+  main { max-width:1180px; margin:0 auto; padding:20px 20px 110px; }  /* room for the floating hand button */
   /* hero */
   .hero { position:relative; display:flex; align-items:center; gap:24px; padding:26px 30px; border-radius:28px; overflow:hidden;
     background:linear-gradient(135deg, #d7f5ff 0%, #e9fbd9 100%); box-shadow:var(--shadow); }
@@ -57,8 +57,8 @@
   a.card .meter { width:100%; height:8px; border-radius:8px; background:var(--soft); overflow:hidden; }
   a.card .meter i { display:block; height:100%; background:var(--c); border-radius:8px; }
   .empty { color:var(--muted); }
-  footer { margin-top:40px; text-align:center; color:var(--muted); font-size:12px; }
-  footer button { border:0; background:none; color:var(--muted); text-decoration:underline; font:600 13px var(--text); cursor:pointer; margin-bottom:8px; }
+  footer { margin-top:44px; text-align:center; color:var(--muted); font:500 14px var(--head); }
+  footer b { color:var(--ink); font-weight:600; }
   @media (max-width:600px) {
     .logo span { display:none; } .hero { flex-direction:column; text-align:center; padding:22px 18px; } .hero .row { justify-content:center; } .mascot { width:96px; height:96px; }
     .grid { grid-template-columns:repeat(2, 1fr); gap:12px; } a.card .ico { width:72px; height:72px; } a.card .desc { display:none; } .yh .prog .bar { width:60px; }
@@ -77,7 +77,7 @@
       <div class="row"><a id="cont" class="btn green big" href="#" hidden></a><span class="stat"><span class="stars">★</span><span id="stars"></span></span></div></div>
   </section>
   <div id="list"></div>
-  <footer><button id="reset">Padam kemajuan pada peranti ini</button><br>Ikon: Microsoft Fluent Emoji (MIT) · Fon: Fredoka &amp; Nunito (OFL)</footer>
+  <footer>Developed by <b>Harsidi bin Junick</b></footer>
 </main>
 <script type="module">
 const $ = id => document.getElementById(id);
@@ -110,7 +110,6 @@ function render() {
       <span class="prog">${k}/${mine.length} unit<span class="bar"><i style="width:${k / mine.length * 100}%"></i></span></span></div><div class="grid">${mine.map(card).join('')}</div></section>`; }).join('');
 }
 $('search').oninput = render;
-$('reset').onclick = () => { if (confirm('Padam semua bintang dan kemajuan pada peranti ini?')) { try { ['sains.done', 'sains.last'].forEach(k => localStorage.removeItem(k)); } catch (e) {} location.reload(); } };
 render();
 import('./shared/handnav.js').then(m => m.handNav());  // ☝️ hold = press a card, ✌️ up/down = scroll
 if ('serviceWorker' in navigator && !window.Capacitor && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});

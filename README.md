@@ -20,7 +20,7 @@ python -m http.server 8000            # http://localhost:8000/
 python games/<id>/tools/test_game.py  # plays every level (mouse + simulated hands) in headless Chromium
 python tools/test_hub.py              # hub, progress, hand navigation
 python tools/build.py web             # dist/web  (static site)
-python tools/build.py apk-hub         # dist/Sains-Tahun-1-6.apk (all games)
+python tools/build.py apk-hub         # dist/Sains-Ceria.apk (all games)
 DEPLOY=root@host:/var/www/edugames sh tools/deploy.sh
 ```
 
