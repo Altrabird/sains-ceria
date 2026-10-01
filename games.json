@@ -355,5 +355,12 @@
     "unit": 10,
     "title": "Mesin dan Reka Cipta",
     "desc": "Gabungan mesin ringkas, alat lestari, tong sampah lestari, langkah mereka cipta"
+  },
+  {
+    "id": "T6-U01-kemahiran-saintifik",
+    "year": 6,
+    "unit": 1,
+    "title": "Eksperimen Kereta Belon",
+    "desc": "Kemahiran proses sains, pemboleh ubah, eksperimen kereta belon"
   }
 ]

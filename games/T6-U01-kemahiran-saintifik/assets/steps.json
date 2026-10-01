@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T6-U01-kemahiran-saintifik after editing.",
+ "L1": { "q": "Apakah kemahiran proses sains asas?",
+  "k": "Kemahiran proses sains asas ialah memerhati, mengelas, mengukur dan menggunakan nombor, membuat inferens, meramal dan berkomunikasi.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh kereta belon dengan kemahirannya.", "on": "skill", "count": 6 } ] },
+ "L2": { "q": "Apakah kemahiran proses sains bersepadu?",
+  "k": "Kemahiran bersepadu termasuk perhubungan ruang dan masa, mentafsir data, mendefinisi secara operasi, mengawal pemboleh ubah, membuat hipotesis dan mengeksperimen.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap contoh dengan kemahirannya.", "on": "skill2", "count": 5 } ] },
+ "L3": { "q": "Apakah pemboleh ubah dalam eksperimen kereta belon?",
+  "k": "Dimanipulasikan: saiz belon. Bergerak balas: jarak pergerakan kereta belon. Dimalarkan: bentuk, saiz dan jisim kereta belon.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap pemboleh ubah.", "on": "variable", "count": 5 } ] },
+ "L4": { "q": "Adakah saiz belon mempengaruhi jarak pergerakan kereta belon?",
+  "k": "Semakin besar saiz belon, semakin jauh jarak pergerakan kereta belon. Hipotesis diterima.",
+  "steps": [
+   { "g": "👋", "t": "Uji belon kecil, sederhana dan besar. Lepaskan kereta dan ukur jaraknya.", "on": "trial", "count": 3 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] }
+}
