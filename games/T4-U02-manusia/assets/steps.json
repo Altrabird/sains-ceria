@@ -1,0 +1,27 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U02-manusia after editing.",
+ "L1": { "q": "Bagaimanakah udara bergerak semasa kita bernafas?",
+  "k": "Peparu ialah organ pernafasan manusia. Semasa menarik nafas, udara bergerak dari hidung ke trakea ke peparu. Semasa menghembus nafas, udara bergerak dari peparu ke trakea ke hidung.",
+  "steps": [ { "g": "✌️", "t": "Bawa udara masuk ke peparu, kemudian keluar semula melalui hidung.", "on": "route", "count": 5 } ] },
+ "L2": { "q": "Apakah yang berlaku kepada gas di peparu?",
+  "k": "Pertukaran gas berlaku di peparu. Oksigen masuk ke dalam peparu, manakala karbon dioksida keluar dari peparu. Udara disedut masuk mengandungi lebih oksigen dan udara dihembus keluar mengandungi lebih karbon dioksida.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap kad dengan pasangannya.", "on": "gas", "count": 4 } ] },
+ "L3": { "q": "Adakah jenis aktiviti mempengaruhi kadar pernafasan?",
+  "k": "Kadar pernafasan ialah bilangan pergerakan dada naik dan turun dalam satu minit. Semakin cergas aktiviti, semakin bertambah kadar pernafasan.",
+  "steps": [
+   { "g": "☝️", "t": "Tuding setiap aktiviti dan rekod kadar pernafasan.", "on": "rate", "count": 3 },
+   { "g": "☝️", "t": "Pilih kesimpulan.", "on": "conclude" }
+  ] },
+ "L4": { "q": "Bagaimanakah persekitaran mempengaruhi pernafasan?",
+  "k": "Udara yang bersih membantu manusia bernafas dengan lebih baik. Elakkan asap rokok dan udara tercemar, dan bersenam di kawasan yang mempunyai udara bersih.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap tempat: udara bersih atau udara tercemar.", "on": "air", "count": 7 } ] },
+ "L5": { "q": "Bagaimanakah badan menyingkirkan bahan buangan?",
+  "k": "Perkumuhan ialah proses penyingkiran bahan buangan: ginjal menyingkirkan air kencing, kulit merembeskan peluh dan peparu membebaskan karbon dioksida dan wap air. Penyahtinjaan ialah penyingkiran tinja melalui dubur.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap bahan buangan dengan organ yang menyingkirkannya.", "on": "excrete", "count": 4 } ] },
+ "L6": { "q": "Bagaimanakah kita bergerak balas terhadap rangsangan?",
+  "k": "Rangsangan ialah perubahan keadaan di persekitaran dan gerak balas ialah tindakan terhadap rangsangan. Gerak balas mengelakkan kecederaan dan menyelamatkan diri. Meminum arak, menghidu gam dan menyalahgunakan dadah melambatkan gerak balas.",
+  "steps": [
+   { "g": "✌️", "t": "Padankan setiap rangsangan dengan gerak balasnya.", "on": "response", "count": 5 },
+   { "g": "☝️", "t": "Tuding tiga tabiat yang mengganggu gerak balas.", "on": "habit", "count": 3 }
+  ] }
+}

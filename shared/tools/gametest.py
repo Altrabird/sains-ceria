@@ -114,6 +114,16 @@ class Game:
         self.hand("two", b, 0.3)  # pause at the target like a child does: the smoothed cursor catches up
         self.hand("open", b, 0.4); self.pg.wait_for_timeout(600)
 
+    def match_all(self, by_hand=1):
+        """drop every matcher() card ('kad_<id>') on its target ('sasaran_<id>')"""
+        ids = self.js("() => { const o = []; window.level.root.traverse(c => c.name.startsWith('kad_') && !c.userData.done && o.push(c.userData.id)); return o; }")
+        for i, k in enumerate(ids):
+            (self.hand_drag if i < by_hand else self.drag)(self.pos("kad_" + k, 0.04), self.pos("sasaran_" + k, 0.05))
+
+    def match_wrong(self):
+        ids = self.js("() => { const o = []; window.level.root.traverse(c => c.name.startsWith('kad_') && o.push(c.userData.id)); return o; }")
+        self.drag(self.pos("kad_" + ids[0], 0.04), self.pos("sasaran_" + ids[1], 0.05)); return self.info()
+
     def sort_cards(self):
         """[(card name, zone id)] for every shared sorter() card still in the level"""
         return self.js("() => { const out = []; window.level.root.traverse(o => o.userData.it && out.push([o.name, o.userData.it.zone])); return out; }")

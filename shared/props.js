@@ -500,3 +500,25 @@ export function textCard(name, text, w = 0.36, { border = '#7e57c2', bg = '#ffff
   const card = mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: t, transparent: true, side: THREE.DoubleSide }), 0, h / 2 * Math.sin(1.0) + 0.005, 0); card.rotation.x = -1.0;
   return group(name, card);
 }
+
+// ------------------------------------------------------------ matcher: drag each card onto its partner target
+// pairs: [{ id, target: [emoji, label], card: [emoji, label], ok?: html }]  targets in a back row ('sasaran_<id>'), cards shuffled in front ('kad_<id>')
+export function matcher(S, root, pairs, { type = 'match', gap = 0.26, size = 0.11, cardSize = 0.09, targetZ = -0.2, rowZ = 0.27, wrong = '🤔 Bukan pasangan itu. Cuba lagi.', onDone } = {}) {
+  const n = pairs.length, x = i => (i - (n - 1) / 2) * gap;
+  const mk = (name, [e, l], sz, border) => (e ? emojiCard(name, e, l, sz, { border }) : emojiCard(name, '', l, sz * 0.7, { border }));
+  const targets = pairs.map((p, i) => { const t = mk('sasaran_' + p.id, p.target, size, '#3a7bd5'); t.position.set(x(i), 0, targetZ); t.userData.id = p.id; root.add(t); return t; });
+  const mix = pairs.map((_, i) => i).sort((a, b) => ((a * 3 + 1) % n) - ((b * 3 + 1) % n));
+  const cards = pairs.map((p, i) => { const c = mk('kad_' + p.id, p.card, cardSize, '#ef6c00'); c.userData.id = p.id; c.position.set(x(mix[i]), 0, rowZ); root.add(home(c)); return c; });
+  let left = n;
+  return dragger(S, () => cards.filter(c => !c.userData.done), {
+    onDrop(c, x0, y0) {
+      const d = t => { const q = t.getWorldPosition(new THREE.Vector3()); q.y += size / 2; q.project(S.camera); return Math.hypot((q.x + 1) / 2 * innerWidth - x0, (1 - q.y) / 2 * innerHeight - y0); };
+      const t = targets.filter(t => d(t) < 80 || flat(t.position, c.position) < gap * 0.45).sort((a, b) => d(a) - d(b))[0];
+      if (!t) return goHome(S, c);
+      if (t.userData.id !== c.userData.id) { S.info(wrong); return goHome(S, c); }
+      c.userData.done = true; moveTo(S, c, t.position.clone().add(new THREE.Vector3(0, 0, 0.12)));
+      const p = pairs.find(p => p.id === c.userData.id); S.evt(type, p.id); S.info(p.ok || `✅ ${p.target[1]} → ${p.card[1]}.`);
+      if (!--left) onDone?.();
+    },
+  });
+}
