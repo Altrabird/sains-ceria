@@ -250,5 +250,12 @@
     "unit": 5,
     "title": "Sifat Cahaya",
     "desc": "Bergerak lurus, bayang-bayang, pantulan cermin, pembiasan, pelangi"
+  },
+  {
+    "id": "T4-U06-bunyi",
+    "year": 4,
+    "unit": 6,
+    "title": "Bunyi",
+    "desc": "Getaran, semua arah, gema, berfaedah & memudaratkan, kurangkan bising"
   }
 ]

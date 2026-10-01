@@ -1,0 +1,18 @@
+{
+ "_doc": "Guided steps per level (shared/guide.js). Run python shared/tools/make_audio.py games/T4-U06-bunyi after editing.",
+ "L1": { "q": "Bagaimanakah bunyi dihasilkan?",
+  "k": "Bunyi dihasilkan oleh getaran. Udara dalam seruling, bar xilofon, tali gitar, tali biola dan kepingan simbal bergetar apabila ditiup, diketuk, dipetik, digesek dan ditepuk.",
+  "steps": [ { "g": "✌️", "t": "Padankan setiap cara dengan alat muzik, dan dengar bunyinya.", "on": "vibrate", "count": 5 } ] },
+ "L2": { "q": "Ke arah manakah bunyi bergerak?",
+  "k": "Bunyi bergerak ke semua arah. Bunyi loceng dapat didengar dari pelbagai arah.",
+  "steps": [ { "g": "☝️", "t": "Tuding loceng untuk membunyikannya.", "on": "ring" } ] },
+ "L3": { "q": "Apakah gema?",
+  "k": "Apabila bunyi terkena permukaan keras, bunyi dipantulkan. Gema ialah bunyi yang terhasil apabila bunyi dipantulkan oleh permukaan keras, contohnya di dalam gua, bilik kosong dan dewan kosong. Permukaan lembut menyerap bunyi.",
+  "steps": [ { "g": "✌️", "t": "Uji dinding batu dan langsir: letakkan di tapak kuning, kemudian tuding jerit.", "on": "echo", "ids": ["keras", "lembut"], "count": 2 } ] },
+ "L4": { "q": "Bunyi manakah yang berfaedah dan yang memudaratkan?",
+  "k": "Muzik, suara, siren ambulans, deringan telefon dan sonar berfaedah. Bunyi bising mengganggu komunikasi dan ketenangan, menyebabkan tekanan emosi, dan bunyi yang terlalu kuat boleh menyebabkan masalah pendengaran. Sonar dan ultrasonik menggunakan pantulan bunyi.",
+  "steps": [ { "g": "✌️", "t": "Kelaskan setiap bunyi: berfaedah atau memudaratkan.", "on": "effect", "count": 8 } ] },
+ "L5": { "q": "Bagaimanakah kita mengurangkan pencemaran bunyi?",
+  "k": "Bahan penyerap bunyi seperti permaidani dan langsir mengurangkan getaran bunyi. Pelindung telinga melindungi telinga daripada bunyi yang kuat.",
+  "steps": [ { "g": "✌️", "t": "Pasang langsir dan permaidani di dalam bilik, dan beri pelindung telinga kepada pekerja.", "on": "reduce", "count": 3 } ] }
+}
