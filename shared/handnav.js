@@ -2,7 +2,7 @@
 // ✌️ two fingers up/down scrolls. Opt-in with the "✋ Guna tangan" button; the choice is remembered on the device
 // (localStorage sains.hands) and levels already use the camera, so a pupil can go hub → game → level hands-free.
 // The hand skeleton + ring are drawn on a top layer (z-index 1000), always in front of cards and panels.
-import { Gestures, classify, createHandTracker, drawHand } from './hands.js';
+import { Gestures, classify, createHandTracker, drawHand, openCamera } from './hands.js';
 
 const KEY = 'sains.hands';
 const on = () => { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } };
@@ -43,20 +43,20 @@ export function handNav({ scroller = document.scrollingElement } = {}) {
 
   function loop(now) {
     if (!running) return;
-    if (tracker && cam.readyState >= 2 && cam.currentTime !== lastVT) { lastVT = cam.currentTime; feed(tracker.detectForVideo(cam, now).landmarks?.[0] || null, now); }
+    if (tracker && cam.readyState >= 2 && cam.currentTime !== lastVT) { lastVT = cam.currentTime; feed(tracker.detect(cam, now), now); }
     requestAnimationFrame(loop);
   }
   async function start() {
     btn.textContent = '✋ Memuatkan…';
     if (sim) { running = true; btn.textContent = '✋ Tangan: simulasi'; btn.setAttribute('aria-pressed', 'true'); return; }
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 480 } });
+      stream = await openCamera(640, 480);
       cam.srcObject = stream; cam.hidden = false; tracker ||= await createHandTracker();
       running = true; requestAnimationFrame(loop); btn.textContent = '✋ Tangan: AKTIF'; btn.classList.add('green'); btn.setAttribute('aria-pressed', 'true');
     } catch (e) { stop(); btn.textContent = '✋ Kamera tidak dapat dibuka'; console.warn('handnav', e); }
   }
   function stop() {
-    running = false; stream?.getTracks().forEach(t => t.stop()); stream = null; cam.hidden = true; feed(null, performance.now());
+    running = false; G.lost = Infinity; stream?.getTracks().forEach(t => t.stop()); stream = null; cam.hidden = true; feed(null, performance.now());
     btn.textContent = '✋ Guna tangan'; btn.classList.remove('green'); btn.setAttribute('aria-pressed', 'false');
   }
   btn.onclick = () => { const v = !running; save(v); v ? start() : stop(); };

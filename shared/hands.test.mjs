@@ -23,7 +23,10 @@ ev.length = 0; run('open', 1, tt => 0.5 + 0.2 * Math.sin(tt * 12));  // wave -> 
 assert.deepEqual(ev, ['wind']);
 ev.length = 0; run('none', 0.1); run('open', TUNE.hold + 0.5);       // still palm -> one reset
 assert.deepEqual(ev, ['reset']);
-ev.length = 0; run('two', 0.3); G.update(null, t);                   // hand lost mid-grab -> drop
+const lose = secs => { for (let i = 0; i < secs * 30; i++, t += 1 / 30) G.update(null, t); };
+ev.length = 0; run('two', 0.3); lose(0.1);                           // blurry camera misses a few frames -> still holding
+assert.ok(G.grabbing && !ev.includes('drop'), 'brief loss keeps the grab');
+run('two', 0.1); lose(TUNE.lost + 0.1);                               // hand really gone mid-grab -> drop
 assert.equal(ev.at(-1), 'drop');
 ev.length = 0; run('none', 0.2); run('two', 0.05); run('none', 0.2);   // brief flicker through "two" -> no grab
 assert.ok(!ev.includes('grab'), 'no grab on a flicker');

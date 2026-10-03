@@ -9,7 +9,8 @@
 // (games/T2-amali predates this file and still carries its own copy of the same ideas.)
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { classify, Gestures, createHandTracker, drawHand } from './hands.js';
+import { classify, Gestures, createHandTracker, drawHand, openCamera, cameras, pickCamera, weakCam } from './hands.js';
+import { track, tap, trackTaps } from './track.js';
 import { GuidePanel } from './guide.js';
 
 export const $ = id => document.getElementById(id);
@@ -79,7 +80,7 @@ function skyTexture() {
 
 const UI = `
 <div id="stage"></div>
-<div id="top" hidden><button id="hub" aria-label="Semua permainan">⌂</button><button id="home">← Menu</button><button id="handChip">✋ Tangan: memuatkan…</button><select id="pick" aria-label="Tukar tahap"></select><button id="next" hidden>Seterusnya ▶</button></div>
+<div id="top" hidden><button id="hub" aria-label="Semua permainan">⌂</button><button id="home">← Menu</button><button id="handChip">✋ Tangan: memuatkan…</button><button id="weakChip" hidden title="Untuk kamera kabur / bilik gelap">📷 Kamera biasa</button><select id="camPick" hidden aria-label="Pilih kamera"></select><select id="pick" aria-label="Tukar tahap"></select><button id="next" hidden>Seterusnya ▶</button></div>
 <canvas id="handLayer"></canvas><div id="cursor" hidden></div><div id="cursorIcon" hidden></div>
 <div id="hint"></div><aside id="guide" hidden aria-live="polite"></aside><div id="info" role="status"></div>
 <div id="menu" hidden></div><div id="win" hidden></div>`;
@@ -104,6 +105,7 @@ export async function boot({ title, intro, levels, steps, build }) {
         <div class="lvt"><b>${l.title}</b><small>${l.sp}</small></div>
         <div class="acts"><a class="btn green" href="?play=${l.id}">▶ Main</a><a class="btn" href="?preview=${l.id}" title="Tanpa kamera">Tanpa kamera</a></div></div>`).join('')}</div>`;
     (await import('./handnav.js')).handNav({ scroller: $('menu') });  /* hands on the game page too */
+    track('v', { p: 'menu', g: GAME }); trackTaps({ p: 'menu', g: GAME }, $('menu'));
     return;
   }
   const id = Q.get(MODE), lv = levels[ids.indexOf(id)], nextId = ids[ids.indexOf(id) + 1];
@@ -120,7 +122,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   if (MODE === 'play') {
     video = Object.assign(document.createElement('video'), { id: 'camBg', autoplay: true, muted: true, playsInline: true });
     document.body.prepend(video); document.body.style.background = 'transparent';
-    try { video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 1280, height: 720 } }); }
+    try { video.srcObject = await openCamera(1280, 720); }
     catch (e) { video.remove(); video = null; info('Kamera tidak dapat dibuka — guna tetikus/sentuhan. (' + e.message + ')', 20); }
   }
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: !!video });
@@ -137,7 +139,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   const aim = (x, y) => { v2.set(x / innerWidth * 2 - 1, -y / innerHeight * 2 + 1); ray.setFromCamera(v2, camera); return ray; };
   const S = {
     THREE, scene, camera, tween, wait, info, emojiSprite,
-    evt: (type, oid, extra = {}) => GUIDE.event({ type, id: oid, ...extra }),
+    evt: (type, oid, extra = {}) => { const i = GUIDE.t?.idx; GUIDE.event({ type, id: oid, ...extra }); if (GUIDE.t && GUIDE.t.idx !== i && !GUIDE.t.done) track('st', { ...where, i: GUIDE.t.idx, t: secs() }); },
     // first of `objs` under the screen point (a hit on a child counts for its listed ancestor)
     hitTest(x, y, objs) {
       const hits = aim(x, y).intersectObjects(objs, true).filter(h => h.object.isMesh && h.object.visible && !h.object.userData.fx);  // lines raycast with a 1 m slop
@@ -164,12 +166,24 @@ export async function boot({ title, intro, levels, steps, build }) {
     },
   };
 
+  // analytics: where = this level, inp = taps per input kind, usage() = inputs + how well the camera saw the hand
+  const where = { p: 'lvl', g: GAME, l: id, m: MODE }, t0 = performance.now(), secs = () => Math.round((performance.now() - t0) / 1000);
+  const inp = { im: 0, it: 0, ih: 0 };
+  const usage = () => { let st; try { st = tracker?.stats; } catch (e) { /* left before the tracker existed */ }
+    const dur = st && (performance.now() - st.t0) / 1000;
+    return { ...inp, c: MODE === 'preview' ? 'pv' : video ? 'ok' : 'no', wk: weakCam.on ? 1 : 0, r: video?.videoWidth ? `${video.videoWidth}x${video.videoHeight}` : '',
+      det: st?.frames ? Math.round(st.hands / st.frames * 100) : '', fps: dur > 1 ? Math.round(st.frames / dur) : '' }; };
+  track('v', where); track('ls', where); trackTaps(where);
+  addEventListener('pointerdown', e => { if (e.isPrimary) inp[e.pointerType === 'mouse' ? 'im' : 'it']++; }, { capture: true });
+  addEventListener('pagehide', () => { if (!window.levelDone) track('q', { ...where, i: GUIDE.t?.idx ?? 0, t: secs(), ...usage() }); });
+
   let level = null;
   const GUIDE = new GuidePanel($('guide'), steps, {
     onComplete: spec => {
       setTimeout(() => info(`🎉 <b>Tahniah! Tahap selesai.</b> ${spec.k}`, 12), 1500);
       for (let i = 0; i < 5; i++) setTimeout(() => S.star(new THREE.Vector3((i - 2) * 0.12, 0.2, 0)), i * 180);
       $('next').hidden = !nextId; window.levelDone = true; progress.done(id);
+      track('ld', { ...where, t: secs(), ...usage() });
       setTimeout(() => { const w = $('win'); w.hidden = false;
         w.innerHTML = `<div class="wcard"><div class="wstars"><span>★</span><span>★</span><span>★</span></div><h2>Tahniah!</h2><p>${lv.id} · ${lv.title} selesai</p>
           <div class="wbtn">${nextId ? `<a class="btn green big" href="?${MODE}=${nextId}">Tahap seterusnya ▶</a>` : `<a class="btn green big" href="../../index.html">Unit selesai! Pilih unit lain</a>`}
@@ -255,12 +269,12 @@ export async function boot({ title, intro, levels, steps, build }) {
   const hover = el => { if (el === hovered) return; hovered?.classList.remove('hand-hover'); hovered = el; el?.classList.add('hand-hover'); };
   const G = new Gestures({
     hit: sc((x, y) => { const el = uiAt(x, y); hover(el); return el || (level.hit?.(x, y) ?? null); }),
-    tap: sc((x, y) => { const el = uiAt(x, y); if (el) { hover(null); el.click(); } else level.tap?.(x, y); }),
-    grab: sc((x, y) => { hHold = !!level.pick?.(x, y); }),
+    tap: sc((x, y) => { inp.ih++; tap(x, y, { ...where, h: 1 }); const el = uiAt(x, y); if (el) { hover(null); el.click(); } else level.tap?.(x, y); }),
+    grab: sc((x, y) => { inp.ih++; tap(x, y, { ...where, h: 1 }); hHold = !!level.pick?.(x, y); }),
     drag: sc((x, y) => { if (hHold) level.drag?.(x, y); }),
     drop: sc((x, y) => { if (hHold) level.drop?.(x, y); hHold = false; }),
     wind: () => level.wind?.(),
-    reset: async () => { hHold = false; GUIDE.t.reset(); GUIDE.render(); await load(); info('✋ Tahap dimulakan semula.'); },
+    reset: async () => { track('r', where); hHold = false; GUIDE.t.reset(); GUIDE.render(); await load(); info('✋ Tahap dimulakan semula.'); },
   });
   const useHands = !!video || Q.has('handsim');
   let tracker = null, lastVT = -1, lastLm = null, handsOn = true;
@@ -269,7 +283,15 @@ export async function boot({ title, intro, levels, steps, build }) {
   else if (video) createHandTracker().then(t => { tracker = t; chip.textContent = '✋ Tangan: AKTIF'; })
     .catch(e => { chip.textContent = '✋ Tangan: gagal'; console.warn('hand tracker', e); });
   else chip.textContent = '✋ Tangan: simulasi';
-  chip.onclick = () => { handsOn = !handsOn; chip.textContent = handsOn ? '✋ Tangan: AKTIF' : '✋ Tangan: MATI'; if (!handsOn) feed(null, performance.now()); };
+  chip.onclick = () => { handsOn = !handsOn; chip.textContent = handsOn ? '✋ Tangan: AKTIF' : '✋ Tangan: MATI'; if (!handsOn) { G.lost = Infinity; feed(null, performance.now()); } };
+  // weak cameras: a mode that accepts fainter hands (reloads: the tracker's confidence is fixed at creation) + choose a USB webcam
+  if (video) {
+    const wc = $('weakChip'); wc.hidden = false; wc.textContent = weakCam.on ? '📷 Kamera lemah ✓' : '📷 Kamera biasa';
+    wc.onclick = () => { weakCam.set(!weakCam.on); location.reload(); };
+    cameras().then(list => { if (list.length < 2) return; const cp = $('camPick'), cur = video.srcObject.getVideoTracks()[0]?.getSettings().deviceId;
+      cp.innerHTML = list.map((d, i) => `<option value="${d.deviceId}">📷 ${d.label || 'Kamera ' + (i + 1)}</option>`).join(''); cp.value = cur; cp.hidden = false;
+      cp.onchange = () => { pickCamera(cp.value); location.reload(); }; });
+  }
   function feed(lm, now) {
     lastLm = handsOn ? lm : null;
     G.update(lastLm ? classify(lastLm, G.grabbing) : null, now / 1000);
@@ -299,7 +321,7 @@ export async function boot({ title, intro, levels, steps, build }) {
   renderer.setAnimationLoop(now => {
     stepTweens(now); level.update?.(Math.min(0.05, (now - last) / 1000)); last = now;
     if (tracker && handsOn && video.readyState >= 2 && video.currentTime !== lastVT) {
-      lastVT = video.currentTime; feed(tracker.detectForVideo(video, now).landmarks?.[0] || null, now);
+      lastVT = video.currentTime; feed(tracker.detect(video, now), now);
     }
     drawHands(); renderer.render(scene, camera);
   });

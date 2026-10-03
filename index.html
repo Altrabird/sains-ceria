@@ -115,7 +115,8 @@ function render() {
 }
 $('search').oninput = render;
 render();
-import('./shared/handnav.js').then(m => m.handNav());  // ☝️ hold = press a card, ✌️ up/down = scroll
+import('./shared/handnav.js').then(m => m.handNav());
+import('./shared/track.js').then(m => { m.track('v', { p: 'hub' }); m.trackTaps({ p: 'hub' }); });  // anonymous usage -> /admin/  // ☝️ hold = press a card, ✌️ up/down = scroll
 if ('serviceWorker' in navigator && !window.Capacitor && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>

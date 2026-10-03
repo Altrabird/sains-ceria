@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sains Ceria Admin</title>
+<!-- served at /admin/ (nginx basic auth); reads stats.json made by stats.py. Not shipped with the game build. -->
+<link rel="stylesheet" href="/shared/theme.css">
+<style>
+  :root { --bar:#2a78d6; --bar-soft:#cfe0f6; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px var(--text); }
+  main { max-width:1180px; margin:0 auto; padding:20px 16px 60px; }
+  h1 { font:700 26px var(--head); margin:0; } h2 { font:600 19px var(--head); margin:0 0 12px; }
+  header { display:flex; flex-wrap:wrap; align-items:baseline; gap:12px; margin-bottom:18px; } header small { color:var(--muted); }
+  .card { background:var(--surface); border:2px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:16px; box-shadow:var(--shadow); min-width:0; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px; }
+  .tile { background:var(--surface); border:2px solid var(--line); border-radius:16px; padding:12px 14px; }
+  .tile b { display:block; font:700 28px var(--head); } .tile span { color:var(--muted); font-size:13px; }
+  .two { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; } .two .card { margin:0; }
+  .cols { display:flex; align-items:flex-end; gap:2px; height:140px; border-bottom:1px solid var(--line); }
+  .cols i { flex:1; background:var(--bar); border-radius:4px 4px 0 0; min-height:1px; }
+  .cols i:hover, .hb i:hover { filter:brightness(1.2); }
+  .axis { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:4px; }
+  .hb { display:grid; grid-template-columns:minmax(90px, max-content) 1fr 3.5em; gap:6px 10px; align-items:center; font-size:14px; }
+  .hb i { display:block; height:14px; background:var(--bar); border-radius:0 4px 4px 0; min-width:2px; } .hb em { font-style:normal; color:var(--muted); text-align:right; }
+  .scroll { overflow:auto; max-height:460px; }
+  th { position:sticky; top:0; background:var(--surface); }
+  table { border-collapse:collapse; width:100%; font-size:14px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th:first-child, td:first-child, th.l, td.l { text-align:left; }
+  th { font:600 13px var(--head); color:var(--muted); cursor:pointer; user-select:none; } th:hover { color:var(--ink); }
+  td .m { display:inline-block; vertical-align:middle; height:8px; background:var(--bar-soft); border-radius:0 3px 3px 0; margin-right:6px; }
+  .warn { color:#b3261e; font-weight:700; }
+  .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; }
+  select { font:inherit; padding:6px 10px; border:2px solid var(--line); border-radius:12px; background:var(--surface); max-width:100%; }
+  #heatBox { position:relative; overflow:hidden; border-radius:12px; border:2px solid var(--line); background:#fff; }
+  #heatBox iframe, #heatBox canvas { position:absolute; left:0; top:0; border:0; transform-origin:0 0; }
+  #heatBox canvas { pointer-events:none; }
+  #tip { position:fixed; z-index:9; pointer-events:none; background:var(--ink); color:#fff; padding:6px 10px; border-radius:10px; font-size:13px; display:none; }
+  .note { color:var(--muted); font-size:13px; margin:8px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <header><h1>Sains Ceria · Analytics</h1><small id="gen">loading…</small></header>
+  <div class="tiles" id="tiles"></div>
+  <section class="card"><h2>Visitors per day (last 60 days)</h2><div class="cols" id="daily"></div><div class="axis" id="dailyAx"></div></section>
+  <section class="card">
+    <div class="row"><h2 style="margin:0;flex:1">Most played games</h2><select id="yearF"><option value="">All years</option></select></div>
+    <div class="scroll"><table id="games"></table></div>
+  </section>
+  <section class="card">
+    <h2>Levels: where pupils get stuck</h2>
+    <div class="scroll"><table id="levels"></table></div>
+    <p class="note">Completion = finished ÷ started. "Stuck at" = the step most pupils left on (step 0 = left before the first step). Times in minutes:seconds. Red = under 50% completion with 5+ starts.</p>
+  </section>
+  <div class="two">
+    <section class="card"><h2>Plays by year</h2><div class="hb" id="years"></div></section>
+    <section class="card"><h2>How pupils play</h2><div class="hb" id="inputs"></div></section>
+    <section class="card"><h2>Time of day (Malaysia)</h2><div class="cols" id="hours" style="height:110px"></div><div class="axis"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div></section>
+    <section class="card"><h2>Day of week</h2><div class="hb" id="weekdays"></div></section>
+    <section class="card"><h2>Devices</h2><div class="hb" id="devices"></div></section>
+    <section class="card"><h2>Web vs Android app</h2><div class="hb" id="platform"></div></section>
+  </div>
+  <section class="card" style="margin-top:16px"><h2>Camera &amp; hand tracking</h2><div class="tiles" id="cam" style="margin:0"></div><div class="hb" id="res" style="margin-top:12px"></div>
+    <p class="note">Hand seen = share of camera frames where the hand was found, in levels where the pupil used hand gestures. Low = the camera or lighting is the problem.</p></section>
+  <section class="card">
+    <h2>Tap heat map</h2>
+    <div class="row"><select id="hPage"></select><select id="hSize"><option value="desktop">Computer (wide)</option><option value="tablet">Tablet / phone sideways</option><option value="phone">Phone (narrow)</option></select><span id="hN" class="note" style="margin:0"></span></div>
+    <div id="heatBox"><iframe id="hFrame" title="page under the heat map" tabindex="-1"></iframe><canvas id="hCv"></canvas></div>
+    <p class="note">Each glow = where pupils tapped or clicked (hand taps included). The page underneath is a live preview, so its layout can differ a little from what pupils saw.</p>
+  </section>
+</main>
+<div id="tip"></div>
+<script>
+const $ = id => document.getElementById(id), esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = n => n == null ? '–' : n.toLocaleString('en');
+const mmss = s => s == null ? '–' : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '–';
+// tooltips: any element with data-tip
+addEventListener('mousemove', e => { const t = e.target.closest?.('[data-tip]'), tip = $('tip'); tip.style.display = t ? 'block' : 'none';
+  if (t) { tip.textContent = t.dataset.tip; tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + 'px'; tip.style.top = e.clientY + 14 + 'px'; } });
+const cols = (el, vals, tip) => { const mx = Math.max(1, ...vals); el.innerHTML = vals.map((v, i) => `<i style="height:${v / mx * 100}%" data-tip="${esc(tip(i, v))}"></i>`).join(''); };
+const hbars = (el, obj) => { const rows = Object.entries(obj).sort((a, b) => b[1] - a[1]), mx = Math.max(1, ...rows.map(r => r[1])), tot = rows.reduce((a, r) => a + r[1], 0);
+  el.innerHTML = rows.length ? rows.map(([k, v]) => `<span>${esc(k)}</span><i style="width:${v / mx * 100}%" data-tip="${esc(k)}: ${fmt(v)} (${pct(v, tot)})"></i><em>${pct(v, tot)}</em>`).join('') : '<span class="note">No data yet</span>'; };
+// sortable table: cols = [[label, key, render, leftAlign]]
+function table(el, rows, colsDef, sortKey, desc = true) {
+  const draw = () => {
+    const r = [...rows].sort((a, b) => { const x = a[sortKey] ?? -1, y = b[sortKey] ?? -1; return (x > y ? 1 : x < y ? -1 : 0) * (desc ? -1 : 1); });
+    el.innerHTML = `<tr>${colsDef.map(([h, k, , l]) => `<th class="${l ? 'l' : ''}" data-k="${k}">${h}${k === sortKey ? (desc ? ' ▼' : ' ▲') : ''}</th>`).join('')}</tr>` +
+      (r.length ? r.map(row => `<tr>${colsDef.map(([, k, f, l]) => `<td class="${l ? 'l' : ''}">${f ? f(row) : esc(row[k])}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${colsDef.length}" class="l note">No data yet</td></tr>`);
+    el.querySelectorAll('th').forEach(th => th.onclick = () => { desc = th.dataset.k === sortKey ? !desc : true; sortKey = th.dataset.k; draw(); });
+  };
+  draw();
+}
+
+(async () => {
+  let S; try { S = await (await fetch('stats.json', { cache: 'no-store' })).json(); } catch (e) { $('gen').textContent = 'No stats.json yet: the stats job has not run.'; return; }
+  const T = S.totals;
+  $('gen').textContent = 'Updated ' + new Date(S.generated).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+  $('tiles').innerHTML = [['Visitors (all time)', T.devices], ['Visitors, last 7 days', T.devices7], ['Visitors today', T.devicesToday], ['Came back another day', T.returning],
+    ['Page views', T.views], ['Levels started', T.starts], ['Levels finished', T.done], ['Completion', pct(T.done, T.starts)]]
+    .map(([k, v]) => `<div class="tile"><b>${typeof v === 'number' ? fmt(v) : v}</b><span>${k}</span></div>`).join('');
+
+  cols($('daily'), S.daily.map(d => d.devices), (i, v) => { const d = S.daily[i]; return `${d.d}: ${v} visitors · ${d.starts} levels started · ${d.done} finished`; });
+  $('dailyAx').innerHTML = `<span>${S.daily[0].d}</span><span>${S.daily.at(-1).d}</span>`;
+  cols($('hours'), S.hours, (i, v) => `${String(i).padStart(2, '0')}:00–${String(i).padStart(2, '0')}:59 · ${v} page views`);
+  hbars($('weekdays'), Object.fromEntries(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d, i) => [d, S.weekdays[i]])));
+  hbars($('years'), Object.fromEntries(Object.entries(S.years).map(([y, v]) => [y === '0' ? 'Other' : 'Tahun ' + y, v])));
+  hbars($('inputs'), S.inputs); hbars($('devices'), S.devices); hbars($('platform'), S.platform);
+
+  // games
+  const maxStarts = Math.max(1, ...S.games.map(g => g.starts));
+  [...new Set(S.games.map(g => g.year).filter(Boolean))].sort().forEach(y => $('yearF').insertAdjacentHTML('beforeend', `<option value="${y}">Tahun ${y}</option>`));
+  const gRows = () => S.games.filter(g => !$('yearF').value || String(g.year) === $('yearF').value).map(g => ({ ...g, rate: g.starts ? g.done / g.starts : null }));
+  const gCols = [['Game', 'title', g => `<b>${esc(g.title)}</b><br><small class="note">${g.year ? `T${g.year} U${g.unit}` : esc(g.id)}</small>`, 1],
+    ['Levels started', 'starts', g => `<span class="m" style="width:${g.starts / maxStarts * 80}px"></span>${fmt(g.starts)}`], ['Finished', 'done', g => fmt(g.done)],
+    ['Completion', 'rate', g => pct(g.done, g.starts)], ['Median time', 'medT', g => mmss(g.medT)], ['Visitors', 'devices', g => fmt(g.devices)], ['Menu opens', 'opens', g => fmt(g.opens)]];
+  const drawGames = () => table($('games'), gRows(), gCols, 'starts'); $('yearF').onchange = drawGames; drawGames();
+
+  // levels
+  const lRows = S.levels.map(l => { const q = Object.entries(l.quitAt).sort((a, b) => b[1] - a[1])[0];
+    return { ...l, rate: l.starts ? l.done / l.starts : null, stuck: q ? +q[0] : null, stuckN: q ? q[1] : 0, name: `${l.title} · ${l.l}` }; });
+  table($('levels'), lRows, [['Level', 'name', l => `<b>${esc(l.title)}</b> · ${esc(l.l)}`, 1], ['Started', 'starts', l => fmt(l.starts)], ['Finished', 'done', l => fmt(l.done)],
+    ['Completion', 'rate', l => `<span class="${l.starts >= 5 && l.rate < 0.5 ? 'warn' : ''}">${pct(l.done, l.starts)}</span>`],
+    ['Median time', 'medT', l => mmss(l.medT)], ['Slowest 10%', 'p90T', l => mmss(l.p90T)], ['Left early', 'quits', l => fmt(l.quits)],
+    ['Stuck at', 'stuck', l => l.stuck == null ? '–' : `step ${l.stuck} (${l.stuckN})`], ['Hand resets', 'resets', l => fmt(l.resets)]], 'starts');
+
+  // camera
+  const C = S.camera;
+  $('cam').innerHTML = [['Levels with camera', fmt(C.levels)], ['Camera blocked / missing', pct(C.denied, C.levels)], ['"Kamera lemah" mode on', pct(C.weak, C.levels)],
+    ['Hand seen (median)', C.medDet == null ? '–' : C.medDet + '%'], ['Camera speed (median)', C.medFps == null ? '–' : C.medFps + ' fps'], ['Slow cameras (<12 fps)', fmt(C.lowFps)]]
+    .map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
+  hbars($('res'), C.res);
+
+  // heat map: a live preview of the page in an iframe + glows where pupils tapped (x, y are fractions of the viewport width)
+  const SIZES = { desktop: [1280, 720], tablet: [915, 560], phone: [412, 860] };
+  const pages = [...new Set(Object.keys(S.heat).map(k => k.split('|').slice(0, -1).join('|')))]
+    .map(p => { const [g, l] = p.split('|'), n = Object.entries(S.heat).filter(([k]) => k.startsWith(p + '|')).reduce((a, [, c]) => a + Object.values(c).reduce((x, y) => x + y, 0), 0);
+      return { p, n, label: p === 'hub' ? 'Hub (home page)' : `${S.games.find(x => x.id === g)?.title || g} · ${l === 'menu' ? 'game menu' : l}` }; })
+    .sort((a, b) => b.n - a.n);
+  $('hPage').innerHTML = pages.map(x => `<option value="${esc(x.p)}">${esc(x.label)} (${fmt(x.n)} taps)</option>`).join('') || '<option>No taps yet</option>';
+  function heat() {
+    const p = $('hPage').value, size = $('hSize').value, cells = S.heat[`${p}|${size}`] || {}, [W, H0] = SIZES[size];
+    if (!pages.length) return;
+    const [g, l] = p.split('|'), src = p === 'hub' ? '/index.html' : l === 'menu' ? `/games/${g}/index.html` : `/games/${g}/index.html?preview=${l}`;
+    const maxY = Math.max(0, ...Object.keys(cells).map(k => +k.split(',')[1] + 1)) / 50 * W;
+    const H = l && l !== 'menu' ? H0 : Math.max(H0, Math.ceil(maxY + 200));  // scrolling pages: tall enough for the lowest tap
+    const box = $('heatBox'), f = $('hFrame'), cv = $('hCv'), k = Math.min(1, box.clientWidth / W);
+    if (f.dataset.src !== src || f.width != W || f.height != H) { f.dataset.src = src; f.src = src; f.width = W; f.height = H; }
+    box.style.height = H * k + 'px'; for (const el of [f, cv]) el.style.transform = `scale(${k})`;
+    cv.width = W; cv.height = H; const ctx = cv.getContext('2d'), entries = Object.entries(cells), mx = Math.max(1, ...entries.map(e => e[1]));
+    ctx.fillStyle = '#ffffff55'; ctx.fillRect(0, 0, W, H);
+    const r = W / 50 * 1.6;
+    for (const [key, n] of entries) { const [x, y] = key.split(',').map(v => (+v + 0.5) / 50 * W), a = 0.25 + 0.75 * n / mx;
+      const gr = ctx.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, `rgba(255,70,30,${a})`); gr.addColorStop(1, 'rgba(255,170,0,0)');
+      ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+    $('hN').textContent = `${fmt(entries.reduce((a, e) => a + e[1], 0))} taps on this screen size`;
+  }
+  $('hPage').onchange = $('hSize').onchange = heat; addEventListener('resize', heat);
+  // start on the screen size with the most taps for the busiest page
+  if (pages.length) { const best = Object.keys(SIZES).sort((a, b) => Object.keys(S.heat[`${pages[0].p}|${b}`] || {}).length - Object.keys(S.heat[`${pages[0].p}|${a}`] || {}).length)[0]; $('hSize').value = best; }
+  heat();
+})();
+</script>
+</body>
+</html>

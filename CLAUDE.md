@@ -18,6 +18,8 @@ shared/                  engine used by every game
   tools/make_audio.py    python shared/tools/make_audio.py games/<id>  -> Malay mp3 narration for assets/steps.json
   tools/gametest.py      Game(__file__) test kit: open/drag/click/hand/hand_drag/hand_tap/check (see T1-U02 test)
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
+                         + WEAK profile ("📷 Kamera lemah" chip, sains.weakcam), lost-hand grace, auto-brightness, camera picker
+  track.js               anonymous beacons -> nginx /b -> tools/admin/stats.py -> /admin/ dashboard (off on localhost: window.__ev)
   guide.js               StepTracker (self-ticking steps) + GuidePanel + Malay mp3 narration (assets/audio/ of the page)
   blender/lib.py         bpy helpers (mat, box, cyl, ...) for asset build scripts
   vendor/                three r160, MindAR 1.2.5, MediaPipe tasks-vision — offline, never use a CDN
@@ -31,6 +33,7 @@ games/T1-U01-kemahiran-saintifik/  TEMPLATE for new units: index.html (10 lines)
 games/T2-amali/          the first project (Rekod Amali T2, 12 amali, MindAR cards) — predates stage.js, has its own copy
 tools/build.py           `web` -> dist/web for the VPS; `apk <id>` -> games/<id>/build/<id>.apk
 tools/deploy.sh          DEPLOY=user@host:/path sh tools/deploy.sh
+tools/admin/             analytics: install.sh <user@host> (nginx log, logrotate, cron, admin password), stats.py (--selftest), index.html
 android/                 Capacitor project (patched: CAMERA permission, -PappId/-PappName per game)
 ```
 
