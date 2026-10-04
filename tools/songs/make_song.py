@@ -6,10 +6,11 @@
        -> games/<id>/assets/lagu.mp3 (80 kbps, checked: length + no long silence), or songs_draft/<id>/ with --draft
      python tools/songs/make_song.py --all        every game with a lagu.json and no lagu.mp3 yet (then games.json "song")
      python tools/songs/make_song.py --check      check every lagu.json / lagu.mp3 pair, no generation
-     python tools/songs/make_song.py --fix [ids]  remake songs whose singer skipped lyric lines (tools/songs/lyricsync.py)
+     python tools/songs/make_song.py --fix [ids] [--tries=6]  remake songs whose singer skipped lyric lines (tools/songs/lyricsync.py)
      --melody / --instrumental: sing on our melody guide (tools/songs/melody.py) / backing track only
 
-lagu.json: {"title", "style" (a STYLES key), "lyrics" ([Verse 1] / [Chorus] ... sections), optional "bpm", "duration", "voice"}.
+lagu.json: {"title", "style" (a STYLES key), "lyrics" ([Verse 1] / [Chorus] ... sections), optional "bpm", "duration", "voice",
+  "sung": {"shown text": "singer-only spelling"} e.g. petroleum -> pe-tro-le-um (the screen keeps the real spelling)}.
 Pronunciation: sebutan baku — lyrics sung exactly as spelt. Listen before shipping: a bad take is regenerated with
 python tools/songs/make_song.py games/<id> (it overwrites). Decisions: male voice, genre styles (naming a folk tune sounded odd)."""
 import base64, json, os, re, subprocess, sys, time, urllib.error, urllib.request
@@ -118,6 +119,8 @@ def generate(arg, voice=None, style=None, draft=False, melody=False, instrumenta
                              **({"instrumental": True} if instrumental else {})}}
     if not instrumental:
         body["lyrics"] = song["lyrics"]  # with `lyrics` set, the message text is the style caption
+        for shown, sing in song.get("sung", {}).items():  # singer-only spelling for a word the AI mispronounces
+            body["lyrics"] = body["lyrics"].replace(shown, sing)
     content = caption
     if melody:  # sing over our own melody guide (ACE-Step cover): keeps a tune we wrote out
         guide = os.path.join(ROOT, "songs_draft", gid, "melodi.wav")
@@ -142,6 +145,8 @@ def generate(arg, voice=None, style=None, draft=False, melody=False, instrumenta
         bad = problems(raw, song) if not instrumental else []
         if not bad and not instrumental:  # did the singer sing every lyric line? (tools/songs/lyricsync.py)
             import lyricsync
+            # check the exact file that ships: Whisper hears the 80 kbps version slightly differently from the raw take
+            enc = raw[:-4] + ".80k.mp3"; encode(raw, enc); raw = enc
             miss, aligned = lyricsync.check(gid, path=raw, quiet=True) if not arg.endswith(".json") else ([], [])
             if best is None or len(miss) < len(best[0]):
                 best = (miss, raw, aligned)
@@ -160,7 +165,10 @@ def generate(arg, voice=None, style=None, draft=False, melody=False, instrumenta
         print(f"  kept the current song: best new take still misses {len(miss)} line(s)", flush=True)
         return None
     dst = os.path.join(ROOT, "games", gid, "assets", "lagu.mp3")
-    encode(raw, dst)
+    if raw.endswith(".80k.mp3"):
+        import shutil; shutil.copyfile(raw, dst)  # already encoded and checked as-is
+    else:
+        encode(raw, dst)
     p = os.path.join(ROOT, "games", gid, "assets", "lagu.json"); cur = json.load(open(p, encoding="utf-8"))
     if miss:  # no line times when lines are missing: the sing-along falls back to proportional scrolling
         cur.pop("sync", None); print(f"  WARNING kept best take with {len(miss)} line(s) not sung — listen to it: {miss}", flush=True)
@@ -228,7 +236,7 @@ if __name__ == "__main__":
                 lyricsync.check(gid, write=True, quiet=True); print(f"{gid}: every line sung", flush=True); continue
             print(f"{gid}: {len(miss)} line(s) not sung -> remaking", flush=True)
             try:
-                generate("games/" + gid, keep_if_missing=len(miss))
+                generate("games/" + gid, keep_if_missing=len(miss), tries=int(opt("tries") or 6))
             except Exception as e:
                 print("  FAILED:", e, flush=True)
             if lyricsync.check(gid, quiet=True)[0]:
