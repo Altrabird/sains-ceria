@@ -2,7 +2,11 @@
 
   1. free API key: https://acemusic.ai/api-key (sign up), then set it once in your shell — never commit it:
        PowerShell:  $env:ACEMUSIC_API_KEY = "..."      Git Bash:  export ACEMUSIC_API_KEY=...
-  2. python tools/songs/make_song.py games/T1-U07-magnet [n]   -> songs_draft/<id>/lagu_<n>.mp3 (n takes, default 1: the cloud returns one per request)
+  2. python tools/songs/make_song.py games/T1-U07-magnet [voice]   -> songs_draft/<id>/lagu_<voice>_<time>.mp3 (one take per run)
+     voice = a key of "voices" in lagu.json (female / male), filled into {voice} in the caption.
+
+Accent: Malay sung as written sounds Indonesian (full final -a). lagu.json "sung" = the lyrics spelt as Malaysians say them
+(kita -> kite, nama -> name); "lyrics" stays correctly spelt for the pupils' screen.
 
 Listen to every take: Malay vocals can drift to Indonesian pronunciation. Copy the good one to games/<id>/assets/lagu.mp3.
 (A local ACE-Step server works too: ACESTEP_API=http://127.0.0.1:8001 — same endpoint.)"""
@@ -13,14 +17,14 @@ KEY = os.environ.get("ACEMUSIC_API_KEY", "")
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 
 
-def main(game, n=2):
+def main(game, voice="female"):
     gid = os.path.basename(os.path.normpath(game))
     song = json.load(open(os.path.join(ROOT, "games", gid, "assets", "lagu.json"), encoding="utf-8"))
     if not KEY and "acemusic.ai" in API:
         sys.exit("set ACEMUSIC_API_KEY first (free key: https://acemusic.ai/api-key)")
     body = {
-        "messages": [{"role": "user", "content": song["caption"]}],   # with `lyrics` set, the message is the style caption
-        "lyrics": song["lyrics"], "batch_size": n,
+        "messages": [{"role": "user", "content": song["caption"].replace("{voice}", song.get("voices", {}).get(voice, voice))}],  # = style caption
+        "lyrics": song.get("sung") or song["lyrics"], "batch_size": 1,
         "use_cot_caption": False,     # keep our caption as written
         "use_cot_language": False,    # never let it guess the language (Indonesian is the risk)
         "audio_config": {"vocal_language": "ms", "duration": song.get("duration"), "bpm": song.get("bpm"), "format": "mp3"},
@@ -28,7 +32,7 @@ def main(game, n=2):
     req = urllib.request.Request(API + "/v1/chat/completions", json.dumps(body).encode("utf-8"),
                                  {"Content-Type": "application/json; charset=utf-8", "User-Agent": "sains-ceria/1",
                                   **({"Authorization": "Bearer " + KEY} if KEY else {})})
-    print(f"generating {n} takes of {song.get('title', gid)} ...")
+    print(f"generating {song.get('title', gid)} ({voice}) ...")
     t0 = time.time()
     try:
         with urllib.request.urlopen(req, timeout=900) as r:
@@ -41,7 +45,7 @@ def main(game, n=2):
     out = os.path.join(ROOT, "songs_draft", gid); os.makedirs(out, exist_ok=True)
     stamp = time.strftime("%m%d-%H%M%S")
     for i, a in enumerate(audio, 1):
-        dst = os.path.join(out, f"lagu_{stamp}_{i}.mp3")
+        dst = os.path.join(out, f"lagu_{voice}_{stamp}.mp3")
         with open(dst, "wb") as f:
             f.write(base64.b64decode(a["audio_url"]["url"].split(",", 1)[1]))
         print("saved", os.path.relpath(dst, ROOT))
@@ -49,4 +53,4 @@ def main(game, n=2):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 1)
+    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "female")

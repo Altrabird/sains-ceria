@@ -1,8 +1,10 @@
 {
-  "_doc": "Lagu unit (SP 7.1.1-7.1.6). Draf: python tools/songs/make_song.py games/T1-U07-magnet -> songs_draft/. Semak sebutan bahasa Melayu Malaysia sebelum guna.",
+  "_doc": "Lagu unit (SP 7.1.1-7.1.6). Draf: python tools/songs/make_song.py games/T1-U07-magnet female|male -> songs_draft/. lyrics = ejaan betul (dipaparkan kepada murid); sung = ejaan sebutan Malaysia untuk penyanyi AI (akhiran -a dibaca 'e': kita -> kite), supaya tidak berbunyi Indonesia.",
   "title": "Lagu Magnet",
-  "caption": "cheerful children's educational song, Malaysian Malay lyrics, bright clear female vocal with kids choir on chorus, ukulele, glockenspiel, hand claps, light drums, upbeat bouncy pop, simple catchy melody, major key",
-  "bpm": 118,
-  "duration": 80,
-  "lyrics": "[Verse 1]\nMagnet bar, magnet ladam\nBentuk U, butang, cincin\nAda juga yang silinder\nNamanya ikut bentuknya!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kita uji!\n\n[Verse 2]\nKutub utara, kutub selatan\nKutub berlainan tarik-menarik\nKutub yang sama tolak-menolak\nDekatkan, lihat, cuba fikir!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kita uji!\n\n[Outro]\nPeti sejuk, tanda nama\nMagnet berguna setiap hari!"
+  "caption": "slow gentle Malaysian children's song, sung in Malay with a Malaysian accent (not Indonesian), {voice}, simple repetitive nursery-rhyme melody with few notes, easy for 7-year-olds to sing along, soft acoustic guitar, glockenspiel, light hand claps, warm and cheerful, major key, clear slow diction",
+  "voices": { "female": "warm clear female voice, Malaysian kindergarten teacher", "male": "friendly clear male voice, Malaysian primary school teacher" },
+  "bpm": 88,
+  "duration": 95,
+  "lyrics": "[Verse 1]\nMagnet bar, magnet ladam\nBentuk U, butang, cincin\nAda juga yang silinder\nNamanya ikut bentuknya!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kita uji!\n\n[Verse 2]\nKutub utara, kutub selatan\nKutub berlainan tarik-menarik\nKutub yang sama tolak-menolak\nDekatkan, lihat, cuba fikir!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kita uji!\n\n[Outro]\nPeti sejuk, tanda nama\nMagnet berguna setiap hari!",
+  "sung": "[Verse 1]\nMagnet bar, magnet ladam\nBentuk U, butang, cincin\nAde juge yang silinder\nNamenye ikut bentuknye!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kite uji!\n\n[Verse 2]\nKutub utare, kutub selatan\nKutub berlainan tarik-menarik\nKutub yang same tolak-menolak\nDekatkan, lihat, cube fikir!\n\n[Chorus]\nMagnet, magnet, tarik, tarik!\nPaku, skru, klip, kunci besi\nPensel, guli, pemadam tidak\nMagnet hebat, jom kite uji!\n\n[Outro]\nPeti sejuk, tande name\nMagnet berguna setiap hari!"
 }
