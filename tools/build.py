@@ -26,19 +26,29 @@ def games():
     return {g["id"]: g for g in listed}
 
 
-def stage(out, ids):
+# Lagu Sains (unit songs) are a web-only feature: the APKs ship without them (smaller app, a reason to visit the site)
+NOSONG = shutil.ignore_patterns("tools", "blender", "viewer", "build", "*.test.mjs", "*.py", "*.blend*", "__pycache__", "lagu.mp3", "lagu.json")
+
+
+def stage(out, ids, songs=True):
     shutil.rmtree(out, ignore_errors=True)
     shutil.copytree(os.path.join(ROOT, "shared"), os.path.join(out, "shared"), ignore=SKIP)
     for gid in ids:
-        shutil.copytree(os.path.join(ROOT, "games", gid), os.path.join(out, "games", gid), ignore=SKIP)
+        shutil.copytree(os.path.join(ROOT, "games", gid), os.path.join(out, "games", gid), ignore=SKIP if songs else NOSONG)
 
 
 HUB = ("index.html", "lagu.html", "games.json", "manifest.webmanifest", "sw.js")
 
 
-def stage_hub(out):
+def stage_hub(out, songs=True):
     for f in HUB:
-        shutil.copy(os.path.join(ROOT, f), out)
+        if songs or f != "lagu.html":
+            shutil.copy(os.path.join(ROOT, f), out)
+    if not songs:  # no "song" in games.json -> no song card, no 🎵 badge, no Lagu Sains button in the app
+        listed = json.load(open(os.path.join(ROOT, "games.json"), encoding="utf-8"))
+        for g in listed:
+            g.pop("song", None)
+        open(os.path.join(out, "games.json"), "w", encoding="utf-8").write(json.dumps(listed, ensure_ascii=False, indent=2))
     shutil.copytree(os.path.join(ROOT, "icons"), os.path.join(out, "icons"))
 
 
@@ -64,7 +74,7 @@ def gradle(app_id, name, dst):
 def apk(gid):
     g = games()[gid]
     out = os.path.join(ROOT, "dist", "apk")
-    stage(out, [gid])
+    stage(out, [gid], songs=False)
     # app opens straight into the game (a file path: Capacitor answers bare folder URLs with the root index -> loop); the game's "Semua permainan" link lands back here -> back into the game
     open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(
         f'<!doctype html><meta charset="utf-8"><script>location.replace("/games/{gid}/index.html")</script>')
@@ -75,8 +85,8 @@ def apk(gid):
 
 def apk_hub():
     out = os.path.join(ROOT, "dist", "apk")
-    stage(out, games())
-    stage_hub(out)  # the hub is the app's start page; every game's 🏠 goes back to it
+    stage(out, games(), songs=False)
+    stage_hub(out, songs=False)  # the hub is the app's start page; every game's 🏠 goes back to it
     gradle("my.sains.hub", "Sains Ceria", os.path.join(ROOT, "dist", "Sains-Ceria.apk"))
 
 
