@@ -39,3 +39,55 @@
   -webkit-mask:radial-gradient(circle, transparent 19px, #000 20px); mask:radial-gradient(circle, transparent 19px, #000 20px); }
 #hnIcon { position:fixed; z-index:1002; font-size:26px; margin:-17px 0 0 -13px; pointer-events:none; text-shadow:0 1px 4px #0006; }
 @media (max-width:600px) { #hnCam { width:110px; } }
+
+/* ---- unit songs (shared/lagu.js): song card on a game's menu page and on lagu.html, full-screen sing-along */
+.song { --c:var(--blue); position:relative; padding:18px; border-radius:24px; background:linear-gradient(135deg, color-mix(in srgb, var(--c) 16%, #fff), #fff 70%);
+  border:2px solid color-mix(in srgb, var(--c) 30%, var(--line)); border-bottom-width:5px; box-shadow:var(--shadow); overflow:hidden; }
+.song .srow { display:flex; align-items:center; gap:16px; }
+.song .splay { flex:none; width:72px; height:72px; border-radius:50%; border:0; background:var(--c); color:#fff; font:700 26px var(--head); cursor:pointer;
+  box-shadow:0 5px 0 color-mix(in srgb, var(--c) 65%, #000), 0 10px 22px color-mix(in srgb, var(--c) 40%, transparent); transition:transform .1s; }
+.song .splay:active { transform:translateY(3px); box-shadow:0 2px 0 color-mix(in srgb, var(--c) 65%, #000); }
+.song .splay { position:relative; }
+.song.on .splay::after { content:''; position:absolute; inset:-7px; border-radius:50%; border:3px solid var(--c); animation:ring 1.6s ease-out infinite; pointer-events:none; }
+@keyframes ring { from { transform:scale(.9); opacity:.9; } to { transform:scale(1.25); opacity:0; } }
+.song .sinfo { flex:1; min-width:0; display:flex; flex-direction:column; gap:5px; }
+.song .spill { align-self:flex-start; font:600 12px var(--head); padding:3px 10px; border-radius:999px; background:#fff; color:color-mix(in srgb, var(--c) 75%, #000); }
+.song .stitle { font:700 22px/1.15 var(--head); }
+.song .sbar, #singAlong .sbar { height:10px; border-radius:10px; background:#fff; border:2px solid var(--line); overflow:hidden; cursor:pointer; }
+.song .sbar i, #singAlong .sbar i { display:block; width:0; height:100%; background:var(--c); border-radius:10px; }
+.song .stime { color:var(--muted); font:600 12px var(--head); }
+.song .eq { flex:none; display:flex; align-items:flex-end; gap:4px; height:40px; opacity:.25; transition:opacity .3s; }
+.song .eq i { width:6px; height:30%; border-radius:3px; background:var(--c); }
+.song.on .eq { opacity:1; } .song.on .eq i { animation:eq .9s ease-in-out infinite; }
+.song .eq i:nth-child(2) { animation-delay:-.3s !important; } .song .eq i:nth-child(3) { animation-delay:-.6s !important; }
+.song .eq i:nth-child(4) { animation-delay:-.15s !important; } .song .eq i:nth-child(5) { animation-delay:-.45s !important; }
+@keyframes eq { 0%,100% { height:20%; } 50% { height:100%; } }
+.song .sacts { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.song .slyrics { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:12px; }
+.ls { padding:12px 14px; border-radius:16px; background:#fff; border:2px solid var(--line); }
+.ls .lt { display:inline-block; font:700 11px var(--head); letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.ls p { margin:2px 0; font:600 15px/1.45 var(--text); }
+.ls.chorus { background:color-mix(in srgb, var(--c) 14%, #fff); border-color:color-mix(in srgb, var(--c) 45%, #fff); }
+.ls.chorus .lt { color:color-mix(in srgb, var(--c) 75%, #000); }
+.song.compact { padding:14px; } .song.compact .splay { width:56px; height:56px; font-size:20px; } .song.compact .stitle { font-size:18px; }
+.song.compact .eq { height:30px; }
+@media (max-width:560px) { .song .eq { display:none; } .song .splay { width:60px; height:60px; } .song .stitle { font-size:19px; } }
+#singAlong { --c:var(--blue); position:fixed; inset:0; z-index:950; display:flex; flex-direction:column; color:#fff; overflow:hidden;
+  background:radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--c) 70%, #fff), var(--c) 45%, color-mix(in srgb, var(--c) 55%, #000)); }
+#singAlong header { display:flex; align-items:center; gap:12px; padding:max(12px, env(safe-area-inset-top)) 18px 10px; font:700 clamp(18px, 3vw, 28px) var(--head); }
+#singAlong header b { flex:1; min-width:0; text-shadow:0 2px 6px #0004; }
+#singAlong .splay { width:58px; height:58px; border-radius:50%; border:0; background:#fff; color:var(--c); font:700 22px var(--head); cursor:pointer; box-shadow:0 4px 0 #0003; }
+#singAlong .sx { width:52px; height:52px; border-radius:50%; border:3px solid #fff8; background:#fff2; color:#fff; font:700 22px var(--head); cursor:pointer; }
+#singAlong .sscroll { flex:1; overflow:auto; padding:0 6vw; text-align:center; scrollbar-width:none;
+  -webkit-mask:linear-gradient(transparent, #000 18%, #000 78%, transparent); mask:linear-gradient(transparent, #000 18%, #000 78%, transparent); }
+#singAlong .pad { height:38vh; }
+#singAlong .ls { background:none; border:0; padding:10px 0 26px; }
+#singAlong .ls .lt { color:#fffb; font-size:14px; }
+#singAlong .ls p { font:700 clamp(26px, 5vw, 54px)/1.25 var(--head); text-shadow:0 3px 10px #0004; margin:6px 0; }
+#singAlong .ls.chorus p { color:#fff7c2; }
+#singAlong .sbar { margin:0 18px max(14px, env(safe-area-inset-bottom)); border-color:#fff6; background:#fff3; } #singAlong .sbar i { background:#fff; }
+#singAlong .notes i { position:absolute; bottom:-60px; font-style:normal; font-size:40px; color:#fff5; animation:float 9s linear infinite; }
+#singAlong .notes i:nth-child(1) { left:6%; } #singAlong .notes i:nth-child(2) { left:22%; animation-delay:-3s; font-size:30px; }
+#singAlong .notes i:nth-child(3) { left:44%; animation-delay:-6s; } #singAlong .notes i:nth-child(4) { left:63%; animation-delay:-1.5s; font-size:52px; }
+#singAlong .notes i:nth-child(5) { left:80%; animation-delay:-4.5s; } #singAlong .notes i:nth-child(6) { left:93%; animation-delay:-7.5s; font-size:28px; }
+@keyframes float { to { transform:translateY(-115vh) rotate(25deg); } }

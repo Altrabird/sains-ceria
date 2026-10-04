@@ -53,6 +53,11 @@
     <div class="scroll"><table id="levels"></table></div>
     <p class="note">Completion = finished ÷ started. "Stuck at" = the step most pupils left on (step 0 = left before the first step). Times in minutes:seconds. Red = under 50% completion with 5+ starts.</p>
   </section>
+  <section class="card">
+    <h2>Most played songs</h2>
+    <div class="scroll"><table id="songs"></table></div>
+    <p class="note">A play = a song started (once per page visit). "Game page" = played from the unit's menu, "Songs page" = from Lagu Sains.</p>
+  </section>
   <div class="two">
     <section class="card"><h2>Plays by year</h2><div class="hb" id="years"></div></section>
     <section class="card"><h2>How pupils play</h2><div class="hb" id="inputs"></div></section>
@@ -116,6 +121,12 @@ function table(el, rows, colsDef, sortKey, desc = true) {
     ['Levels started', 'starts', g => `<span class="m" style="width:${g.starts / maxStarts * 80}px"></span>${fmt(g.starts)}`], ['Finished', 'done', g => fmt(g.done)],
     ['Completion', 'rate', g => pct(g.done, g.starts)], ['Median time', 'medT', g => mmss(g.medT)], ['Visitors', 'devices', g => fmt(g.devices)], ['Menu opens', 'opens', g => fmt(g.opens)]];
   const drawGames = () => table($('games'), gRows(), gCols, 'starts'); $('yearF').onchange = drawGames; drawGames();
+
+  // songs
+  const maxPlays = Math.max(1, ...(S.songs || []).map(x => x.plays));
+  table($('songs'), S.songs || [], [['Song', 'song', x => `<b>${esc(x.song || x.title)}</b><br><small class="note">${x.year ? 'T' + x.year + ' · ' : ''}${esc(x.title)}</small>`, 1],
+    ['Plays', 'plays', x => `<span class="m" style="width:${x.plays / maxPlays * 80}px"></span>${fmt(x.plays)}`], ['Visitors', 'devices', x => fmt(x.devices)],
+    ['Game page', 'fromMenu', x => fmt(x.fromMenu)], ['Songs page', 'fromSongs', x => fmt(x.fromSongs)]], 'plays');
 
   // levels
   const lRows = S.levels.map(l => { const q = Object.entries(l.quitAt).sort((a, b) => b[1] - a[1])[0];

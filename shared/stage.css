@@ -14,6 +14,7 @@ html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font
 #menu h1 { margin:0; font:700 clamp(28px, 4vw, 40px)/1.1 var(--head); }
 #menu .meta { display:flex; gap:12px; align-items:center; color:var(--muted); font:600 15px var(--head); }
 #menu .meta .stars { font-size:20px; }
+#songBox { margin-top:18px; }
 #menu .intro { margin-top:18px; color:var(--muted); line-height:1.55; }
 #menu h2 { margin-top:24px; margin-bottom:12px; font:700 22px var(--head); }
 .list { display:flex; flex-direction:column; gap:10px; }

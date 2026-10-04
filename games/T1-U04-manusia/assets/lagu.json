@@ -1,12 +1,6 @@
 {
-  "_doc": "Lagu unit Deria (DSKP hlm. 38). Baris 1,2,4: 3+2+2+2+2+2 suku kata (Ke-pa-la, ba-hu, lu-tut, ka-ki, lu-tut, ka-ki); baris 3: 9 suku kata (Ma-ta, te-li-nga, mu-lut, hi-dung). Gaya: --style=tadika|joget (tools/songs/make_song.py STYLES). Sebutan baku.",
   "title": "Lihat, Dengar, Hidu, Rasa",
-  "caption": "slow gentle Malaysian children's song, {style}, sung in standard Malaysian Malay (sebutan baku), clear Malaysian diction, not Indonesian, {voice}, easy for 7-year-olds to sing along, warm and cheerful, major key",
-  "voices": {
-    "female": "warm clear female voice, Malaysian kindergarten teacher",
-    "male": "friendly clear male voice, Malaysian primary school teacher"
-  },
-  "bpm": 84,
-  "duration": 85,
-  "lyrics": "[Verse 1]\nLihatlah, dengar, hidu, rasa, hidu, rasa\nLihatlah, dengar, hidu, rasa, hidu, rasa\nMata, telinga, hidung, lidah\nLihatlah, dengar, hidu, rasa, sentuh, sentuh!\n\n[Verse 2]\nMatanya warna, saiz, bentuk, saiz, bentuk\nTelinga bunyi, hidung bau, hidung bau\nLidahnya rasa manis, masam\nKulitnya kasar, licin, lembut, keras, sentuh!\n\n[Verse 3]\nCermin mata bantu lihat, bantu lihat\nAlat bantu, bantu dengar, bantu dengar\nGelap-gelita, guna sentuh\nDeria lain boleh bantu, boleh bantu!"
+  "style": "tadika",
+  "lyrics": "[Verse 1]\nLihatlah, dengar, hidu, rasa, hidu, rasa\nLihatlah, dengar, hidu, rasa, hidu, rasa\nMata, telinga, hidung, lidah\nLihatlah, dengar, hidu, rasa, sentuh, sentuh!\n\n[Verse 2]\nMatanya warna, saiz, bentuk, saiz, bentuk\nTelinga bunyi, hidung bau, hidung bau\nLidahnya rasa manis, masam\nKulitnya kasar, licin, lembut, keras, sentuh!\n\n[Verse 3]\nCermin mata bantu lihat, bantu lihat\nAlat bantu, bantu dengar, bantu dengar\nGelap-gelita, guna sentuh\nDeria lain boleh bantu, boleh bantu!",
+  "duration": 85
 }

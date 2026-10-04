@@ -20,6 +20,9 @@ def games():
     dirs = sorted(d for d in os.listdir(os.path.join(ROOT, "games")) if os.path.isfile(os.path.join(ROOT, "games", d, "index.html")))
     if sorted(ids) != dirs:
         sys.exit(f"games.json {sorted(ids)} != games/ folders {dirs}")
+    nosong = [g["id"] for g in listed if g.get("song") and not all(os.path.isfile(os.path.join(ROOT, "games", g["id"], "assets", f)) for f in ("lagu.mp3", "lagu.json"))]
+    if nosong:  # games.json "song" is written by tools/songs/make_song.py; the hub and lagu.html trust it
+        sys.exit(f"games.json lists a song but lagu.mp3/lagu.json is missing: {nosong}")
     return {g["id"]: g for g in listed}
 
 
@@ -30,7 +33,7 @@ def stage(out, ids):
         shutil.copytree(os.path.join(ROOT, "games", gid), os.path.join(out, "games", gid), ignore=SKIP)
 
 
-HUB = ("index.html", "games.json", "manifest.webmanifest", "sw.js")
+HUB = ("index.html", "lagu.html", "games.json", "manifest.webmanifest", "sw.js")
 
 
 def stage_hub(out):

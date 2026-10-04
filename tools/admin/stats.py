@@ -65,6 +65,7 @@ def summarize(evs, games, now=None):
     platform, kind, inputs = Counter(), Counter(), Counter()
     cam = {"levels": 0, "denied": 0, "weak": 0, "det": [], "fps": [], "res": Counter()}
     heat = defaultdict(Counter)
+    songs = defaultdict(lambda: {"plays": 0, "devices": set(), "where": Counter()})
     for e in evs:
         t, k, g, l = e["_t"], e["e"], e.get("g"), e.get("l")
         day = days[t.date().isoformat()]
@@ -81,6 +82,8 @@ def summarize(evs, games, now=None):
             L[g, l]["stepT"][num(e, "i")].append(num(e, "t"))
         elif k == "r":
             L[g, l]["resets"] += 1
+        elif k == "s":  # a song started (shared/lagu.js); p = menu (game page) or lagu (Lagu Sains page)
+            songs[g]["plays"] += 1; songs[g]["devices"].add(e["d"]); songs[g]["where"][e.get("p", "")] += 1
         elif k in ("ld", "q"):
             lv, tt = L[g, l], num(e, "t")
             im, it, ih = num(e, "im"), num(e, "it"), num(e, "ih")
@@ -131,6 +134,9 @@ def summarize(evs, games, now=None):
                    "starts": sum(g["starts"] for g in games_out), "done": sum(g["done"] for g in games_out)},
         "daily": daily, "hours": hours, "weekdays": weekdays, "years": {str(k): v for k, v in sorted(years.items())},
         "games": games_out, "levels": levels_out,
+        "songs": sorted(({"id": g, "title": title(g), "song": meta.get(g, {}).get("song", ""), "year": meta.get(g, {}).get("year"),
+                          "plays": v["plays"], "devices": len(v["devices"]), "fromMenu": v["where"]["menu"], "fromSongs": v["where"]["lagu"]}
+                         for g, v in songs.items() if g), key=lambda r: -r["plays"]),
         "platform": dict(platform), "devices": dict(kind), "inputs": dict(inputs),
         "camera": {"levels": cam["levels"], "denied": cam["denied"], "weak": cam["weak"], "medDet": med(cam["det"]), "medFps": med(cam["fps"]),
                    "lowFps": sum(f < 12 for f in cam["fps"]), "res": dict(cam["res"].most_common(8))},
@@ -148,8 +154,10 @@ def selftest():
            f"{T}\te=ls&d=b&s=2&p=lvl&g=G1&l=L1\tWindows",
            f"{T}\te=q&d=b&s=2&p=lvl&g=G1&l=L1&i=1&t=90&c=no\tWindows",
            f"{T}\te=c&d=b&s=2&p=hub&x=0.5&y=0.21&w=1280\tWindows",
+           f"{T}\te=s&d=b&s=2&g=G1&p=lagu\tWindows",
            "garbage line", f"{T}\tno-event\tx"]
-    s = summarize(filter(None, map(parse, log)), [{"id": "G1", "title": "Magnet", "year": 1}], datetime(2026, 10, 5, 20, tzinfo=MYT))
+    s = summarize(filter(None, map(parse, log)), [{"id": "G1", "title": "Magnet", "year": 1, "song": "Paku Oh Paku"}], datetime(2026, 10, 5, 20, tzinfo=MYT))
+    assert s["songs"] == [{"id": "G1", "title": "Magnet", "song": "Paku Oh Paku", "year": 1, "plays": 1, "devices": 1, "fromMenu": 0, "fromSongs": 1}], s["songs"]
     assert s["totals"] == {"devices": 2, "devices7": 2, "devicesToday": 2, "returning": 0, "sessions": 2, "views": 2, "starts": 2, "done": 1}, s["totals"]
     lv = s["levels"][0]
     assert (lv["starts"], lv["done"], lv["quits"], lv["medT"], lv["quitAt"], lv["stepT"]) == (2, 1, 1, 40, {1: 1}, {1: 20}), lv

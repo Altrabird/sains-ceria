@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lagu Sains · Sains Ceria</title>
+<meta name="theme-color" content="#fff8ee">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="shared/theme.css">
+<style>
+  body { margin:0; background:var(--bg); color:var(--ink); font:600 16px/1.4 var(--text); }
+  .nav { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:12px; padding:max(10px, env(safe-area-inset-top)) 16px 10px;
+    background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(8px); border-bottom:2px solid var(--line); }
+  .logo { display:flex; align-items:center; gap:10px; font:700 22px var(--head); color:var(--ink); white-space:nowrap; text-decoration:none; }
+  .logo img { width:40px; height:40px; border-radius:12px; box-shadow:0 3px 8px #0002; }
+  .logo span b { color:var(--green); }
+  .nav .btn { margin-left:auto; }
+  main { max-width:1180px; margin:0 auto; padding:20px 16px 110px; }
+  .hero { position:relative; display:flex; align-items:center; gap:22px; padding:26px 28px; border-radius:28px; overflow:hidden; color:#fff;
+    background:linear-gradient(135deg, #8b5cf6 0%, #ff6fae 55%, #ff9600 100%); box-shadow:var(--shadow); }
+  .hero .disc { flex:none; font-size:84px; line-height:1; animation:bob 2.6s ease-in-out infinite; filter:drop-shadow(0 8px 10px #0003); }
+  @keyframes bob { 50% { transform:translateY(-6px) rotate(-6deg); } }
+  .hero h1 { margin:0 0 6px; font:700 clamp(28px, 4.5vw, 44px)/1.1 var(--head); text-shadow:0 3px 8px #0003; }
+  .hero p { margin:0 0 14px; max-width:620px; opacity:.95; }
+  .hero .row { display:flex; gap:10px; flex-wrap:wrap; }
+  .hero .n { display:inline-flex; align-items:center; gap:6px; background:#ffffff33; border-radius:14px; padding:8px 14px; font:600 15px var(--head); }
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; margin:22px 0 4px; }
+  .tabs button { border:2px solid var(--line); border-bottom-width:4px; border-radius:999px; padding:8px 16px; background:var(--surface); color:var(--ink); font:600 15px var(--head); cursor:pointer; }
+  .tabs button[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+  section.year { margin-top:30px; }
+  .yh { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .yh .badge { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--c); color:#fff; font:700 22px var(--head); box-shadow:0 4px 0 color-mix(in srgb, var(--c) 70%, #000); }
+  .yh h2 { margin:0; font:700 24px var(--head); }
+  .yh .btn { margin-left:auto; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px; }
+  .cell { display:flex; flex-direction:column; gap:6px; }
+  .cell .go { align-self:flex-end; color:var(--muted); font:600 13px var(--head); text-decoration:none; padding:4px 6px; }
+  .cell .go:hover { color:var(--ink); }
+  .song.now { outline:4px solid var(--c); outline-offset:3px; }
+  .empty { color:var(--muted); }
+  footer { margin-top:44px; text-align:center; color:var(--muted); font:500 14px var(--head); }
+  @media (max-width:600px) { .logo span { display:none; } .hero { flex-direction:column; text-align:center; padding:22px 18px; } .hero .row { justify-content:center; }
+    .hero .disc { font-size:64px; } .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="nav"><a class="logo" href="index.html"><img src="icons/icon-192.png" alt=""><span>Sains <b>Ceria</b></span></a>
+  <a class="btn" href="index.html">⌂ Semua permainan</a></div>
+<main>
+  <section class="hero"><div class="disc" aria-hidden="true">🎵</div>
+    <div><h1>Lagu Sains</h1>
+      <p>Satu lagu untuk setiap unit. Dengar, nyanyi bersama dan ingat fakta sains dengan mudah! Tekan 🎤 <b>Mod nyanyi</b> untuk lirik besar di skrin.</p>
+      <div class="row"><button id="all" class="btn green big">▶ Main semua</button><span class="n" id="count"></span></div></div></section>
+  <div class="tabs" id="tabs" role="toolbar" aria-label="Pilih tahun"></div>
+  <div id="list"></div>
+  <footer>Lagu dihasilkan dengan ACE-Step (AI) · lirik berdasarkan DSKP Sains KSSR</footer>
+</main>
+<script type="module">
+import { songCard } from './shared/lagu.js';
+import { track, trackTaps } from './shared/track.js';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const games = (await (await fetch('games.json')).json()).filter(g => g.song);
+const years = [...new Set(games.map(g => g.year))].sort();
+$('count').textContent = `🎶 ${games.length} lagu`;
+
+// one section per year; every card is one song (cards[] keeps page order for "Main semua")
+const cards = []; let queue = null;
+$('list').innerHTML = years.map(y => `<section class="year" data-y="${y}" style="--c:var(--y${y})"><div class="yh"><span class="badge">${y}</span><h2>Tahun ${y}</h2>
+  <button class="btn" data-play="${y}">▶ Main semua Tahun ${y}</button></div><div class="grid" id="g${y}"></div></section>`).join('') || '<p class="empty">Belum ada lagu.</p>';
+for (const g of games) {
+  const cell = document.createElement('div'); cell.className = 'cell';
+  cell.innerHTML = `<div></div><a class="go" href="games/${g.id}/index.html">${g.unit ? 'Unit ' + g.unit + ' · ' : ''}${esc(g.title)} — main permainan →</a>`;
+  $('g' + g.year).append(cell);
+  const i = cards.length; cards.push(null);
+  songCard(cell.firstChild, { base: `games/${g.id}/assets/`, gid: g.id, color: `var(--y${g.year})`, compact: true,
+    sub: `Tahun ${g.year}${g.unit ? ' · Unit ' + g.unit : ''}`, onEnded: () => next(i) }).then(c => { cards[i] = c && { ...c, el: cell.firstChild, year: g.year }; });
+}
+// playlist: play cards in order (optionally only one year); the playing card is outlined and scrolled into view
+function start(list) { queue = list; playAt(0); }
+function playAt(k) {
+  document.querySelector('.song.now')?.classList.remove('now');
+  const c = queue && queue[k]; if (!c) { queue = null; return; }
+  c.el.classList.add('now'); c.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); c.play();
+}
+function next(i) { if (!queue) return; const k = queue.findIndex(c => c === cards[i]); if (k >= 0) playAt(k + 1); }
+$('all').onclick = () => start(cards.filter(Boolean));
+$('list').addEventListener('click', e => { const y = e.target.closest('[data-play]')?.dataset.play; if (y) start(cards.filter(c => c && String(c.year) === y)); });
+// year filter
+$('tabs').innerHTML = ['Semua', ...years].map((y, i) => `<button aria-pressed="${i === 0}" data-y="${i ? y : ''}">${i ? 'Tahun ' + y : 'Semua'}</button>`).join('');
+$('tabs').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+  $('tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  document.querySelectorAll('section.year').forEach(s => s.hidden = !!b.dataset.y && s.dataset.y !== b.dataset.y); };
+track('v', { p: 'lagu' }); trackTaps({ p: 'lagu' });
+import('./shared/handnav.js').then(m => m.handNav());  // ☝️ hold = press, ✌️ up/down = scroll
+</script>
+</body>
+</html>

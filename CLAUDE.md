@@ -20,6 +20,7 @@ shared/                  engine used by every game
   hands.js               MediaPipe hand landmarks -> gestures (point-hold, two-finger grab, wave, palm reset); TUNE knobs
                          + WEAK profile ("📷 Kamera lemah" chip, sains.weakcam), lost-hand grace, auto-brightness, camera picker
   track.js               anonymous beacons -> nginx /b -> tools/admin/stats.py -> /admin/ dashboard (off on localhost: window.__ev)
+  lagu.js + theme.css    unit song card (play/seek/lyrics/🎤 sing-along) on a game's menu page and lagu.html (all songs)
   guide.js               StepTracker (self-ticking steps) + GuidePanel + Malay mp3 narration (assets/audio/ of the page)
   blender/lib.py         bpy helpers (mat, box, cyl, ...) for asset build scripts
   vendor/                three r160, MindAR 1.2.5, MediaPipe tasks-vision — offline, never use a CDN
@@ -33,6 +34,8 @@ games/T1-U01-kemahiran-saintifik/  TEMPLATE for new units: index.html (10 lines)
 games/T2-amali/          the first project (Rekod Amali T2, 12 amali, MindAR cards) — predates stage.js, has its own copy
 tools/build.py           `web` -> dist/web for the VPS; `apk <id>` -> games/<id>/build/<id>.apk
 tools/deploy.sh          DEPLOY=user@host:/path sh tools/deploy.sh
+tools/songs/             unit songs: lyrics_all.py (ALL lyrics, source of truth) -> games/<id>/assets/lagu.json;
+                         make_song.py (acemusic.ai ACE-Step cloud, key in env ACEMUSIC_API_KEY) -> assets/lagu.mp3 + games.json "song"
 tools/admin/             analytics: install.sh <user@host> (nginx log, logrotate, cron, admin password), stats.py (--selftest), index.html
 android/                 Capacitor project (patched: CAMERA permission, -PappId/-PappName per game)
 ```
@@ -52,7 +55,9 @@ Order: year by year, unit by unit (T1 U1 -> T6 U10). Each unit card lists DSKP s
 3. Copy the T1-U01 template; reuse shared/stage.js. Something two games need -> move it into shared/ (not before).
    2–4 levels per unit, each 2–4 guided steps; enforce step order in game logic (StepTracker ignores out-of-order events).
 4. All pupil-facing text in Bahasa Melayu (Malaysia). Narration = pre-recorded ms-MY mp3s (shared/tools/make_audio.py), never Indonesian.
-5. Done = all of:
+5. Song: add the unit to tools/songs/lyrics_all.py (facts from its steps.json, sebutan baku, a STYLES genre, male voice),
+   run it, then python tools/songs/make_song.py games/<id>; python tools/test_songs.py
+6. Done = all of:
    - works with mouse/touch only AND with hand gestures
    - tools/test_game.py on shared/tools/gametest.py (copy T1-U02's) that plays every level with no JS errors and completes the steps
    - listed in games.json; `python tools/build.py web` passes

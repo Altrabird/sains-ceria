@@ -100,12 +100,14 @@ export async function boot({ title, intro, levels, steps, build }) {
         <span class="pill">${meta.year ? `Tahun ${meta.year}${meta.unit ? ' · Unit ' + meta.unit : ''}` : 'Sains'}</span><h1>${title}</h1>
         <div class="meta"><span class="stars">${'★'.repeat(got.length)}<span class="off">${'★'.repeat(Math.max(0, levels.length - got.length))}</span></span><span>${got.length}/${levels.length} tahap selesai</span></div>
         <a class="btn green big" href="?play=${first.id}">▶ ${got.length ? 'Sambung' : 'Mula main'} · ${first.id}</a></div></section>
+      ${meta.song ? '<div id="songBox"></div>' : ''}
       <p class="intro">${intro}</p><h2>Tahap</h2>
       <div class="list">${levels.map((l, i) => `<div class="lv${got.includes(l.id) ? ' done' : ''}"><span class="num">${got.includes(l.id) ? '★' : i + 1}</span>
         <div class="lvt"><b>${l.title}</b><small>${l.sp}</small></div>
         <div class="acts"><a class="btn green" href="?play=${l.id}">▶ Main</a><a class="btn" href="?preview=${l.id}" title="Tanpa kamera">Tanpa kamera</a></div></div>`).join('')}</div>`;
     (await import('./handnav.js')).handNav({ scroller: $('menu') });  /* hands on the game page too */
     track('v', { p: 'menu', g: GAME }); trackTaps({ p: 'menu', g: GAME }, $('menu'));
+    if (meta.song) (await import('./lagu.js')).songCard($('songBox'), { base: 'assets/', gid: GAME, color: `var(--y${meta.year || 3})` });
     return;
   }
   const id = Q.get(MODE), lv = levels[ids.indexOf(id)], nextId = ids[ids.indexOf(id) + 1];

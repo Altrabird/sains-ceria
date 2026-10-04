@@ -54,6 +54,7 @@
   a.card .desc { color:var(--muted); font-size:12.5px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:34px; }
   a.card .foot { width:100%; display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:4px; }
   a.card .done { position:absolute; top:10px; right:10px; width:28px; height:28px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font:700 15px var(--head); box-shadow:0 3px 0 var(--green-d); }
+  a.card .note { position:absolute; top:10px; left:10px; width:28px; height:28px; border-radius:50%; background:#fff; display:grid; place-items:center; font-size:15px; box-shadow:0 2px 6px #0002; }
   a.card .meter { width:100%; height:8px; border-radius:8px; background:var(--soft); overflow:hidden; }
   a.card .meter i { display:block; height:100%; background:var(--c); border-radius:8px; }
   .empty { color:var(--muted); }
@@ -75,6 +76,7 @@
       <h1>Sains Tahun 1–6</h1>
       <p>Gerakkan tangan di depan kamera untuk bermain — atau guna tetikus dan sentuhan. Kumpul bintang bagi setiap tahap!</p>
       <div class="row"><a id="cont" class="btn green big" href="#" hidden></a><span class="stat"><span class="stars">★</span><span id="stars"></span></span>
+        <a id="songs" class="btn orange" href="lagu.html" hidden>🎵 Lagu Sains</a>
         <a id="apk" class="btn blue" href="https://github.com/Altrabird/sains-ceria/releases/latest/download/Sains-Ceria.apk" download>
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52M7 15.25a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 7 15.25m10 0A1.25 1.25 0 1 1 18.25 14 1.25 1.25 0 0 1 17 15.25"/></svg>
           Muat turun aplikasi Android</a></div></div>
@@ -99,9 +101,10 @@ if (lg) { const c = $('cont'); c.hidden = false; c.href = `${url(lg)}?play=${las
 if (window.Capacitor) $('apk').hidden = true;  // already inside the Android app
 const total = games.reduce((a, g) => a + (g.levels || 0), 0), got = games.reduce((a, g) => a + nDone(g), 0);
 $('stars').textContent = `${got} / ${total} bintang`;
+if (games.some(g => g.song)) $('songs').hidden = false;
 
 const stars = g => { const n = nDone(g), t = g.levels || 0; return t > 6 ? `★ ${n}/${t}` : '★'.repeat(n) + `<span class="off">${'★'.repeat(t - n)}</span>`; };
-const card = g => `<a class="card" href="${url(g)}" style="--c:var(--y${g.year})">${isDone(g) ? '<span class="done" aria-label="Selesai">✓</span>' : ''}
+const card = g => `<a class="card" href="${url(g)}" style="--c:var(--y${g.year})">${isDone(g) ? '<span class="done" aria-label="Selesai">✓</span>' : ''}${g.song ? '<span class="note" title="Ada lagu unit" aria-label="Ada lagu">🎵</span>' : ''}
   <span class="ico"><img src="${icon(g)}" alt="" loading="lazy"></span><span class="pill">${g.unit ? 'Unit ' + g.unit : 'Amali'}</span><b>${esc(g.title)}</b>
   <span class="desc">${esc(g.desc)}</span>${g.levels ? `<span class="foot"><span class="stars">${stars(g)}</span><span class="pill">${nDone(g)}/${g.levels}</span></span><span class="meter"><i style="width:${nDone(g) / g.levels * 100}%"></i></span>` : ''}</a>`;
 
