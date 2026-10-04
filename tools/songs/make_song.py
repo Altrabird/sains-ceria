@@ -55,11 +55,16 @@ def main(arg, voice="female", melody=False, instrumental=False, style="tadika"):
     kind = ("instrumental" if instrumental else voice) + "_" + style
     print(f"generating {song.get('title', gid)} ({kind}{', on melody guide' if melody else ''}) ...")
     t0 = time.time()
-    try:
-        with urllib.request.urlopen(req, timeout=900) as r:
-            res = json.load(r)
-    except urllib.error.HTTPError as e:
-        sys.exit(f"HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:500]}")
+    for attempt in range(5):  # the free cloud answers 502/503/504 when busy: wait and retry
+        try:
+            with urllib.request.urlopen(req, timeout=900) as r:
+                res = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code not in (502, 503, 504) or attempt == 4:
+                sys.exit(f"HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:500]}")
+            print(f"  busy (HTTP {e.code}), retrying in {30 * (attempt + 1)} s ...")
+            time.sleep(30 * (attempt + 1))
     audio = res["choices"][0]["message"].get("audio") or []
     if not audio:
         sys.exit("no audio returned: " + json.dumps(res)[:500])
