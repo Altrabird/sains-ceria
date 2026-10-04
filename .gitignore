@@ -7,3 +7,7 @@ node_modules/
 dist/
 tools/admin/stats.json
 songs_draft/
+tools/admin/recent.json
+tools/admin/events.csv
+tools/admin/public.json
+kiraan.json

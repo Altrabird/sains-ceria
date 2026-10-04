@@ -1,6 +1,8 @@
 """Sums the anonymous beacons (shared/track.js -> nginx /b -> /var/log/edugames/events.log*) into stats.json for /admin/.
 
   On the VPS (cron, every 10 min):  python3 /opt/edugames/stats.py /var/log/edugames /var/www/edugames-admin/stats.json /var/www/edugames/games.json
+  Writes next to stats.json: recent.json (latest 300 events, the admin activity log), events.csv (every event, for Excel)
+  and public.json (totals only: the hub's visitor counter, served without a password at /kiraan.json).
   Self-check:                        python tools/admin/stats.py --selftest
 
 Log line = "<time_iso8601>\\t<query string>\\t<user agent>" (nginx log_format sains_ev). Times are shown in Malaysia time."""
@@ -164,7 +166,58 @@ def selftest():
     assert s["inputs"] == {"Hand gestures": 1} and s["camera"]["denied"] == 1 and s["camera"]["medDet"] == 70, s["camera"]
     assert s["devices"] == {"Tablet": 2} and s["heat"] == {"hub|desktop": {"25,10": 1}} and s["years"] == {"1": 2}
     assert s["hours"][17] == 2 and s["daily"][-1]["done"] == 1  # 09:15 UTC = 17:15 Malaysia
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        data, recent, public = write_all(list(filter(None, map(parse, log))), [{"id": "G1", "title": "Magnet", "year": 1, "unit": 7}],
+                                         os.path.join(d, "stats.json"), datetime(2026, 10, 5, 20, tzinfo=MYT))
+        assert set(data["ranges"]) == {"all", "30", "7", "1"} and data["ranges"]["1"]["totals"]["devices"] == 2
+        assert recent[0]["peristiwa"] == "Main lagu" and all(r["peristiwa"] != "Ketik" for r in recent) and recent[1]["peristiwa"] == "Keluar awal" and recent[1]["permainan"] == "Magnet" and recent[-1]["halaman"] == "Hub"
+        assert public == {"pelawat": 2, "paparan": 2, "tahap_dimainkan": 2, "lagu_dimainkan": 1, "dikemas_kini": "2026-10-05T20:00+08:00"}, public
+        csv_text = open(os.path.join(d, "events.csv"), encoding="utf-8-sig").read().splitlines()
+        assert csv_text[0].startswith("masa,peristiwa") and len(csv_text) == 10, len(csv_text)  # header + 9 events
     print("stats selftest: all passed")
+
+
+EVENT = {"v": "Buka halaman", "ls": "Mula tahap", "st": "Langkah selesai", "ld": "Tahap selesai", "q": "Keluar awal",
+         "r": "Ulang tahap", "c": "Ketik", "s": "Main lagu"}
+PAGE = {"hub": "Hub", "menu": "Menu permainan", "lvl": "Tahap", "lagu": "Lagu Sains"}
+CSV_COLS = ["masa", "peristiwa", "halaman", "tahun", "unit", "permainan", "tahap", "peranti", "app", "id_peranti", "sesi", "saat",
+            "langkah", "klik_tetikus", "sentuh", "tangan", "kamera", "kamera_lemah", "resolusi", "tangan_dikesan_pct", "fps", "x", "y", "lebar"]
+
+
+def row(e, meta):
+    g = meta.get(e.get("g"), {})
+    return {"masa": e["_t"].strftime("%Y-%m-%d %H:%M:%S"), "peristiwa": EVENT.get(e["e"], e["e"]), "halaman": PAGE.get(e.get("p", ""), e.get("p", "")),
+            "tahun": g.get("year", ""), "unit": g.get("unit", ""), "permainan": g.get("title", e.get("g", "")), "tahap": e.get("l", ""),
+            "peranti": device(e["_ua"]), "app": "Android" if e.get("a") == "1" else "Web", "id_peranti": e["d"][:4], "sesi": e.get("s", "")[:4],
+            "saat": e.get("t", ""), "langkah": e.get("i", ""), "klik_tetikus": e.get("im", ""), "sentuh": e.get("it", ""), "tangan": e.get("ih", ""),
+            "kamera": {"ok": "ya", "no": "tiada/disekat", "pv": "tanpa kamera"}.get(e.get("c", ""), ""), "kamera_lemah": e.get("wk", ""),
+            "resolusi": e.get("r", ""), "tangan_dikesan_pct": e.get("det", ""), "fps": e.get("fps", ""), "x": e.get("x", ""), "y": e.get("y", ""), "lebar": e.get("w", "")}
+
+
+def write_all(evs, games, out, now=None):
+    """stats.json (one summary per period), recent.json, events.csv, public.json — each written atomically"""
+    import csv, io
+    now = now or datetime.now(MYT); meta = {g["id"]: g for g in games}
+    evs = sorted(evs, key=lambda e: e["_t"])
+    since = lambda days: [e for e in evs if (now.date() - e["_t"].date()).days < days]
+    data = {"generated": now.isoformat(timespec="minutes"),
+            "ranges": {k: summarize(v, games, now) for k, v in (("all", evs), ("30", since(30)), ("7", since(7)), ("1", since(1)))}}
+    recent = [row(e, meta) for e in evs if e["e"] != "c"][-300:][::-1]  # taps are for the heat map, not the log
+    buf = io.StringIO(); w = csv.DictWriter(buf, CSV_COLS); w.writeheader(); w.writerows(row(e, meta) for e in evs)
+    a = data["ranges"]["all"]["totals"]
+    public = {"pelawat": a["devices"], "paparan": a["views"], "tahap_dimainkan": a["starts"],
+              "lagu_dimainkan": sum(x["plays"] for x in data["ranges"]["all"]["songs"]), "dikemas_kini": data["generated"]}
+    folder = os.path.dirname(os.path.abspath(out))
+    for name, text in ((os.path.basename(out), json.dumps(data, ensure_ascii=False, separators=(",", ":"))),
+                       ("recent.json", json.dumps(recent, ensure_ascii=False, separators=(",", ":"))),
+                       ("events.csv", "﻿" + buf.getvalue()),  # BOM: Excel opens UTF-8 Malay text correctly
+                       ("public.json", json.dumps(public, ensure_ascii=False))):
+        tmp = os.path.join(folder, name + ".tmp")
+        with open(tmp, "w", encoding="utf-8", newline="") as fh:
+            fh.write(text)
+        os.replace(tmp, os.path.join(folder, name))  # the admin page never reads a half-written file
+    return data, recent, public
 
 
 if __name__ == "__main__":
@@ -175,8 +228,4 @@ if __name__ == "__main__":
         games = json.load(open(games_json, encoding="utf-8"))
     except (OSError, ValueError):
         games = []
-    data = summarize(filter(None, map(parse, lines(folder))), games)
-    tmp = out + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as fh:
-        json.dump(data, fh, ensure_ascii=False, separators=(",", ":"))
-    os.replace(tmp, out)  # the admin page never reads a half-written file
+    write_all(list(filter(None, map(parse, lines(folder)))), games, out)

@@ -73,6 +73,8 @@
   .empty { color:var(--muted); }
   footer { margin-top:44px; text-align:center; color:var(--muted); font:500 14px var(--head); }
   footer b { color:var(--ink); font-weight:600; }
+  footer .count { display:flex; justify-content:center; flex-wrap:wrap; gap:8px 18px; margin-bottom:12px; }
+  footer .count span { background:var(--surface); border:2px solid var(--line); border-radius:999px; padding:6px 14px; }
   @media (max-width:600px) {
     .logo span { display:none; } .hero { flex-direction:column; text-align:center; padding:22px 18px; } .hero .row { justify-content:center; } .mascot { width:96px; height:96px; }
     .grid { grid-template-columns:repeat(2, 1fr); gap:12px; }
@@ -102,7 +104,7 @@
     <span class="btn orange big">Dengar ▶</span></a>
   <a class="inapp" id="inapp" href="https://edugames.altrabird.click/lagu.html" target="_blank" rel="noopener" hidden>🎵 Lagu Sains untuk setiap unit ada di laman web edugames.altrabird.click ↗</a>
   <div id="list"></div>
-  <footer>Developed by <b>Harsidi bin Junick</b></footer>
+  <footer><div class="count" id="count" hidden></div>Developed by <b>Harsidi bin Junick</b></footer>
 </main>
 <script type="module">
 const $ = id => document.getElementById(id);
@@ -123,7 +125,12 @@ const total = games.reduce((a, g) => a + (g.levels || 0), 0), got = games.reduce
 $('stars').textContent = `${got} / ${total} bintang`;
 const nSongs = games.filter(g => g.song).length;
 if (nSongs && !window.Capacitor) { $('songs').hidden = false; $('promo').hidden = false; $('promoN').textContent = `${nSongs} Lagu Sains`; }
-if (window.Capacitor) $('inapp').hidden = false;  /* the app ships without songs (tools/build.py): point to the website */
+if (window.Capacitor) $('inapp').hidden = false;
+// public visitor counter (tools/admin/stats.py -> /kiraan.json, totals only); the website only
+if (!window.Capacitor) fetch('/kiraan.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(k => {
+  if (!k || !k.pelawat) return; const n = v => Number(v || 0).toLocaleString('ms-MY');
+  $('count').innerHTML = `<span>👀 <b>${n(k.pelawat)}</b> pelawat</span><span>🎮 <b>${n(k.tahap_dimainkan)}</b> tahap dimainkan</span><span>🎵 <b>${n(k.lagu_dimainkan)}</b> lagu dimainkan</span>`;
+  $('count').hidden = false; }).catch(() => {});  /* the app ships without songs (tools/build.py): point to the website */
 
 const stars = g => { const n = nDone(g), t = g.levels || 0; return t > 6 ? `★ ${n}/${t}` : '★'.repeat(n) + `<span class="off">${'★'.repeat(t - n)}</span>`; };
 const card = g => `<a class="card" href="${url(g)}" style="--c:var(--y${g.year})">${isDone(g) ? '<span class="done" aria-label="Selesai">✓</span>' : ''}${g.song ? '<span class="note" title="Ada lagu unit" aria-label="Ada lagu">🎵</span>' : ''}
