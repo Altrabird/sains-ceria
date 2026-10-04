@@ -1,8 +1,7 @@
 {
-  "_doc": "Lagu unit Deria (DSKP hlm. 38), melodi 'Kepala, Bahu, Lutut, Kaki'. Baris 1,2,4: 3+2+2+2+2+2 suku kata (Ke-pa-la, ba-hu, lu-tut, ka-ki, lu-tut, ka-ki); baris 3: 9 suku kata (Ma-ta, te-li-nga, mu-lut, hi-dung). Sebutan baku.",
+  "_doc": "Lagu unit Deria (DSKP hlm. 38). Baris 1,2,4: 3+2+2+2+2+2 suku kata (Ke-pa-la, ba-hu, lu-tut, ka-ki, lu-tut, ka-ki); baris 3: 9 suku kata (Ma-ta, te-li-nga, mu-lut, hi-dung). Gaya: --style=tadika|joget (tools/songs/make_song.py STYLES). Sebutan baku.",
   "title": "Lihat, Dengar, Hidu, Rasa",
-  "tune": "Kepala, Bahu, Lutut, Kaki (lagu kanak-kanak)",
-  "caption": "slow gentle Malaysian children's song in the style of a classic Malay folk nursery rhyme (lagu kanak-kanak rakyat), sung in standard Malaysian Malay (sebutan baku), clear Malaysian diction, not Indonesian, {voice}, simple repetitive melody, easy for 7-year-olds to sing along, soft acoustic guitar, glockenspiel, light hand claps, warm and cheerful",
+  "caption": "slow gentle Malaysian children's song, {style}, sung in standard Malaysian Malay (sebutan baku), clear Malaysian diction, not Indonesian, {voice}, easy for 7-year-olds to sing along, warm and cheerful, major key",
   "voices": {
     "female": "warm clear female voice, Malaysian kindergarten teacher",
     "male": "friendly clear male voice, Malaysian primary school teacher"

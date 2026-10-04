@@ -2,7 +2,7 @@
 
   1. free API key: https://acemusic.ai/api-key (sign up), then set it in your shell — never commit it:
        PowerShell:  $env:ACEMUSIC_API_KEY = "..."      Git Bash:  export ACEMUSIC_API_KEY=...
-  2. python tools/songs/make_song.py games/T1-U07-magnet [female|male] [--melody] [--instrumental]
+  2. python tools/songs/make_song.py games/T1-U07-magnet [female|male] [--style=tadika|joget] [--melody] [--instrumental]
        -> songs_draft/<id>/lagu_<voice>_<time>.mp3 (one take per run, ~20 s)
      --melody        sing to our own melody guide (tools/songs/melody.py -> songs_draft/<id>/melodi.wav, ACE-Step "cover")
      --instrumental  backing track only: a teacher / the pupils sing (guaranteed Malaysian accent)
@@ -14,6 +14,11 @@ import base64, json, os, sys, time, urllib.error, urllib.request
 
 API = os.environ.get("ACESTEP_API", "https://api.acemusic.ai")
 KEY = os.environ.get("ACEMUSIC_API_KEY", "")
+# shared musical styles ({style} in a caption). Naming a specific folk tune (Bangau Oh Bangau...) sounded odd: describe a genre.
+STYLES = {
+    "joget": "slow Malay joget rhythm for children, accordion, rebana frame drum, violin, gentle gambus, classic Malay feel, children's choir echoes the chorus",
+    "tadika": "Malaysian kindergarten classroom song, soft piano and glockenspiel, simple bouncy melody with few notes, slow clear singing like a teacher leading the class",
+}
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 
 
@@ -24,14 +29,12 @@ def load(arg):
     return gid, json.load(open(os.path.join(ROOT, "games", gid, "assets", "lagu.json"), encoding="utf-8"))
 
 
-def main(arg, voice="female", melody=False, instrumental=False):
+def main(arg, voice="female", melody=False, instrumental=False, style="tadika"):
     gid, song = load(arg)
     if not KEY and "acemusic.ai" in API:
         sys.exit("set ACEMUSIC_API_KEY first (free key: https://acemusic.ai/api-key)")
     out = os.path.join(ROOT, "songs_draft", gid); os.makedirs(out, exist_ok=True)
-    caption = song["caption"].replace("{voice}", "instrumental, no vocals" if instrumental else song.get("voices", {}).get(voice, voice))
-    if song.get("tune"):  # name the classic tune: the model follows its style when no melody guide is given
-        caption += f", in the melody and rhythm style of the classic Malay children's folk song '{song['tune'].split(' (')[0]}'"
+    caption = song["caption"].replace("{voice}", "instrumental, no vocals" if instrumental else song.get("voices", {}).get(voice, voice))         .replace("{style}", STYLES.get(style, style))
     content = caption
     body = {"batch_size": 1, "use_cot_caption": False, "use_cot_language": False,
             "audio_config": {"vocal_language": "ms", "duration": song.get("duration"), "bpm": song.get("melody", {}).get("bpm") or song.get("bpm"),
@@ -49,7 +52,7 @@ def main(arg, voice="female", melody=False, instrumental=False):
     req = urllib.request.Request(API + "/v1/chat/completions", json.dumps(body).encode("utf-8"),
                                  {"Content-Type": "application/json; charset=utf-8", "User-Agent": "sains-ceria/1",
                                   **({"Authorization": "Bearer " + KEY} if KEY else {})})
-    kind = "instrumental" if instrumental else voice
+    kind = ("instrumental" if instrumental else voice) + "_" + style
     print(f"generating {song.get('title', gid)} ({kind}{', on melody guide' if melody else ''}) ...")
     t0 = time.time()
     try:
@@ -71,4 +74,5 @@ def main(arg, voice="female", melody=False, instrumental=False):
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    main(args[0], args[1] if len(args) > 1 else "female", "--melody" in sys.argv, "--instrumental" in sys.argv)
+    style = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--style=")), "tadika")
+    main(args[0], args[1] if len(args) > 1 else "female", "--melody" in sys.argv, "--instrumental" in sys.argv, style)

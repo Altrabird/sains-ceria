@@ -1,8 +1,7 @@
 {
-  "_doc": "Lagu unit (SP 7.1.1-7.1.6), melodi lagu rakyat 'Bangau Oh Bangau' (soal jawab berantai). Suku kata ikut lagu asal: 'X oh X' (5) + 'kenapa ...' (7) / 'Macam mana aku ...' (9) + jawapan (6-7). Sebutan baku.",
+  "_doc": "Lagu unit (SP 7.1.1-7.1.6). Suku kata ikut lagu asal: 'X oh X' (5) + 'kenapa ...' (7) / 'Macam mana aku ...' (9) + jawapan (6-7). Gaya: --style=tadika|joget (tools/songs/make_song.py STYLES). Sebutan baku.",
   "title": "Paku Oh Paku",
-  "tune": "Bangau Oh Bangau (lagu rakyat)",
-  "caption": "slow gentle Malaysian children's song in the style of a classic Malay folk nursery rhyme (lagu kanak-kanak rakyat), sung in standard Malaysian Malay (sebutan baku), clear Malaysian diction, not Indonesian, {voice}, simple repetitive melody, easy for 7-year-olds to sing along, soft acoustic guitar, glockenspiel, light hand claps, warm and cheerful",
+  "caption": "slow gentle Malaysian children's song, {style}, sung in standard Malaysian Malay (sebutan baku), clear Malaysian diction, not Indonesian, {voice}, easy for 7-year-olds to sing along, warm and cheerful, major key",
   "voices": {
     "female": "warm clear female voice, Malaysian kindergarten teacher",
     "male": "friendly clear male voice, Malaysian primary school teacher"
