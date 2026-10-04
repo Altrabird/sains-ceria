@@ -374,10 +374,15 @@ SONGS = {
 }
 
 
-# singer-only spellings (make_song.py sends these; lagu.json "lyrics" and the screen keep the real words)
+# singer-only spellings (make_song.py sends these; lagu.json "lyrics" and the screen keep the real words).
+# SUNG_ALL applies to every song containing the word; SUNG to one song. Reported by the teacher listening (2026-10-04).
+SUNG_ALL = {
+    "condong": "chon-dong",            # Malay c = "ch": the AI sang "kon-dong"
+    "Beban": "Buh-ban", "beban": "buh-ban",  # be- is e pepet (as in "emak"), the AI sang e taling ("bé-ban")
+    "Gear": "Gi-ar", "gear": "gi-ar",        # loanword, sebutan baku gi-ar: the AI dropped "Gear dan takal" in 6 takes
+}
 SUNG = {
     "T4-U08-bahan": {"dari petroleum": "dari pe-tro-le-um"},  # sung as "portokloil" in 9 of 10 takes
-    "T4-U10-mesin": {"Satah condong": "Satah con-dong"},      # heard as "kondom": say it clearly
 }
 
 
@@ -402,8 +407,9 @@ if __name__ == "__main__":
         p = os.path.join(ROOT, "games", gid, "assets", "lagu.json")
         old = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
         d = {"title": title, "style": style, "lyrics": lyrics(chorus, verses), **{k: old[k] for k in ("duration", "bpm", "voice") if k in old}}
-        if gid in SUNG:
-            d["sung"] = SUNG[gid]
+        sung = {k: v for k, v in {**SUNG_ALL, **SUNG.get(gid, {})}.items() if k in d["lyrics"]}
+        if sung:
+            d["sung"] = sung
         if old.get("sync") and old.get("lyrics") == d["lyrics"]:
             d["sync"] = old["sync"]  # line times belong to this lyrics + mp3; dropped when the words change
         open(p, "w", encoding="utf-8").write(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
