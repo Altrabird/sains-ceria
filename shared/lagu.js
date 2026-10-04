@@ -44,7 +44,7 @@ export async function songCard(el, { base, gid, color = 'var(--blue)', sub = '',
     $('.stime').textContent = `${mmss(audio.currentTime)} / ${mmss(audio.duration)}`; };
   const play = () => {
     if (playing && playing !== audio) playing.pause();
-    playing = audio; audio.play().catch(() => {});
+    playing = audio; window.__lagu = audio; audio.play().catch(() => {});  /* test hook */
     if (!tracked) { tracked = true; track('s', { g: gid, p: compact ? 'lagu' : 'menu' }); }
   };
   $('.splay').onclick = () => audio.paused ? play() : audio.pause();
@@ -58,7 +58,8 @@ export async function songCard(el, { base, gid, color = 'var(--blue)', sub = '',
   return { audio, play, meta };
 }
 
-// full-screen sing-along: big lyrics that scroll with the song (proportional to playback time — a guide, not word-exact)
+// full-screen sing-along: big lyrics that follow the song. With meta.sync (start second of every sung line, measured by
+// tools/songs/lyricsync.py from what the singer actually sang) the current line lights up; without it, proportional scroll.
 function singAlong({ meta, audio, play, color }) {
   document.getElementById('singAlong')?.remove();
   const o = document.createElement('div'); o.id = 'singAlong'; o.style.setProperty('--c', color);
@@ -67,10 +68,18 @@ function singAlong({ meta, audio, play, color }) {
     <div class="sscroll"><div class="pad"></div>${lyricsHTML(meta.lyrics || '')}<div class="pad"></div></div><div class="sbar"><i></i></div>`;
   document.body.append(o);
   const sc = o.querySelector('.sscroll'), ip = o.querySelector('.ip'), bar = o.querySelector('.sbar i');
-  const sync = () => { ip.textContent = audio.paused ? '▶' : '❚❚'; };
+  const ps = [...sc.querySelectorAll('.ls p')], sync = Array.isArray(meta.sync) && meta.sync.length === ps.length ? meta.sync : null;
+  if (sync) o.classList.add('synced');
+  let cur = -1;
+  const state = () => { ip.textContent = audio.paused ? '▶' : '❚❚'; };
   let raf = 0;
   const follow = () => {  // ease toward the proportional position; the pupil can still scroll by hand while paused
-    if (!audio.paused && audio.duration) {
+    if (sync) {  /* light the line being sung (0.3 s early so the pupil reads it just before singing) */
+      const t = audio.currentTime + 0.3; let k = -1;
+      for (let i = 0; i < sync.length && sync[i] <= t; i++) k = i;
+      if (k !== cur) { ps.forEach((p, i) => { p.classList.toggle('now', i === k); p.classList.toggle('past', i < k); }); cur = k; }
+      if (k >= 0 && !audio.paused) { const want = ps[k].offsetTop - sc.clientHeight / 2 + ps[k].offsetHeight / 2; sc.scrollTop += (want - sc.scrollTop) * 0.12; }
+    } else if (!audio.paused && audio.duration) {
       const want = audio.currentTime / audio.duration * (sc.scrollHeight - sc.clientHeight);
       sc.scrollTop += (want - sc.scrollTop) * 0.08;
     }
@@ -78,9 +87,9 @@ function singAlong({ meta, audio, play, color }) {
     raf = requestAnimationFrame(follow);
   };
   o.querySelector('.splay').onclick = () => audio.paused ? play() : audio.pause();
-  const close = () => { cancelAnimationFrame(raf); audio.removeEventListener('play', sync); audio.removeEventListener('pause', sync); o.remove(); removeEventListener('keydown', key); };
+  const close = () => { cancelAnimationFrame(raf); audio.removeEventListener('play', state); audio.removeEventListener('pause', state); o.remove(); removeEventListener('keydown', key); };
   const key = e => { if (e.key === 'Escape') close(); };
   o.querySelector('.sx').onclick = close; addEventListener('keydown', key);
-  audio.addEventListener('play', sync); audio.addEventListener('pause', sync);
-  sync(); follow(); if (audio.paused) play();
+  audio.addEventListener('play', state); audio.addEventListener('pause', state);
+  state(); follow(); if (audio.paused) play();
 }

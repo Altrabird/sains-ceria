@@ -7,8 +7,26 @@ OUT = os.path.join(ROOT, "tools", "_test"); os.makedirs(OUT, exist_ok=True)
 
 
 class Q(http.server.SimpleHTTPRequestHandler):
+    """static files + HTTP Range (browsers need it to seek in an mp3; nginx does it on the real site)"""
     def log_message(self, *a):
         pass
+
+    def send_head(self):
+        rng = self.headers.get("Range")
+        path = self.translate_path(self.path)
+        if not rng or not os.path.isfile(path):
+            return super().send_head()
+        size = os.path.getsize(path)
+        a, _, b = rng.replace("bytes=", "").partition("-")
+        start = int(a) if a else max(0, size - int(b)); end = int(b) if a and b else size - 1
+        f = open(path, "rb"); f.seek(start)
+        self.send_response(206)
+        self.send_header("Content-Type", self.guess_type(path)); self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Range", f"bytes {start}-{end}/{size}"); self.send_header("Content-Length", str(end - start + 1))
+        self.end_headers()
+        import io
+        data = f.read(end - start + 1); f.close()
+        return io.BytesIO(data)
 
 
 srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Q, directory=ROOT))
@@ -42,6 +60,13 @@ with sync_playwright() as p:
         check(f"{name} song play tracked once", len(ev) == 1 and ev[0]["g"] == "T1-U07-magnet", ev)
         check(f"{name} menu no horizontal scroll", pg.evaluate("document.querySelector('#menu').scrollWidth <= innerWidth"))
         check(f"{name} menu no JS errors", not errs, errs)
+        # synced sing-along: lagu.json "sync" (measured by tools/songs/lyricsync.py) lights the line being sung
+        pg.goto(U + "/games/T4-U09-bumi/index.html"); pg.wait_for_selector(".song .stitle", timeout=10000)
+        pg.click(".song .ssing"); pg.wait_for_timeout(1500)
+        pg.evaluate("window.__lagu.currentTime = 26"); pg.wait_for_timeout(1200)
+        now = pg.eval_on_selector_all("#singAlong p.now", "ps => ps.map(p => p.textContent)")
+        check(f"{name} sing-along lights the sung line", pg.locator("#singAlong.synced").count() == 1 and now == ["Bumi berputar pada paksinya"], now)
+        pg.screenshot(path=f"{OUT}/song_synced_{name}.png")
         pg2 = b.new_page(viewport={"width": vp[0], "height": vp[1]}); errs2 = []; pg2.on("pageerror", lambda e: errs2.append(str(e)))
         pg2.goto(U + "/lagu.html"); pg2.wait_for_timeout(3000)
         n = pg2.locator(".song .stitle").count()

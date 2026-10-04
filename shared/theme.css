@@ -78,13 +78,16 @@
 #singAlong header b { flex:1; min-width:0; text-shadow:0 2px 6px #0004; }
 #singAlong .splay { width:58px; height:58px; border-radius:50%; border:0; background:#fff; color:var(--c); font:700 22px var(--head); cursor:pointer; box-shadow:0 4px 0 #0003; }
 #singAlong .sx { width:52px; height:52px; border-radius:50%; border:3px solid #fff8; background:#fff2; color:#fff; font:700 22px var(--head); cursor:pointer; }
-#singAlong .sscroll { flex:1; overflow:auto; padding:0 6vw; text-align:center; scrollbar-width:none;
+#singAlong .sscroll { position:relative; flex:1; overflow:auto; padding:0 6vw; text-align:center; scrollbar-width:none;
   -webkit-mask:linear-gradient(transparent, #000 18%, #000 78%, transparent); mask:linear-gradient(transparent, #000 18%, #000 78%, transparent); }
 #singAlong .pad { height:38vh; }
 #singAlong .ls { background:none; border:0; padding:10px 0 26px; }
 #singAlong .ls .lt { color:#fffb; font-size:14px; }
 #singAlong .ls p { font:700 clamp(26px, 5vw, 54px)/1.25 var(--head); text-shadow:0 3px 10px #0004; margin:6px 0; }
 #singAlong .ls.chorus p { color:#fff7c2; }
+#singAlong.synced .ls p { opacity:.55; transform:scale(.92); transition:opacity .25s, transform .25s, color .25s; }
+#singAlong.synced .ls p.past { opacity:.35; }
+#singAlong.synced .ls p.now { opacity:1; transform:scale(1.04); color:#fff; text-shadow:0 0 18px #fff8, 0 3px 10px #0005; }
 #singAlong .sbar { margin:0 18px max(14px, env(safe-area-inset-bottom)); border-color:#fff6; background:#fff3; } #singAlong .sbar i { background:#fff; }
 #singAlong .notes i { position:absolute; bottom:-60px; font-style:normal; font-size:40px; color:#fff5; animation:float 9s linear infinite; }
 #singAlong .notes i:nth-child(1) { left:6%; } #singAlong .notes i:nth-child(2) { left:22%; animation-delay:-3s; font-size:30px; }

@@ -6,12 +6,14 @@
        -> games/<id>/assets/lagu.mp3 (80 kbps, checked: length + no long silence), or songs_draft/<id>/ with --draft
      python tools/songs/make_song.py --all        every game with a lagu.json and no lagu.mp3 yet (then games.json "song")
      python tools/songs/make_song.py --check      check every lagu.json / lagu.mp3 pair, no generation
+     python tools/songs/make_song.py --fix [ids]  remake songs whose singer skipped lyric lines (tools/songs/lyricsync.py)
      --melody / --instrumental: sing on our melody guide (tools/songs/melody.py) / backing track only
 
 lagu.json: {"title", "style" (a STYLES key), "lyrics" ([Verse 1] / [Chorus] ... sections), optional "bpm", "duration", "voice"}.
 Pronunciation: sebutan baku — lyrics sung exactly as spelt. Listen before shipping: a bad take is regenerated with
 python tools/songs/make_song.py games/<id> (it overwrites). Decisions: male voice, genre styles (naming a folk tune sounded odd)."""
 import base64, json, os, re, subprocess, sys, time, urllib.error, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # lyricsync
 
 API = os.environ.get("ACESTEP_API", "https://api.acemusic.ai")
 KEY = os.environ.get("ACEMUSIC_API_KEY", "")
@@ -101,16 +103,18 @@ def request(body):
             time.sleep(20)
 
 
-def generate(arg, voice=None, style=None, draft=False, melody=False, instrumental=False, tries=3):
+def generate(arg, voice=None, style=None, draft=False, melody=False, instrumental=False, tries=6, keep_if_missing=None):
     gid, song = load(arg)
     voice = voice or song.get("voice", "male")
     style = style or song.get("style", "tadika")
     desc, bpm = STYLES.get(style, (style, 90))
     caption = (song.get("caption") or CAPTION).replace("{style}", desc).replace(
         "{voice}", "instrumental, no vocals" if instrumental else VOICES.get(voice, voice))
-    body = {"batch_size": 1, "use_cot_caption": False, "use_cot_language": False,
+    # thinking (ACE-Step's LM plans the song) + enough time for the words: tested 2026-10-04 on 3 songs x 2 takes,
+    # lines actually sung 84% (defaults) -> 94% (this), so far fewer retakes. lyricsync still checks every take.
+    body = {"batch_size": 1, "use_cot_caption": False, "use_cot_language": False, "thinking": not instrumental,
             "audio_config": {"vocal_language": "ms", "bpm": song.get("bpm", bpm), "format": "mp3",
-                             **({"duration": song["duration"]} if song.get("duration") else {}),
+                             "duration": song.get("duration") or round(syllables(song["lyrics"]) / 2.0 + 15),
                              **({"instrumental": True} if instrumental else {})}}
     if not instrumental:
         body["lyrics"] = song["lyrics"]  # with `lyrics` set, the message text is the style caption
@@ -125,6 +129,7 @@ def generate(arg, voice=None, style=None, draft=False, melody=False, instrumenta
     body["messages"] = [{"role": "user", "content": content}]
 
     drafts = os.path.join(ROOT, "songs_draft", gid); os.makedirs(drafts, exist_ok=True)
+    best = None  # (missing lines, raw path, alignment)
     for t in range(1, tries + 1):
         print(f"{gid}: {song.get('title')} ({voice}, {style}) take {t} ...", flush=True)
         t0 = time.time()
@@ -135,15 +140,34 @@ def generate(arg, voice=None, style=None, draft=False, melody=False, instrumenta
         raw = os.path.join(drafts, f"lagu_{voice}_{style}_{time.strftime('%m%d-%H%M%S')}.mp3")
         open(raw, "wb").write(base64.b64decode(audio["audio_url"]["url"].split(",", 1)[1]))
         bad = problems(raw, song) if not instrumental else []
+        if not bad and not instrumental:  # did the singer sing every lyric line? (tools/songs/lyricsync.py)
+            import lyricsync
+            miss, aligned = lyricsync.check(gid, path=raw, quiet=True) if not arg.endswith(".json") else ([], [])
+            if best is None or len(miss) < len(best[0]):
+                best = (miss, raw, aligned)
+            if miss:
+                bad = [f"{len(miss)} line(s) not sung: " + " / ".join(miss[:3]) + (" ..." if len(miss) > 3 else "")]
         print(f"  {time.time() - t0:.0f}s -> {os.path.relpath(raw, ROOT)} {'REJECT: ' + '; '.join(bad) if bad else 'ok'}", flush=True)
-        if bad:
-            continue
-        if draft:
-            return raw
-        dst = os.path.join(ROOT, "games", gid, "assets", "lagu.mp3")
-        encode(raw, dst)
-        return dst
-    raise RuntimeError(f"{gid}: no acceptable take in {tries} tries")
+        if not bad:
+            best = best or ([], raw, [])
+            break
+    if best is None:
+        raise RuntimeError(f"{gid}: no acceptable take in {tries} tries")
+    miss, raw, aligned = best
+    if draft:
+        return raw
+    if keep_if_missing is not None and len(miss) >= keep_if_missing:
+        print(f"  kept the current song: best new take still misses {len(miss)} line(s)", flush=True)
+        return None
+    dst = os.path.join(ROOT, "games", gid, "assets", "lagu.mp3")
+    encode(raw, dst)
+    p = os.path.join(ROOT, "games", gid, "assets", "lagu.json"); cur = json.load(open(p, encoding="utf-8"))
+    if miss:  # no line times when lines are missing: the sing-along falls back to proportional scrolling
+        cur.pop("sync", None); print(f"  WARNING kept best take with {len(miss)} line(s) not sung — listen to it: {miss}", flush=True)
+    else:
+        cur["sync"] = [round(a[2], 2) for a in aligned]
+    open(p, "w", encoding="utf-8").write(json.dumps(cur, ensure_ascii=False, indent=2) + "\n")
+    return dst
 
 
 def encode(src, dst):
@@ -194,6 +218,23 @@ if __name__ == "__main__":
         sys.exit(1 if check() else 0)
     if not KEY and "acemusic.ai" in API:
         sys.exit("set ACEMUSIC_API_KEY first (free key: https://acemusic.ai/api-key)")
+    if "--fix" in flags:  # remake songs whose singer skipped lines; a new take replaces the old only if it misses fewer
+        import lyricsync
+        _, todo = games_with_songs(); left = []
+        ids = args or [g["id"] for g in todo]
+        for gid in ids:
+            miss, aligned = lyricsync.check(gid, quiet=True)
+            if not miss:
+                lyricsync.check(gid, write=True, quiet=True); print(f"{gid}: every line sung", flush=True); continue
+            print(f"{gid}: {len(miss)} line(s) not sung -> remaking", flush=True)
+            try:
+                generate("games/" + gid, keep_if_missing=len(miss))
+            except Exception as e:
+                print("  FAILED:", e, flush=True)
+            if lyricsync.check(gid, quiet=True)[0]:
+                left.append(gid)
+        print("still missing lines:", " ".join(left) or "none")
+        sys.exit(1 if left else 0)
     if "--all" in flags:
         _, todo = games_with_songs(); failed = []
         todo = [g for g in todo if not os.path.exists(os.path.join(ROOT, "games", g["id"], "assets", "lagu.mp3"))]
