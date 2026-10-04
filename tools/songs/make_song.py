@@ -2,7 +2,7 @@
 
   1. free API key: https://acemusic.ai/api-key (sign up), then set it once in your shell — never commit it:
        PowerShell:  $env:ACEMUSIC_API_KEY = "..."      Git Bash:  export ACEMUSIC_API_KEY=...
-  2. python tools/songs/make_song.py games/T1-U07-magnet [n]   -> songs_draft/<id>/lagu_<n>.mp3 (n takes, default 2)
+  2. python tools/songs/make_song.py games/T1-U07-magnet [n]   -> songs_draft/<id>/lagu_<n>.mp3 (n takes, default 1: the cloud returns one per request)
 
 Listen to every take: Malay vocals can drift to Indonesian pronunciation. Copy the good one to games/<id>/assets/lagu.mp3.
 (A local ACE-Step server works too: ACESTEP_API=http://127.0.0.1:8001 — same endpoint.)"""
@@ -39,7 +39,7 @@ def main(game, n=2):
     if not audio:
         sys.exit("no audio returned: " + json.dumps(res)[:500])
     out = os.path.join(ROOT, "songs_draft", gid); os.makedirs(out, exist_ok=True)
-    stamp = time.strftime("%m%d-%H%M")
+    stamp = time.strftime("%m%d-%H%M%S")
     for i, a in enumerate(audio, 1):
         dst = os.path.join(out, f"lagu_{stamp}_{i}.mp3")
         with open(dst, "wb") as f:
@@ -49,4 +49,4 @@ def main(game, n=2):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 2)
+    main(sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 1)
