@@ -36,6 +36,7 @@ tools/build.py           `web` -> dist/web for the VPS; `apk <id>` -> games/<id>
 tools/deploy.sh          DEPLOY=user@host:/path sh tools/deploy.sh
 tools/songs/             unit songs: lyrics_all.py (ALL lyrics, source of truth) -> games/<id>/assets/lagu.json;
                          make_song.py (acemusic.ai ACE-Step cloud, key in env ACEMUSIC_API_KEY) -> assets/lagu.mp3 + games.json "song"
+                         lyricsync.py (Whisper x3 on GPU): every lyric line sung? + line times "sync" (make_song rejects takes that skip)
 tools/admin/             analytics: install.sh <user@host> (nginx log, logrotate, cron, admin password), stats.py (--selftest), index.html
 android/                 Capacitor project (patched: CAMERA permission, -PappId/-PappName per game)
 ```
