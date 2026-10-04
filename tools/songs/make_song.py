@@ -30,6 +30,8 @@ def main(arg, voice="female", melody=False, instrumental=False):
         sys.exit("set ACEMUSIC_API_KEY first (free key: https://acemusic.ai/api-key)")
     out = os.path.join(ROOT, "songs_draft", gid); os.makedirs(out, exist_ok=True)
     caption = song["caption"].replace("{voice}", "instrumental, no vocals" if instrumental else song.get("voices", {}).get(voice, voice))
+    if song.get("tune"):  # name the classic tune: the model follows its style when no melody guide is given
+        caption += f", in the melody and rhythm style of the classic Malay children's folk song '{song['tune'].split(' (')[0]}'"
     content = caption
     body = {"batch_size": 1, "use_cot_caption": False, "use_cot_language": False,
             "audio_config": {"vocal_language": "ms", "duration": song.get("duration"), "bpm": song.get("melody", {}).get("bpm") or song.get("bpm"),
